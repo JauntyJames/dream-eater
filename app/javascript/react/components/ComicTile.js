@@ -1,34 +1,11 @@
-import React, { Component } from 'react';
-import { Document, Page } from 'react-pdf/build/entry.webpack';
+import React from 'react';
+import { Link } from 'react-router';
 
+import ComicShowContainer from '../containers/ComicShowContainer'
 
-class ComicTile extends Component {
-  state = {
-    numPages: null,
-    pageNumber: 1,
-    file: null
-  }
-
-  onDocumentLoad = ({ numPages }) => {
-    this.setState({ numPages });
-  }
-
-
-  render() {
-    const { pageNumber, numPages } = this.state;
-
-    return (
-      <div>
-        <Document
-          file="/../../assets/images/01-immolation.pdf"
-          onLoadSuccess={this.onDocumentLoad}
-        >
-          <Page pageNumber={pageNumber} />
-        </Document>
-        <p>Page {pageNumber} of {numPages}</p>
-      </div>
-    );
-  }
+const ComicTile = (props) => {
+  return(
+    <Link to={ComicShowContainer}>{props.title}</Link>
+  )
 }
-
 export default ComicTile;
