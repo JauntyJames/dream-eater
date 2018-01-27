@@ -10,7 +10,7 @@
 console.log('Hello World from Webpacker')
 import React from 'react'
 import ReactDOM from 'react-dom'
-debugger
+
 import App from '../react/App'
 
 ReactDOM.render(
