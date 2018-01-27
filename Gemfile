@@ -54,5 +54,4 @@ gem 'devise'
 gem 'foundation-rails', '~> 5.0'
 gem 'webpacker', '~> 3.2'
 
-gem 'jquery-rails'
 gem 'carrierwave'
