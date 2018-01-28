@@ -46,6 +46,10 @@ module.exports = function(config) {
               path.resolve(__dirname, '..')
             ],
             loader: 'json-loader'
+          },
+          {
+            test: /\.css$/,
+            loader: 'style-loader!css-loader',
           }
         ]
       },
