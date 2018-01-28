@@ -5,7 +5,9 @@ import ComicShowContainer from '../containers/ComicShowContainer'
 
 const ComicTile = (props) => {
   return(
-    <Link to={ComicShowContainer}>{props.title}</Link>
+    <div>
+      <Link to={ComicShowContainer}>{props.title}</Link>
+    </div>
   )
 }
 export default ComicTile;

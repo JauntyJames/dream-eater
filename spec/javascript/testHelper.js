@@ -3,11 +3,12 @@ import jasmineEnzyme from 'jasmine-enzyme';
 import React from 'react';
 import 'jasmine-ajax';
 
+
 Object.assign(global, {
   jasmineEnzyme,
   mount,
   React,
-  shallow,
+  shallow
 });
 
 beforeEach(() => {
@@ -20,7 +21,7 @@ let requireAll = requireContext => {
 };
 
 // require all js files except testHelper.js in the test folder
-requireAll(require.context('./', true, /^((?!testHelper).)*\.jsx?$/));
+requireAll(require.context('../', true, /^((?!testHelper).)*\.jsx?$/));
 
 // require all js files except main.js in the src folder
 requireAll(require.context('../../app/javascript', true, /^((?!application).)*\.jsx?$/));
