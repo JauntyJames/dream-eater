@@ -1,0 +1,2 @@
+#Elevator Pitch:
+I am planning to build a platform to organize and display digital comic books in pdf form. This is a prototype website for a business venture licensing and distributing Japanese manga that a group of my friends are involved in. In this incarnation, it will let users upload their own works as well as vintage, public domain comics. It will have a library of comics that they can read, comment on, and bookmark. It will allow fullscreen reading and be responsive for mobile viewers.

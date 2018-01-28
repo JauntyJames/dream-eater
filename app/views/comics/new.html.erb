@@ -1,0 +1,26 @@
+<%= form_for @comic do |f| %>
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :author %>
+    <%= f.text_field :author %>
+  </div>
+
+  <div class="field">
+    <%= f.label :published_year, "Year Published" %>
+    <%= f.text_field :published_year %>
+  </div>
+
+  <div class="field">
+    <%= f.label :path, "File" %>
+    <%= f.file_field :path %>
+  </div>
+
+  <div class="inputs">
+    <%= f.submit "Create New Comic" %>
+  </div>
+
+<% end %>

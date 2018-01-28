@@ -7,15 +7,39 @@ class ComicsIndexContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      comics: []
     }
+  }
+  componentDidMount() {
+    fetch('api/v1/comics')
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+            error = new Error(errorMessage);
+        throw(error);
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      this.setState({ comics: body })
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   render() {
-
+    let comicsArray = this.state.comics.map((comic) => {
+      return (
+        <ComicTile
+          key={comic.id}
+          title={comic.title}
+        />
+      )
+    })
     return(
       <div>
-        <ComicTile />
+        {comicsArray}
       </div>
     )
   }
