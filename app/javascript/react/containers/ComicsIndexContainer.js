@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 
 import ComicTile from '../components/ComicTile'
@@ -9,6 +8,7 @@ class ComicsIndexContainer extends Component {
     this.state = {
       comics: []
     }
+    this.componentDidMount = this.componentDidMount.bind(this)
   }
   componentDidMount() {
     fetch('api/v1/comics')
@@ -30,13 +30,15 @@ class ComicsIndexContainer extends Component {
 
   render() {
     let comicsArray = this.state.comics.map((comic) => {
-      return (
+      return(
         <ComicTile
           key={comic.id}
+          id={comic.id}
           title={comic.title}
         />
       )
     })
+
     return(
       <div>
         {comicsArray}

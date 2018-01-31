@@ -21,7 +21,7 @@ describe('ComicsIndexContainer', () => {
     expect(wrapper.find(ComicTile).at(1).props().title).toEqual('Saga')
   })
 
-  xit('Should fetch wizard data and save it to state', () => {
+  xit('Should fetch comic data and save it to state', () => {
     let data = {
       comics: [
         {name: 'The Unbeatable Squirrel Girl', description: 'A description'},

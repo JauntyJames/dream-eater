@@ -6,16 +6,12 @@ class ComicShowContianer extends Component {
   state = {
     numPages: null,
     pageNumber: 1,
-    file: null
-  }
-
-  onDocumentLoad = ({ numPages }) => {
-    this.setState({ numPages });
+    comic: []
   }
 
   componentDidMount() {
-    fetch(`api/v1/comics/${this.props.params.id}`)
-
+    let id = this.props.params.id
+    fetch(`/api/v1/comics/${id}`)
     .then(response => {
       if (response.ok) {
         return response;
@@ -27,11 +23,14 @@ class ComicShowContianer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-
+      this.setState({ comic: body.comic })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
+  onDocumentLoad = ({ numPages }) => {
+    this.setState({ numPages });
+  }
 
   render() {
     const { pageNumber, numPages } = this.state;
@@ -39,7 +38,7 @@ class ComicShowContianer extends Component {
     return (
       <div>
         <Document
-          file="/../../assets/images/01-immolation.pdf"
+          file={this.state.comic.path}
           onLoadSuccess={this.onDocumentLoad}
         >
           <Page pageNumber={pageNumber} />
