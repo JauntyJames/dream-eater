@@ -6,14 +6,14 @@ class ComicShowContianer extends Component {
   state = {
     numPages: null,
     pageNumber: 1,
-    file: null
+    comic: []
   }
 
   componentDidMount() {
-    fetch(`api/v1/comics/${this.props.params.id}`)
+    let id = this.props.params.id
+    fetch(`/api/v1/comics/${id}`)
     .then(response => {
       if (response.ok) {
-        debugger
         return response;
       } else {
         let errorMessage = `${response.status} (${response.statusText})`,
@@ -23,7 +23,7 @@ class ComicShowContianer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      debugger
+      this.setState({ comic: body.comic })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -38,7 +38,7 @@ class ComicShowContianer extends Component {
     return (
       <div>
         <Document
-          file='http://cdn.mozilla.net/pdfjs/helloworld.pdf'
+          file={this.state.comic.path}
           onLoadSuccess={this.onDocumentLoad}
         >
           <Page pageNumber={pageNumber} />
