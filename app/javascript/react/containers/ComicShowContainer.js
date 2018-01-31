@@ -3,10 +3,15 @@ import { Document, Page } from 'react-pdf/build/entry.webpack';
 
 
 class ComicShowContianer extends Component {
-  state = {
-    numPages: null,
-    pageNumber: 1,
-    comic: []
+  constructor(props){
+    super(props);
+    this.state = {
+      numPages: null,
+      pageNumber: 1,
+      comic: []
+    }
+    this.turnPageBack = this.turnPageBack.bind(this)
+    this.turnPageForward = this.turnPageForward.bind(this)
   }
 
   componentDidMount() {
@@ -32,6 +37,20 @@ class ComicShowContianer extends Component {
     this.setState({ numPages });
   }
 
+  turnPageBack() {
+    if (this.state.pageNumber > 1){
+      let newPage = this.state.pageNumber - 1
+      this.setState({ pageNumber: newPage })
+    }
+  }
+
+  turnPageForward() {
+    if (this.state.pageNumber < this.state.numPages) {
+      let newPage = this.state.pageNumber + 1
+      this.setState({ pageNumber: newPage })
+    }
+  }
+
   render() {
     const { pageNumber, numPages } = this.state;
 
@@ -43,6 +62,8 @@ class ComicShowContianer extends Component {
         >
           <Page pageNumber={pageNumber} />
         </Document>
+        <button onClick={this.turnPageBack}>Back</button>
+        <button onClick={this.turnPageForward}>Forward</button>
         <p>Page {pageNumber} of {numPages}</p>
       </div>
     );
