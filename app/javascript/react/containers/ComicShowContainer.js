@@ -62,6 +62,7 @@ class ComicShowContianer extends Component {
         <button onClick={this.turnPageBack}>Back</button>
         <button onClick={this.turnPageForward}>Forward</button>
         <Document
+          className="comic-container"
           file={this.state.comic.path}
           onLoadSuccess={this.onDocumentLoad}
         >

@@ -21,6 +21,11 @@
   display: inline-block;
 }
 
+.comic-container {
+  white-space: nowrap;
+
+}
+
 body {
   background-color: blue;
 }
