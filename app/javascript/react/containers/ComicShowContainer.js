@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf/build/entry.webpack';
-
+import Fullscreen from "react-full-screen";
 
 class ComicShowContianer extends Component {
   constructor(props){
     super(props);
     this.state = {
+      isFull: false,
       numPages: null,
       rightPage: 1,
       leftPage: 0, //refactor to conditionally render the page instead of erroring out
       comic: []
     }
+    this.goFull = this.goFull.bind(this)
+    this.goToBegining = this.goToBegining.bind(this)
     this.turnPageBack = this.turnPageBack.bind(this)
     this.turnPageForward = this.turnPageForward.bind(this)
   }
@@ -32,6 +35,18 @@ class ComicShowContianer extends Component {
       this.setState({ comic: body.comic })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
+  }
+
+  goFull() {
+    if (this.state.isFull){
+      this.setState({ isFull: false})
+    } else {
+      this.setState({ isFull: true });
+    }
+  }
+
+  goToBegining() {
+    this.setState({ rightPage: 1, leftPage: 0})
   }
 
   onDocumentLoad = ({ numPages }) => {
@@ -56,22 +71,38 @@ class ComicShowContianer extends Component {
 
   render() {
     const { rightPage, leftPage, numPages } = this.state;
+    let navButtons = () => {
+      return(
+      <div>
+        <button onClick={this.goToBegining}>&lt;&lt;Begining</button>
+        <button onClick={this.turnPageBack}>&lt;Back</button>
+        <button onClick={this.turnPageForward}>Forward&gt;</button>
+        <button onClick={this.goFull}>Fullscreen</button>
+        <button >Bookmark</button>
+      </div>
+    )}
 
     return (
       <div>
-        <button onClick={this.turnPageBack}>Back</button>
-        <button onClick={this.turnPageForward}>Forward</button>
-        <Document
-          className="comic-container"
-          file={this.state.comic.path}
-          onLoadSuccess={this.onDocumentLoad}
+
+        <Fullscreen
+          enabled={this.state.isFull}
+          onChange={isFull => this.setState({isFull})}
         >
-          <Page className="comic" pageNumber={leftPage} />
-          <Page className="comic" pageNumber={rightPage} />
-        </Document>
-        <button onClick={this.turnPageBack}>Back</button>
-        <button onClick={this.turnPageForward}>Forward</button>
-        <p>Page {leftPage} of {numPages}</p>
+        <div className="full-screenable-node">
+          {navButtons()}
+          <Document
+            className="comic-container"
+            file={this.state.comic.path}
+            onLoadSuccess={this.onDocumentLoad}
+            >
+              <Page className="comic" pageNumber={leftPage} width="500" />
+              <Page className="comic" pageNumber={rightPage} width="500" />
+            </Document>
+            <p>Page {leftPage} of {numPages}</p>
+            {navButtons()}
+        </div>
+        </Fullscreen>
       </div>
     );
   }
