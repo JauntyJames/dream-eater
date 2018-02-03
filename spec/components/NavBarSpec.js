@@ -15,7 +15,7 @@ describe('Navbar', () => {
 
   it('should render a link', () => {
     expect(wrapper.find('Link')).toBePresent();
-    expect(wrapper.find('Link').text()).toEqual('Home');
+    expect(wrapper.find('Link').text()).toEqual('Index');
   })
 
   it('should render a button', () => {
