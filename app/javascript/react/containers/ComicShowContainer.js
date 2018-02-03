@@ -3,10 +3,16 @@ import { Document, Page } from 'react-pdf/build/entry.webpack';
 
 
 class ComicShowContianer extends Component {
-  state = {
-    numPages: null,
-    pageNumber: 1,
-    comic: []
+  constructor(props){
+    super(props);
+    this.state = {
+      numPages: null,
+      rightPage: 1,
+      leftPage: 0, //refactor to conditionally render the page instead of erroring out
+      comic: []
+    }
+    this.turnPageBack = this.turnPageBack.bind(this)
+    this.turnPageForward = this.turnPageForward.bind(this)
   }
 
   componentDidMount() {
@@ -32,18 +38,40 @@ class ComicShowContianer extends Component {
     this.setState({ numPages });
   }
 
+  turnPageBack() {
+    if (this.state.leftPage > 1){
+      let newLeftPage = this.state.leftPage - 2
+      let newRightPage = this.state.rightPage - 2
+      this.setState({ leftPage: newLeftPage, rightPage: newRightPage })
+    }
+  }
+
+  turnPageForward() {
+    if (this.state.leftPage < this.state.numPages) {
+      let newLeftPage = this.state.leftPage + 2
+      let newRightPage = this.state.rightPage + 2
+      this.setState({ leftPage: newLeftPage, rightPage: newRightPage })
+    }
+  }
+
   render() {
-    const { pageNumber, numPages } = this.state;
+    const { rightPage, leftPage, numPages } = this.state;
 
     return (
       <div>
+        <button onClick={this.turnPageBack}>Back</button>
+        <button onClick={this.turnPageForward}>Forward</button>
         <Document
+          className="comic-container"
           file={this.state.comic.path}
           onLoadSuccess={this.onDocumentLoad}
         >
-          <Page pageNumber={pageNumber} />
+          <Page className="comic" pageNumber={leftPage} />
+          <Page className="comic" pageNumber={rightPage} />
         </Document>
-        <p>Page {pageNumber} of {numPages}</p>
+        <button onClick={this.turnPageBack}>Back</button>
+        <button onClick={this.turnPageForward}>Forward</button>
+        <p>Page {leftPage} of {numPages}</p>
       </div>
     );
   }

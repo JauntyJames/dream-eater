@@ -13,5 +13,19 @@
  *= require_tree .
  *= require_self
  *= require foundation_and_overrides
+ *= require comic
 
  */
+
+.comic {
+  display: inline-block;
+}
+
+.comic-container {
+  white-space: nowrap;
+
+}
+
+body {
+  background-color: blue;
+}

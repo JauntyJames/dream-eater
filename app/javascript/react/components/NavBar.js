@@ -5,7 +5,7 @@ const NavBar = (props) => {
 
   return(
     <div>
-      <button><Link to='/'>Home</Link></button>
+      <button><Link to='/'>Index</Link></button>
       <button onClick={browserHistory.goBack}>Back</button>
       { props.children }
     </div>
