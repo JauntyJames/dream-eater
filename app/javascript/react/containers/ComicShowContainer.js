@@ -12,9 +12,10 @@ class ComicShowContianer extends Component {
       leftPage: 0, //refactor to conditionally render the page instead of erroring out
       comic: []
     }
+    this.goFull = this.goFull.bind(this)
+    this.goToBegining = this.goToBegining.bind(this)
     this.turnPageBack = this.turnPageBack.bind(this)
     this.turnPageForward = this.turnPageForward.bind(this)
-    this.goFull = this.goFull.bind(this)
   }
 
   componentDidMount() {
@@ -44,6 +45,10 @@ class ComicShowContianer extends Component {
     }
   }
 
+  goToBegining() {
+    this.setState({ rightPage: 1, leftPage: 0})
+  }
+
   onDocumentLoad = ({ numPages }) => {
     this.setState({ numPages });
   }
@@ -69,9 +74,11 @@ class ComicShowContianer extends Component {
     let navButtons = () => {
       return(
       <div>
-        <button onClick={this.turnPageBack}>Back</button>
-        <button onClick={this.turnPageForward}>Forward</button>
+        <button onClick={this.goToBegining}>&lt;&lt;Begining</button>
+        <button onClick={this.turnPageBack}>&lt;Back</button>
+        <button onClick={this.turnPageForward}>Forward&gt;</button>
         <button onClick={this.goFull}>Fullscreen</button>
+        <button >Bookmark</button>
       </div>
     )}
 
@@ -89,8 +96,8 @@ class ComicShowContianer extends Component {
             file={this.state.comic.path}
             onLoadSuccess={this.onDocumentLoad}
             >
-              <Page className="comic" pageNumber={leftPage} />
-              <Page className="comic" pageNumber={rightPage} />
+              <Page className="comic" pageNumber={leftPage} width="500" />
+              <Page className="comic" pageNumber={rightPage} width="500" />
             </Document>
             <p>Page {leftPage} of {numPages}</p>
             {navButtons()}
