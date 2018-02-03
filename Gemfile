@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
     gem 'coveralls', require: false
+     gem "dotenv-rails"
 end
 
 group :development do
