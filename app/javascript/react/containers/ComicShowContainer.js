@@ -7,7 +7,8 @@ class ComicShowContianer extends Component {
     super(props);
     this.state = {
       numPages: null,
-      pageNumber: 1,
+      rightPage: 1,
+      leftPage: 0, //refactor to conditionally render the page instead of erroring out
       comic: []
     }
     this.turnPageBack = this.turnPageBack.bind(this)
@@ -38,33 +39,38 @@ class ComicShowContianer extends Component {
   }
 
   turnPageBack() {
-    if (this.state.pageNumber > 1){
-      let newPage = this.state.pageNumber - 1
-      this.setState({ pageNumber: newPage })
+    if (this.state.leftPage > 1){
+      let newLeftPage = this.state.leftPage - 2
+      let newRightPage = this.state.rightPage - 2
+      this.setState({ leftPage: newLeftPage, rightPage: newRightPage })
     }
   }
 
   turnPageForward() {
-    if (this.state.pageNumber < this.state.numPages) {
-      let newPage = this.state.pageNumber + 1
-      this.setState({ pageNumber: newPage })
+    if (this.state.leftPage < this.state.numPages) {
+      let newLeftPage = this.state.leftPage + 2
+      let newRightPage = this.state.rightPage + 2
+      this.setState({ leftPage: newLeftPage, rightPage: newRightPage })
     }
   }
 
   render() {
-    const { pageNumber, numPages } = this.state;
+    const { rightPage, leftPage, numPages } = this.state;
 
     return (
       <div>
+        <button onClick={this.turnPageBack}>Back</button>
+        <button onClick={this.turnPageForward}>Forward</button>
         <Document
           file={this.state.comic.path}
           onLoadSuccess={this.onDocumentLoad}
         >
-          <Page pageNumber={pageNumber} />
+          <Page className="comic" pageNumber={leftPage} />
+          <Page className="comic" pageNumber={rightPage} />
         </Document>
         <button onClick={this.turnPageBack}>Back</button>
         <button onClick={this.turnPageForward}>Forward</button>
-        <p>Page {pageNumber} of {numPages}</p>
+        <p>Page {leftPage} of {numPages}</p>
       </div>
     );
   }
