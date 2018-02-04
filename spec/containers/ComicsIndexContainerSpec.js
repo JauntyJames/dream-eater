@@ -13,8 +13,9 @@ describe('ComicsIndexContainer', () => {
   it('should render Wizard components with the given state', () => {
     wrapper.setState({
       comics: [
-        {title: 'The Unbeatable Squirrel Girl'},
-        {title: 'Saga'}
+        {title: 'The Unbeatable Squirrel Girl', file: {thumb: "www.website.com"}},
+        {title: 'Saga', file: {thumb: "www.website.com"}},
+
       ]
     });
     expect(wrapper.find(ComicTile).at(0).props().title).toEqual('The Unbeatable Squirrel Girl')
