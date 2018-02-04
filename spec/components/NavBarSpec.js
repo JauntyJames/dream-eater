@@ -15,11 +15,11 @@ describe('Navbar', () => {
 
   it('should render a link', () => {
     expect(wrapper.find('Link')).toBePresent();
-    expect(wrapper.find('Link').text()).toEqual('Index');
+    expect(wrapper.find('Link').first().text()).toEqual('Index');
   })
 
   it('should render a button', () => {
     expect(wrapper.find('button')).toBePresent();
-    expect(wrapper.find('button').last().text()).toEqual('Back');
+    expect(wrapper.find('button').last().text()).toEqual('Add Comic');
   })
 })

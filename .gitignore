@@ -24,7 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 .yarn-integrity
 
-*.DS_Store
+.DS_Store
 
 # Ignore uploaded files in test/development
 /public/uploads

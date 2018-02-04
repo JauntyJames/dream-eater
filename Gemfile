@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
     gem 'coveralls', require: false
+     gem "dotenv-rails"
 end
 
 group :development do
@@ -55,3 +56,6 @@ gem 'foundation-rails', '~> 5.0'
 gem 'webpacker', '~> 3.2'
 
 gem 'carrierwave'
+
+gem 'fog-aws'
+gem 'fog'

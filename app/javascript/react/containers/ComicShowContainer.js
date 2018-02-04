@@ -39,14 +39,14 @@ class ComicShowContianer extends Component {
 
   goFull() {
     if (this.state.isFull){
-      this.setState({ isFull: false})
+      this.setState({ isFull: false })
     } else {
       this.setState({ isFull: true });
     }
   }
 
   goToBegining() {
-    this.setState({ rightPage: 1, leftPage: 0})
+    this.setState({ rightPage: 1, leftPage: 0 })
   }
 
   onDocumentLoad = ({ numPages }) => {
@@ -70,13 +70,17 @@ class ComicShowContianer extends Component {
   }
 
   render() {
+    let comicFile
+    if (this.state.comic.length !== 0 ) {
+      comicFile = this.state.comic.file.url
+    }
     const { rightPage, leftPage, numPages } = this.state;
     let navButtons = () => {
       return(
       <div>
-        <button onClick={this.goToBegining}>&lt;&lt;Begining</button>
-        <button onClick={this.turnPageBack}>&lt;Back</button>
-        <button onClick={this.turnPageForward}>Forward&gt;</button>
+        <button onClick={this.goToBegining}>&lt;&lt; Begining</button>
+        <button onClick={this.turnPageBack}>&lt; Back</button>
+        <button onClick={this.turnPageForward}>Forward &gt;</button>
         <button onClick={this.goFull}>Fullscreen</button>
         <button >Bookmark</button>
       </div>
@@ -93,11 +97,11 @@ class ComicShowContianer extends Component {
           {navButtons()}
           <Document
             className="comic-container"
-            file={this.state.comic.path}
+            file={comicFile}
             onLoadSuccess={this.onDocumentLoad}
             >
-              <Page className="comic" pageNumber={leftPage} width="500" />
-              <Page className="comic" pageNumber={rightPage} width="500" />
+              <Page className="comic" pageNumber={leftPage} width={500} />
+              <Page className="comic" pageNumber={rightPage} width={500} />
             </Document>
             <p>Page {leftPage} of {numPages}</p>
             {navButtons()}
