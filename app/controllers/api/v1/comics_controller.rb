@@ -13,7 +13,6 @@ class Api::V1::ComicsController < ApplicationController
   def create
 
     new_comic = Comic.new(comic_params)
-    binding.pry
     if new_comic.save
       redirect_to :index
     else

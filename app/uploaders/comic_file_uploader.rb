@@ -1,6 +1,8 @@
+require 'carrierwave/processing/rmagick'
+
 class ComicFileUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
+  include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
@@ -9,8 +11,6 @@ class ComicFileUploader < CarrierWave::Uploader::Base
   else
     storage :fog
   end
-  # storage :fog
-
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
@@ -34,15 +34,27 @@ class ComicFileUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  # version :thumb do
-  #   process resize_to_fit: [50, 50]
-  # end
+  def cover
+    manipulate! do |frame, index|
+      frame if index.zero? # take only the first page of the file
+    end
+  end
+
+  version :thumb do
+    process :cover
+    process :resize_to_fit => [120, 200]
+    process :convert => :jpg
+
+    def full_filename (for_file = model.source.file)
+      super.chomp(File.extname(super)) + '.jpg'
+    end
+  end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
-  # def extension_whitelist
-  #   %w(jpg jpeg gif png)
-  # end
+  def extension_whitelist
+    %w(pdf)
+  end
 
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
