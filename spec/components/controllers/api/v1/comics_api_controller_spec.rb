@@ -10,14 +10,12 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
     it "should return a list of wizards" do
       get :index
       returned_json = JSON.parse(response.body)
-
       expect(response.status).to eq 200
       expect(response.content_type).to eq("application/json")
-      expect(returned_json.length).to eq 3
-      expect(returned_json[0]["title"]).to eq "Watchmen"
-      expect(returned_json[0]["author"]).to eq "Alan Moore"
-      expect(returned_json[0]["description"]).to eq "(-:"
-      expect(returned_json[0]["file"]["thumb"]["url"]).to eq "/uploads/comic/file/#{returned_json[0]["id"]}/thumb_test-file.jpg"
+      expect(returned_json["comics"].length).to eq 3
+      expect(returned_json["comics"][0]["title"]).to eq "Watchmen"
+      expect(returned_json["comics"][0]["author"]).to eq "Alan Moore"
+      expect(returned_json["comics"][0]["thumbnail"]).to eq "/uploads/comic/file/#{returned_json["comics"][0]["id"]}/thumb_test-file.jpg"
     end
   end
 
@@ -28,7 +26,9 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
       expect(response.status).to eq 200
       expect(response.content_type).to eq("application/json")
       expect(returned_json["comic"]["title"]).to eq("Watchmen")
-      expect(returned_json["comic"]["file"]["url"]).to eq "/uploads/comic/file/#{returned_json["comic"]["id"]}/test-file.pdf"
+      expect(returned_json["comic"]["description"]).to eq("(-:")
+      expect(returned_json["comic"]["published_year"]).to eq "1987"
+      expect(returned_json["comic"]["url"]).to eq "/uploads/comic/file/#{returned_json["comic"]["id"]}/test-file.pdf"
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
         title: "Henchgirl",
         author: "Kristen Gudsnuk",
         published_year: 2017,
-        file: Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test-file.pdf'), 'application/pdf') 
+        file: Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test-file.pdf'), 'application/pdf')
       }
       expect(Comic.all.last.title).to eq("Henchgirl")
     end

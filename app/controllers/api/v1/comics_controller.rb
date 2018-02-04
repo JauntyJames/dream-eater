@@ -6,8 +6,8 @@ class Api::V1::ComicsController < ApplicationController
   end
 
   def show
-    @comic = Comic.find(params[:id])
-    render json: { comic: @comic }
+    comic = Comic.find(params[:id])
+    render json: comic, serializer: ComicShowSerializer
   end
 
   def create
