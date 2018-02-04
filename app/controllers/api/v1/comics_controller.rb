@@ -11,7 +11,6 @@ class Api::V1::ComicsController < ApplicationController
   end
 
   def create
-
     new_comic = Comic.new(comic_params)
     if new_comic.save
       redirect_to :index
@@ -27,5 +26,3 @@ class Api::V1::ComicsController < ApplicationController
   end
 
 end
-
-# {"title"=>"Remnants", "file"=>"[object File]", "author"=>"zach", "description"=>"book", "publishedYear"=>"2016", "controller"=>"api/v1/comics", "action"=>"create"}
