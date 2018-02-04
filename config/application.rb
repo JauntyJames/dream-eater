@@ -26,6 +26,8 @@ module DreamEater
     # -- all .rb files in that directory are automatically loaded.
 
     # Don't generate system test files.
-    config.generators.system_tests = nil
+    # config.generators.system_tests = nil
+    #
+
   end
 end

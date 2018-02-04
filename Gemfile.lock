@@ -337,6 +337,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rmagick (2.16.0)
     rspec-core (3.7.1)
       rspec-support (~> 3.7.0)
     rspec-expectations (3.7.0)
@@ -430,6 +431,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 3.7)
   rails (~> 5.1.4)
+  rmagick
   rspec-rails
   sass-rails (~> 5.0)
   shoulda-matchers
@@ -440,4 +442,4 @@ DEPENDENCIES
   webpacker (~> 3.2)
 
 BUNDLED WITH
-   1.16.0
+   1.16.1
