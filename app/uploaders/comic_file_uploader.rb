@@ -10,21 +10,7 @@ class ComicFileUploader < CarrierWave::Uploader::Base
     storage :fog
   end
   # storage :fog
-  if Rails.env.production?
-    config.fog_credentials = {
-      provider: "AWS",
-      aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
-      aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
-    }
-    config.fog_directory  = ENV["S3_BUCKET_PRODUCTION"]
-  elsif Rails.env.development?
-    config.fog_credentials = {
-      provider: "AWS",
-      aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
-      aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
-    }
-    config.fog_directory  = ENV["S3_BUCKET_DEVELOPMENT"]
-  end
+
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:

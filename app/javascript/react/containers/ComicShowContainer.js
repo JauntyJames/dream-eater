@@ -70,6 +70,10 @@ class ComicShowContianer extends Component {
   }
 
   render() {
+    let comicFile
+    if (this.state.comic.length !== 0 ) {
+      comicFile = this.state.comic.file.url
+    }
     const { rightPage, leftPage, numPages } = this.state;
     let navButtons = () => {
       return(
@@ -93,7 +97,7 @@ class ComicShowContianer extends Component {
           {navButtons()}
           <Document
             className="comic-container"
-            file={this.state.comic.path}
+            file={comicFile}
             onLoadSuccess={this.onDocumentLoad}
             >
               <Page className="comic" pageNumber={leftPage} width={500} />

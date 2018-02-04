@@ -26,7 +26,7 @@ class Uploader extends Component {
             multiple={false}
             onDrop={(accepted, rejected) => { this.passFile(accepted); this.setState({ accepted, rejected }); }}
           >
-            Drop in your comic PDF here!
+            Drop in your comic PDF here!<br />
             Or click to open file dialogue
           </Dropzone>
         </div>
