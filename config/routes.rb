@@ -8,7 +8,11 @@ Rails.application.routes.draw do
       resources :comics, only: [:index, :show, :create]
     end
   end
-  
+
+  scope :auth do
+    get 'is_signed_in', to: 'auth#is_signed_in?'
+  end
+
   get '*path', to: 'static_views#index'
 
 end

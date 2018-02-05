@@ -23,6 +23,7 @@ class ComicsIndexContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
+      
       this.setState({ comics: body.comics })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));

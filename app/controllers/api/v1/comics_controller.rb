@@ -1,5 +1,6 @@
 class Api::V1::ComicsController < ApplicationController
   protect_from_forgery unless: -> { request.format.form_data? }
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     render json: Comic.all
@@ -11,15 +12,11 @@ class Api::V1::ComicsController < ApplicationController
   end
 
   def create
-    if user_signed_in?
-      new_comic = Comic.new(comic_params)
-      if new_comic.save
-        redirect_to "/*path"
-      else
-        render json: { errors: new_comic.errors.full_messages }, status: :unprocessable_entity
-      end
+    new_comic = Comic.new(comic_params)
+    if new_comic.save
+      redirect_to "/*path"
     else
-      redirect_to new_user_session_path
+      render json: { errors: new_comic.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
