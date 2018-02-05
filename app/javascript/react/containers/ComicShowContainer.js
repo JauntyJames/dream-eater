@@ -72,12 +72,12 @@ class ComicShowContianer extends Component {
   render() {
     let comicFile
     if (this.state.comic.length !== 0 ) {
-      comicFile = this.state.comic.file.url
+      comicFile = this.state.comic.url
     }
     const { rightPage, leftPage, numPages } = this.state;
     let navButtons = () => {
       return(
-      <div>
+      <div className="comic-nav">
         <button onClick={this.goToBegining}>&lt;&lt; Begining</button>
         <button onClick={this.turnPageBack}>&lt; Back</button>
         <button onClick={this.turnPageForward}>Forward &gt;</button>

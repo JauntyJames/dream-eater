@@ -35,7 +35,7 @@ class ComicsIndexContainer extends Component {
           key={comic.id}
           id={comic.id}
           title={comic.title}
-          thumb={comic.file.thumb}
+          thumb={comic.thumbnail}
         />
       )
     })
