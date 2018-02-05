@@ -52,11 +52,11 @@ gem 'factory_bot', group: [:development, :test]
 gem 'valid_attribute', group: [:development, :test]
 gem 'shoulda-matchers', group: [:development, :test], require: false
 gem 'devise'
+gem 'omniauth-goodreads', git: 'git@github.com:JauntyJames/omniauth-goodreads.git', branch: 'bugfix'
 gem 'foundation-rails', '~> 5.0'
 gem 'webpacker', '~> 3.2'
-
+gem 'active_model_serializers'
 gem 'carrierwave'
 gem 'rmagick'
-
 gem 'fog-aws'
 gem 'fog'

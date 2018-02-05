@@ -6,17 +6,20 @@ class Api::V1::ComicsController < ApplicationController
   end
 
   def show
-    @comic = Comic.find(params[:id])
-    render json: { comic: @comic }
+    comic = Comic.find(params[:id])
+    render json: comic, serializer: ComicShowSerializer
   end
 
   def create
-
-    new_comic = Comic.new(comic_params)
-    if new_comic.save
-      redirect_to :index
+    if user_signed_in?
+      new_comic = Comic.new(comic_params)
+      if new_comic.save
+        redirect_to "/*path"
+      else
+        render json: { errors: new_comic.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      render json: { errors: new_comic.errors.full_messages }, status: :unprocessable_entity
+      redirect_to new_user_session_path
     end
   end
 
@@ -27,5 +30,3 @@ class Api::V1::ComicsController < ApplicationController
   end
 
 end
-
-# {"title"=>"Remnants", "file"=>"[object File]", "author"=>"zach", "description"=>"book", "publishedYear"=>"2016", "controller"=>"api/v1/comics", "action"=>"create"}

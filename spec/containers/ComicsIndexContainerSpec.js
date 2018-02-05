@@ -10,7 +10,7 @@ describe('ComicsIndexContainer', () => {
       <ComicsIndexContainer />
     )
   })
-  it('should render Wizard components with the given state', () => {
+  it('should render comic components with the given state', () => {
     wrapper.setState({
       comics: [
         {title: 'The Unbeatable Squirrel Girl', file: {thumb: "www.website.com"}},

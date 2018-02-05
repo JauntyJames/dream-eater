@@ -6,7 +6,7 @@ const ComicTile = (props) => {
   return(
     <div>
       <Link to={`/comics/${props.id}`}>
-      <img src={props.thumb.url} />
+      <img src={props.thumb} />
       {props.title}</Link>
     </div>
   )
