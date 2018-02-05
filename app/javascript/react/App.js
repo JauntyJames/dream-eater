@@ -16,8 +16,11 @@ const App = (props) => {
         <Route path="/comics" component={ComicsIndexContainer} />
         <Route path="/comics/new" component={NewComicContainer} />
         <Route path="/comics/:id" component={ComicShowContainer} />
+        <Route path="/sign_in" component={() => {
+          window.location = '/users/sign_in'
+        }} />
       </Route>
-      
+
     </Router>
   )
 }

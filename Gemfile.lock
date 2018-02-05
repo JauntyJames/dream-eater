@@ -1,6 +1,7 @@
 GIT
-  remote: https://github.com/sandboxws/omniauth-goodreads
-  revision: b220d902f23e16072f6e04b05c0a337c77a971bf
+  remote: git@github.com:JauntyJames/omniauth-goodreads.git
+  revision: 0c80ee738fb9136e21348207f05efa387080acdd
+  branch: bugfix
   specs:
     omniauth-goodreads (1.0.0)
       multi_xml (~> 0.5.5)

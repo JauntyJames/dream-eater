@@ -34,6 +34,7 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
 
   describe "POST#create" do
     it "should add a comic to the database" do
+      sign_in :user, user
       post :create, params: {
         title: "Henchgirl",
         author: "Kristen Gudsnuk",
