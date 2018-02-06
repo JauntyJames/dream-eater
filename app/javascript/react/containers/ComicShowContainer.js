@@ -20,7 +20,9 @@ class ComicShowContianer extends Component {
 
   componentDidMount() {
     let id = this.props.params.id
-    fetch(`/api/v1/comics/${id}`)
+    fetch(`/api/v1/comics/${id}`,
+      {credentials: "same-origin"}
+    )
     .then(response => {
       if (response.ok) {
         return response;
