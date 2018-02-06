@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
-  get '/', to: 'static_views#index'
+  root to: 'static_views#index'
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   # resources :comics, only: [:new, :create]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
     namespace :v1 do
       resources :comics, only: [:index, :show, :create]
+      resources :users, only: [:show]
+      resources :shelves_controller, only: [:create]
     end
   end
 
