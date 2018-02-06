@@ -18,3 +18,12 @@ FactoryBot.define do
     file { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test-file.pdf'), 'application/pdf') }
   end
 end
+
+FactoryBot.define do
+  factory :shelf do
+    user_id 1
+    comic_id 1
+    favorite true
+    bookmark 5
+  end
+end

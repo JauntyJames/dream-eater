@@ -5,7 +5,9 @@ describe('Navbar', () => {
 
   beforeEach(() => {
     wrapper = mount(
-      <NavBar />
+      <NavBar
+        route={{signedIn: true}}
+      />
     )
   });
 

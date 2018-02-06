@@ -43,5 +43,27 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
       }
       expect(Comic.all.last.title).to eq("Henchgirl")
     end
+
+    it "should not add a comic if the user is not authenticated" do
+      post :create, params: {
+        title: "Henchgirl",
+        author: "Kristen Gudsnuk",
+        published_year: 2017,
+        file: Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test-file.pdf'), 'application/pdf')
+      }
+      # expect(response.status).to eq 401
+      expect(Comic.all.last.title).to eq("Watchmen")
+    end
+
+    it "should not add a comic if the form was not filled out" do
+      sign_in :user, user
+      post :create, params: {
+        title: "Henchgirl",
+        author: "Kristen Gudsnuk",
+        published_year: 2017
+      }
+      returned_json = JSON.parse(response.body)
+      expect(returned_json["errors"][0]).to eq("File can't be blank")
+    end
   end
 end

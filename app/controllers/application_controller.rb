@@ -7,10 +7,10 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up)
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :provider, :uid])
   end
 
   def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || '/'
+    request.env['omniauth.origin'] || root_path
   end
 end
