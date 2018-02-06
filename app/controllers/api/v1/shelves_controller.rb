@@ -3,8 +3,8 @@ class Api::V1::ShelvesController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
 
+
   def create
-    binding.pry
     if shelf_params[:page_num]
       message = "Bookmark created."
     elsif shelf_params[:favorite]

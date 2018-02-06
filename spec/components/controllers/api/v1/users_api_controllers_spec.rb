@@ -23,17 +23,17 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       expect(returned_json["favorites"][0]["comic_id"]).to eq comic1.id
     end
 
-    xit "does not users to access someone else's profile" do
+    it "does not users to access someone else's profile" do
       sign_in :user, user2
       get :show, params: { id: user1.id }
 
       expect(response.status).to eq 401
     end
 
-    xit "does not allow users to access a profile without logging in" do
+    it "does not allow users to access a profile without logging in" do
       get :show, params: { id: user1.id }
 
-      expect(response.status).to eq 401
+      expect(response.status).to eq 302
     end
   end
 

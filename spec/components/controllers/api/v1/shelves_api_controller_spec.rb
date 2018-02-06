@@ -12,7 +12,7 @@ RSpec.describe Api::V1::ShelvesController, type: :controller do
       returned_json = JSON.parse(response.body)
 
       expect(response.status).to eq 200
-      expect(returned_json["shelf"]["user_id"]).to eq user1.id.to_s
+      expect(returned_json["shelf"]["user_id"]).to eq user1.id
       expect(returned_json["message"]).to eq "Comic added to your favorites!"
     end
   end

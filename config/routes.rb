@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :comics, only: [:index, :show, :create]
       resources :users, only: [:show]
-      resources :shelves_controller, only: [:create]
+      resources :shelves, only: [:index, :create]
     end
   end
 

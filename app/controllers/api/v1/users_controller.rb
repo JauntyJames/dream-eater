@@ -8,8 +8,12 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    this_user = User.find(params[:id])
-    favorites = Shelf.where(user: this_user, favorite: true)
-    render json: { user: this_user, favorites: favorites }
+    if current_user.id == params[:id].to_i
+      this_user = User.find(params[:id])
+      favorites = Shelf.where(user: this_user, favorite: true)
+      render json: { user: this_user, favorites: favorites }
+    else
+      render json: { message: "Can't do that!"}, status: 401
+    end
   end
 end
