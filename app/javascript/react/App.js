@@ -16,7 +16,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    fetch('/auth/is_signed_in')
+    fetch('/auth/is_signed_in', {credentials: 'same-origin'})
     .then(response => {
       if (response.ok) {
         return response;
