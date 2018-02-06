@@ -11,7 +11,9 @@ class ComicsIndexContainer extends Component {
     this.componentDidMount = this.componentDidMount.bind(this)
   }
   componentDidMount() {
-    fetch('api/v1/comics')
+    fetch('api/v1/comics',
+        {credentials: 'same-origin'}
+      )
     .then(response => {
       if (response.ok) {
         return response;
@@ -23,7 +25,7 @@ class ComicsIndexContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      
+
       this.setState({ comics: body.comics })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
