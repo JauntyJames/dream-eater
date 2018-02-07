@@ -17,12 +17,25 @@ class ComicDisplay extends Component {
       messages: [],
       bookmark: this.props.bookmark
     }
+    this.addFavorite = this.addFavorite.bind(this)
     this.bookmarkPage = this.bookmarkPage.bind(this)
     this.goFull = this.goFull.bind(this)
     this.goToBegining = this.goToBegining.bind(this)
     this.onDocumentLoad = this.onDocumentLoad.bind(this)
+    this.submitShelf = this.submitShelf.bind(this)
     this.turnPageBack = this.turnPageBack.bind(this)
     this.turnPageForward = this.turnPageForward.bind(this)
+  }
+
+  addFavorite() {
+    debugger
+    let formPayload = {
+      shelf: {
+        comic_id: this.state.comic.id,
+        favorite: true
+      }
+    }
+    this.submitShelf(formPayload)
   }
 
   bookmarkPage() {
@@ -32,31 +45,7 @@ class ComicDisplay extends Component {
         bookmark: this.state.rightPage
       }
     }
-
-    fetch('/api/v1/shelves', {
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      method: 'POST',
-      body: JSON.stringify(formPayload)
-    })
-    .then(response => {
-      if (response.ok) {
-        return response;
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`,
-            error = new Error(errorMessage);
-        throw(error);
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
-      let messages = this.state.messages.concat(body.message)
-      this.setState({ messages: messages })
-    })
-    .catch(error => console.error(`Error in fetch: ${error.message}`));
+    this.submitShelf(formPayload)
   }
 
   goFull() {
@@ -79,6 +68,33 @@ class ComicDisplay extends Component {
       leftPage = this.state.bookmark - 1
     }
     this.setState({ numPages, rightPage: rightPage, leftPage: leftPage });
+  }
+
+  submitShelf(formPayload) {
+    fetch('/api/v1/shelves', {
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      method: 'POST',
+      body: JSON.stringify(formPayload)
+    })
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+        error = new Error(errorMessage);
+        throw(error);
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      let messages = this.state.messages.concat(body.message)
+      this.setState({ messages: messages })
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   turnPageBack() {
@@ -119,6 +135,7 @@ class ComicDisplay extends Component {
               turnPageForward={this.turnPageForward}
               goFull={this.goFull}
               bookmarkPage={this.bookmarkPage}
+              addFavorite={this.addFavorite}
             />
             <Document
               className="comic-container row large-12"
@@ -137,6 +154,7 @@ class ComicDisplay extends Component {
               turnPageForward={this.turnPageForward}
               goFull={this.goFull}
               bookmarkPage={this.bookmarkPage}
+              addFavorite={this.addFavorite}
             />
           </div>
         </Fullscreen>
