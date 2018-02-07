@@ -29,12 +29,12 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-group :development, :test do
-    gem "dotenv-rails"
-end
-
 group :test do
   gem 'coveralls', require: false
+end
+
+group :development, :test do
+    gem "dotenv-rails"
 end
 
 group :development do
