@@ -126,8 +126,8 @@ class ComicDisplay extends Component {
               onLoadSuccess={this.onDocumentLoad}
               ref={(input) => { this.focusDocument = input; }}
             >
-              <Page className="large-6" pageNumber={leftPage} width={500} />
-              <Page className="large-6" pageNumber={rightPage} width={500} />
+              <Page className="large-6 comic" pageNumber={leftPage} width={500} />
+              <Page className="large-6 comic" pageNumber={rightPage} width={500} />
             </Document>
             <p>Page {leftPage} of {numPages}</p>
             <ButtonGroup
