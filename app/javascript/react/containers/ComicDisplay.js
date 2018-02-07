@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf/build/entry.webpack';
 import Fullscreen from "react-full-screen";
 
-class ComicShowContianer extends Component {
+import ButtonGroup from '../components/ButtonGroup'
+
+
+class ComicDisplay extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -57,7 +60,7 @@ class ComicShowContianer extends Component {
   }
 
   componentDidMount() {
-    let id = this.props.params.id
+    let id = this.props.comic.id
     fetch(`/api/v1/comics/${id}`,
       {credentials: "same-origin"}
     )
@@ -125,16 +128,6 @@ class ComicShowContianer extends Component {
       comicFile = this.state.comic.url
     }
     const { rightPage, leftPage, numPages } = this.state;
-    let navButtons = () => {
-      return(
-      <div className="comic-nav">
-        <button onClick={this.goToBegining}>&lt;&lt; Begining</button>
-        <button onClick={this.turnPageBack}>&lt; Back</button>
-        <button onClick={this.turnPageForward}>Forward &gt;</button>
-        <button onClick={this.goFull}>Fullscreen</button>
-        <button onClick={this.bookmarkPage}>Bookmark</button>
-      </div>
-    )}
 
     return (
       <div>
@@ -144,17 +137,32 @@ class ComicShowContianer extends Component {
           onChange={isFull => this.setState({isFull})}
         >
         <div className="full-screenable-node">
-          {navButtons()}
+          <ButtonGroup
+            key={"top"}
+            goToBegining={this.goToBegining}
+            turnPageBack={this.turnPageBack}
+            turnPageForward={this.turnPageForward}
+            goFull={this.goFull}
+            bookmarkPage={this.bookmarkPage}
+          />
           <Document
             className="comic-container"
             file={comicFile}
             onLoadSuccess={this.onDocumentLoad}
-            >
-              <Page className="comic" pageNumber={leftPage} width={500} />
-              <Page className="comic" pageNumber={rightPage} width={500} />
-            </Document>
-            <p>Page {leftPage} of {numPages}</p>
-            {navButtons()}
+            ref={(input) => { this.focusDocument = input; }}
+          >
+            <Page className="comic" pageNumber={leftPage} width={500} />
+            <Page className="comic" pageNumber={rightPage} width={500} />
+          </Document>
+          <p>Page {leftPage} of {numPages}</p>
+          <ButtonGroup
+            key={"bottom"}
+            goToBegining={this.goToBegining}
+            turnPageBack={this.turnPageBack}
+            turnPageForward={this.turnPageForward}
+            goFull={this.goFull}
+            bookmarkPage={this.bookmarkPage}
+          />
         </div>
         </Fullscreen>
       </div>
@@ -162,4 +170,4 @@ class ComicShowContianer extends Component {
   }
 }
 
-export default ComicShowContianer;
+export default ComicDisplay;
