@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Functions from '../utils/Functions'
 
 class SignInContainer extends Component {
   constructor(props) {
