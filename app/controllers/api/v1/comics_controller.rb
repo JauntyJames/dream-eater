@@ -15,7 +15,7 @@ class Api::V1::ComicsController < ApplicationController
   def create
     new_comic = Comic.new(comic_params)
     if new_comic.save
-      redirect_to "/comics/#{new_comic.id}"
+      redirect_to api_v1_comics_path
     else
       render json: { errors: new_comic.errors.full_messages }, status: :unprocessable_entity
     end

@@ -40,7 +40,7 @@ class NewComicContainer extends Component {
     let value = event.target.value
     this.setState({ publishedYear: value })
   }
-// formData.append('userpic', myFileInput.files[0], 'chris.jpg');
+
   handleSubmit(event) {
     event.preventDefault();
     let formPayload = new FormData()

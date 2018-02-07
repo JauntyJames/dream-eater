@@ -7,52 +7,21 @@ import ComicShowContainer from './containers/ComicShowContainer'
 import NewComicContainer from './containers/NewComicContainer'
 import SignInContainer from './containers/SignInContainer'
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      signedIn: false
-    }
-  }
+const App = (props) => {
 
-  componentWillMount() {
-    fetch('/auth/is_signed_in', {credentials: 'same-origin'})
-    .then(response => {
-      if (response.ok) {
-        return response;
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`,
-            error = new Error(errorMessage);
-        throw(error);
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
-      this.setState({ signedIn: body.signed_in})
-    })
-    .catch(error => console.error(`Error in fetch: ${error.message}`));
-  }
-  render() {
     return(
-      <Routes signedIn={this.state.signedIn}/>
+      <Router history={browserHistory} >
+
+        <Route path='/' component={NavBar}>
+          <IndexRoute component={ComicsIndexContainer} />
+          <Route path="/sign-in" component={SignInContainer} />
+          <Route path="/comics" component={ComicsIndexContainer} />
+          <Route path="/comics/new" component={NewComicContainer} />
+          <Route path="/comics/:id" component={ComicShowContainer} />
+        </Route>
+
+      </Router>
     )
-  }
 }
 
-const Routes = (props) => {
-  return(
-    <Router history={browserHistory} signedIn={props.signedIn}>
-
-      <Route path='/' component={NavBar} signedIn={props.signedIn} >
-        <IndexRoute component={ComicsIndexContainer} />
-        <Route path="/sign-in" component={SignInContainer} />
-        <Route path="/comics" component={ComicsIndexContainer} />
-        <Route path="/comics/new" component={NewComicContainer} />
-        <Route path="/comics/:id" component={ComicShowContainer} />
-      </Route>
-
-    </Router>
-  )
-}
-
-export default App;
+export default App

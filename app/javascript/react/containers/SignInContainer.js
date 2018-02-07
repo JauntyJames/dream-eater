@@ -8,17 +8,11 @@ class SignInContainer extends Component {
     this.state = {
       email: "",
       password: "",
-      confirm: ""
+      remember_me: false
     }
-    this.handleConfirmChange = this.handleConfirmChange.bind(this)
     this.handleEmailChange = this.handleEmailChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleConfirmChange(event) {
-    let value = event.target.value
-    this.setState({ confirm: value })
   }
 
   handleEmailChange(event) {
@@ -32,15 +26,17 @@ class SignInContainer extends Component {
   }
 
   handleSubmit() {
-    fetch('/users/sign_in', {
-      method: "POST",
-      body: {
-        user: {
-          email: this.state.email,
-          password: this.state.password
-        },
-        authenticity_token: Functions.getMetaContent('csrf-token')
+    let formPayload = {
+      user: {
+        email: this.state.email,
+        password: this.state.password,
+        remember_me: this.state.remember_me
       }
+    }
+    fetch('/users/sign_in', {
+      credentials: 'same-origin',
+      method: "POST",
+      body: JSON.stringify(formPayload)
     })
     .then(response => {
       if (response.ok) {
@@ -61,33 +57,35 @@ class SignInContainer extends Component {
   render() {
 
     return(
-      <form>
-        <input
-          type="email"
-          name="email"
-          placeholder="email"
-          value={this.state.email}
-          onChange={this.handleEmailChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="password"
-          value={this.state.password}
-          onChange={this.handlePasswordChange}
-        />
-        <input
-          type="password"
-          name="confirm"
-          placeholder="retype password"
-          value={this.state.confirm}
-          onChange={this.handleConfirmChange}
-        />
-        <input
-          type="submit"
-          onClick={this.handleSubmit} defaultValue="login"
-        />
-      </form>
+      <div>
+        <form>
+          <input
+            type="email"
+            name="email"
+            placeholder="email"
+            value={this.state.email}
+            onChange={this.handleEmailChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="password"
+            value={this.state.password}
+            onChange={this.handlePasswordChange}
+          />
+          <input
+            name="remember_me"
+            type="checkbox"
+            onClick={this.handleCheck}
+            checked={this.state.remember_me}
+          /> Remember Me<br />
+          <input
+            type="submit"
+            onClick={this.handleSubmit} defaultValue="login"
+          />
+        </form>
+        <a href="/users/auth/goodreads" >Sign in with Goodreads</a>
+      </div>
     )
   }
 }
