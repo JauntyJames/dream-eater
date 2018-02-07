@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:JauntyJames/omniauth-goodreads.git
+  remote: https://github.com/JauntyJames/omniauth-goodreads.git
   revision: 0c80ee738fb9136e21348207f05efa387080acdd
   branch: bugfix
   specs:
