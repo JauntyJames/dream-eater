@@ -5,7 +5,8 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      signedIn: false
+      signedIn: false,
+      user: null
     }
   }
 
@@ -22,22 +23,25 @@ class NavBar extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      this.setState({ signedIn: body.signed_in})
+      this.setState({ signedIn: body.signed_in, user: body.user})
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   render() {
     let newComic;
+    let myBookshelf;
     if (this.state.signedIn){
-      newComic = <Link to='comics/new'><button>Add Comic</button></Link>
+      newComic = <Link to='/comics/new'><button>Add Comic</button></Link>
+      myBookshelf = <Link to={`/user/${this.state.user.id}`}><button>My Bookshelf</button></Link>
     } else {
-      newComic = <Link href='/users/sign_in'><button>Sign In</button></Link>
+      myBookshelf = <Link href='/users/sign_in'><button>Sign In</button></Link>
     }
     return(
       <div className="row column">
         <Link to='/'><button>Index</button></Link>
         <button onClick={browserHistory.goBack}>Back</button>
+        {myBookshelf}
         {newComic}
         { this.props.children }
       </div>
