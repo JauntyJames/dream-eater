@@ -72,7 +72,10 @@ class ComicShowContianer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      let bookmark = body.comic.user_bookmark.bookmark
+      let bookmark
+      if (body.comic.user_bookmark){
+        bookmark = body.comic.user_bookmark.bookmark
+      }
       this.setState({ comic: body.comic, bookmark: bookmark })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -91,9 +94,9 @@ class ComicShowContianer extends Component {
   }
 
   onDocumentLoad = ({ numPages }) => {
-    let leftPage
-    let rightPage
-    if (this.state.bookmark !== null && this.state.bookmark !== 1) {
+    let leftPage = 1
+    let rightPage = 0
+    if (this.state.bookmark && this.state.bookmark !== 1) {
       rightPage = this.state.bookmark
       leftPage = this.state.bookmark - 1
     }
