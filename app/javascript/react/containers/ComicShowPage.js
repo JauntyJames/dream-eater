@@ -47,7 +47,7 @@ class ComicShowPage extends Component {
     let loadedComic = () => {
       if (this.state.loaded) {
         return (
-          <ComicDisplay comic={this.state.comic} />
+          <ComicDisplay comic={this.state.comic} bookmark={this.state.bookmark} />
         )
       } else {
         return (

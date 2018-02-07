@@ -35,7 +35,7 @@ class NavBar extends Component {
       newComic = <Link href='/users/sign_in'><button>Sign In</button></Link>
     }
     return(
-      <div>
+      <div className="row column">
         <Link to='/'><button>Index</button></Link>
         <button onClick={browserHistory.goBack}>Back</button>
         {newComic}
