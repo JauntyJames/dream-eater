@@ -5,9 +5,7 @@ describe('Navbar', () => {
 
   beforeEach(() => {
     wrapper = mount(
-      <NavBar
-        route={{signedIn: true}}
-      />
+      <NavBar />
     )
   });
 
@@ -22,6 +20,6 @@ describe('Navbar', () => {
 
   it('should render a button', () => {
     expect(wrapper.find('button')).toBePresent();
-    expect(wrapper.find('button').last().text()).toEqual('Add Comic');
+    expect(wrapper.find('button').last().text()).toEqual('Sign In');
   })
 })
