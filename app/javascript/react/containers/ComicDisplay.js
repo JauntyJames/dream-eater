@@ -13,9 +13,9 @@ class ComicDisplay extends Component {
       numPages: null,
       rightPage: 1,
       leftPage: 0, //refactor to conditionally render the page instead of erroring out
-      comic: [],
+      comic: this.props.comic,
       messages: [],
-      bookmark: null
+      bookmark: this.props.bookmark
     }
     this.bookmarkPage = this.bookmarkPage.bind(this)
     this.goFull = this.goFull.bind(this)
@@ -55,31 +55,6 @@ class ComicDisplay extends Component {
     .then(body => {
       let messages = this.state.messages.concat(body.message)
       this.setState({ messages: messages })
-    })
-    .catch(error => console.error(`Error in fetch: ${error.message}`));
-  }
-
-  componentDidMount() {
-    let id = this.props.comic.id
-    fetch(`/api/v1/comics/${id}`,
-      {credentials: "same-origin"}
-    )
-    .then(response => {
-      if (response.ok) {
-        return response;
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`,
-            error = new Error(errorMessage);
-        throw(error);
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
-      let bookmark
-      if (body.comic.user_bookmark){
-        bookmark = body.comic.user_bookmark.bookmark
-      }
-      this.setState({ comic: body.comic, bookmark: bookmark })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -130,40 +105,40 @@ class ComicDisplay extends Component {
     const { rightPage, leftPage, numPages } = this.state;
 
     return (
-      <div>
+      <div className="display-box large-12">
 
         <Fullscreen
           enabled={this.state.isFull}
           onChange={isFull => this.setState({isFull})}
         >
-        <div className="full-screenable-node">
-          <ButtonGroup
-            key={"top"}
-            goToBegining={this.goToBegining}
-            turnPageBack={this.turnPageBack}
-            turnPageForward={this.turnPageForward}
-            goFull={this.goFull}
-            bookmarkPage={this.bookmarkPage}
-          />
-          <Document
-            className="comic-container"
-            file={comicFile}
-            onLoadSuccess={this.onDocumentLoad}
-            ref={(input) => { this.focusDocument = input; }}
-          >
-            <Page className="comic" pageNumber={leftPage} width={500} />
-            <Page className="comic" pageNumber={rightPage} width={500} />
-          </Document>
-          <p>Page {leftPage} of {numPages}</p>
-          <ButtonGroup
-            key={"bottom"}
-            goToBegining={this.goToBegining}
-            turnPageBack={this.turnPageBack}
-            turnPageForward={this.turnPageForward}
-            goFull={this.goFull}
-            bookmarkPage={this.bookmarkPage}
-          />
-        </div>
+          <div className="full-screenable-node">
+            <ButtonGroup
+              key={"top"}
+              goToBegining={this.goToBegining}
+              turnPageBack={this.turnPageBack}
+              turnPageForward={this.turnPageForward}
+              goFull={this.goFull}
+              bookmarkPage={this.bookmarkPage}
+            />
+            <Document
+              className="comic-container row large-12"
+              file={comicFile}
+              onLoadSuccess={this.onDocumentLoad}
+              ref={(input) => { this.focusDocument = input; }}
+            >
+              <Page className="large-6" pageNumber={leftPage} width={500} />
+              <Page className="large-6" pageNumber={rightPage} width={500} />
+            </Document>
+            <p>Page {leftPage} of {numPages}</p>
+            <ButtonGroup
+              key={"bottom"}
+              goToBegining={this.goToBegining}
+              turnPageBack={this.turnPageBack}
+              turnPageForward={this.turnPageForward}
+              goFull={this.goFull}
+              bookmarkPage={this.bookmarkPage}
+            />
+          </div>
         </Fullscreen>
       </div>
     );
