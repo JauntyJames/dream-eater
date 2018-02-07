@@ -3,9 +3,8 @@ class Api::V1::ShelvesController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
 
-
   def create
-    if shelf_params[:page_num]
+    if shelf_params[:bookmark]
       message = "Bookmark created."
     elsif shelf_params[:favorite]
       message = "Comic added to your favorites!"
@@ -23,7 +22,7 @@ class Api::V1::ShelvesController < ApplicationController
   protected
 
   def shelf_params
-    params.permit(:comic_id, :page_num, :favorite)
+    params.require(:shelf).permit(:comic_id, :bookmark, :favorite)
   end
 
 end

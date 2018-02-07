@@ -4,4 +4,6 @@ class ComicSerializer < ActiveModel::Serializer
   def thumbnail
     object.file.thumb.url
   end
+
+
 end

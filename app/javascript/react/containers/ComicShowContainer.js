@@ -10,12 +10,50 @@ class ComicShowContianer extends Component {
       numPages: null,
       rightPage: 1,
       leftPage: 0, //refactor to conditionally render the page instead of erroring out
-      comic: []
+      comic: [],
+      messages: [],
+      bookmark: null
     }
+    this.bookmarkPage = this.bookmarkPage.bind(this)
     this.goFull = this.goFull.bind(this)
     this.goToBegining = this.goToBegining.bind(this)
+    this.onDocumentLoad = this.onDocumentLoad.bind(this)
     this.turnPageBack = this.turnPageBack.bind(this)
     this.turnPageForward = this.turnPageForward.bind(this)
+  }
+
+  bookmarkPage() {
+    let formPayload = {
+      shelf: {
+        comic_id: this.state.comic.id,
+        bookmark: this.state.rightPage
+      }
+    }
+
+    fetch('/api/v1/shelves', {
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      method: 'POST',
+      body: JSON.stringify(formPayload)
+    })
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+            error = new Error(errorMessage);
+        throw(error);
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      let messages = this.state.messages.concat(body.message)
+      this.setState({ messages: messages })
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   componentDidMount() {
@@ -34,7 +72,8 @@ class ComicShowContianer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      this.setState({ comic: body.comic })
+      let bookmark = body.comic.user_bookmark.bookmark
+      this.setState({ comic: body.comic, bookmark: bookmark })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -52,7 +91,13 @@ class ComicShowContianer extends Component {
   }
 
   onDocumentLoad = ({ numPages }) => {
-    this.setState({ numPages });
+    let leftPage
+    let rightPage
+    if (this.state.bookmark !== null && this.state.bookmark !== 1) {
+      rightPage = this.state.bookmark
+      leftPage = this.state.bookmark - 1
+    }
+    this.setState({ numPages, rightPage: rightPage, leftPage: leftPage });
   }
 
   turnPageBack() {
@@ -84,7 +129,7 @@ class ComicShowContianer extends Component {
         <button onClick={this.turnPageBack}>&lt; Back</button>
         <button onClick={this.turnPageForward}>Forward &gt;</button>
         <button onClick={this.goFull}>Fullscreen</button>
-        <button >Bookmark</button>
+        <button onClick={this.bookmarkPage}>Bookmark</button>
       </div>
     )}
 

@@ -8,7 +8,7 @@ RSpec.describe Api::V1::ShelvesController, type: :controller do
   describe "POST#create" do
     it "should shelve a favorited comic" do
       sign_in(user1, scope: :user)
-      post :create, params: { comic_id: comic1.id, favorite: true }
+      post :create, params: { shelf: { comic_id: comic1.id, favorite: true } }
       returned_json = JSON.parse(response.body)
 
       expect(response.status).to eq 200
