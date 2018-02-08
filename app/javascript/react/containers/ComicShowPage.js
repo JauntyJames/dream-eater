@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Details from '../components/Details'
+import ComicDetails from '../components/ComicDetails'
 import ComicDisplay from './ComicDisplay'
 
 class ComicShowPage extends Component {
@@ -58,7 +58,7 @@ class ComicShowPage extends Component {
 
     return(
       <div>
-        <Details
+        <ComicDetails
           comic={this.state.comic}
         />
         {loadedComic()}
