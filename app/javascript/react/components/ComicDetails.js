@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Details = (props) => {
+const ComicDetails = (props) => {
   let title
   let author
   let publishedYear
@@ -22,4 +22,4 @@ const Details = (props) => {
     </div>
   )
 }
-export default Details;
+export default ComicDetails;

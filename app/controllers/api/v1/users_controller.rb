@@ -9,9 +9,10 @@ class Api::V1::UsersController < ApplicationController
 
   def show
     if current_user.id == params[:id].to_i
-      this_user = User.find(params[:id])
-      favorites = Shelf.where(user: this_user, favorite: true)
-      render json: { user: this_user, favorites: favorites }
+      # this_user = User.find(params[:id])
+      # binding.pry
+      # favorites = this_user.comics.where(favorite: true)
+      render json: current_user
     else
       render json: { message: "Can't do that!"}, status: 401
     end

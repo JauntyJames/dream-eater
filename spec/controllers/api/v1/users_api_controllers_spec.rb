@@ -20,7 +20,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       expect(response.status).to eq 200
       expect(response.content_type).to eq "application/json"
       expect(returned_json["user"]["email"]).to eq user1.email
-      expect(returned_json["favorites"][0]["comic_id"]).to eq comic1.id
+      expect(returned_json["user"]["favorites"][0]["id"]).to eq comic1.id
     end
 
     it "does not users to access someone else's profile" do

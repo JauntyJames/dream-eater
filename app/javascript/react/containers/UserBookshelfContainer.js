@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import UserDetails from '../components/UserDetails'
+import ComicTile from '../components/ComicTile'
+
 class UserBookshelfContainer extends Component {
   constructor(props) {
     super(props);
@@ -25,15 +28,32 @@ class UserBookshelfContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      this.setState({ user: body.user, favorites: body.favorites })
+      this.setState({ user: body.user, favorites: body.user.favorites })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   render() {
+    let myFavorites = this.state.favorites.map((comic) => {
+      return(
+        <ComicTile
+          key={comic.id}
+          id={comic.id}
+          thumb={comic.file.thumb.url}
+          title={comic.title}
+        />
+      )
+    })
+
 
     return(
-      <div>{this.state.user.email}</div>
+      <div>
+        <UserDetails
+          email={this.state.user.email}
+        />
+        <h3>My favorite comics:</h3>
+        {myFavorites}
+      </div>
     )
   }
 }
