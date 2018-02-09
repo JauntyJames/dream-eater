@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import FuzzySearch from 'react-fuzzy'
 
 import ComicTile from '../components/ComicTile'
 
@@ -8,68 +7,63 @@ class ComicsIndexContainer extends Component {
     super(props);
     this.state = {
       comics: [],
-      selected: []
+      search: ""
     }
     this.componentDidMount = this.componentDidMount.bind(this)
+    this.fetchComics = this.fetchComics.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
-
   componentDidMount() {
-    fetch('api/v1/comics',
-        {credentials: 'same-origin'}
-      )
-    .then(response => {
-      if (response.ok) {
-        return response;
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`,
-            error = new Error(errorMessage);
-        throw(error);
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
-      this.setState({ comics: body.comics })
-    })
-    .catch(error => console.error(`Error in fetch: ${error.message}`));
+    this.fetchComics(this.state.search);
   }
 
-  selectComics(selected) {
-    let comicsArray = selected.map(comic => {
-      return (
+  fetchComics(searchTerm) {
+    fetch(`api/v1/comics?search=${searchTerm}`, {
+      credentials: 'same-origin'})
+      .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage);
+          throw(error);
+        }
+      })
+      .then(response => response.json())
+      .then(body => {
+        this.setState({ comics: body.comics })
+      })
+      .catch(error => console.error(`Error in fetch: ${error.message}`));
+    }
+
+  handleChange(event) {
+    let value = event.target.value
+    this.fetchComics(value)
+    this.setState({ search: value })
+  }
+
+  render() {
+    let comicsArray = this.state.comics.map((comic) => {
+      return(
         <ComicTile
+          key={comic.id}
+          id={comic.id}
           title={comic.title}
-          author={comic.author}
           thumb={comic.thumbnail}
         />
       )
     })
-    return(comicsArray)
-  }
-
-  render() {
-    const list =
-      [{
-        id: 1,
-        title: 'The Great Gatsby',
-        author: 'F. Scott Fitzgerald'
-      }, {
-        id: 2,
-        title: 'The DaVinci Code',
-        author: 'Dan Brown'
-      }, {
-        id: 3,
-        title: 'Angels & Demons',
-        author: 'Dan Brown'
-      }];
 
     return(
       <div>
-        <FuzzySearch
-          list={list}
-          keys={['author', 'title']}
-          width={430}
-          onSelect={action('selected')}
-        />
+        <form>
+          <input
+            className="row large-8"
+            type='text'
+            value={this.state.search}
+            onChange={this.handleChange}/>
+        </form>
+        {comicsArray}
       </div>
     )
   }

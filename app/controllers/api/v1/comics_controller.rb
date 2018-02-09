@@ -4,7 +4,12 @@ class Api::V1::ComicsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    render json: Comic.all
+    if params[:search].length > 0
+      binding.pry
+      render json: Comic.all
+    else
+      render json: Comic.all
+    end
   end
 
   def show
@@ -47,7 +52,7 @@ class Api::V1::ComicsController < ApplicationController
   protected
 
   def comic_params
-    params.permit(:file, :title, :author, :description, :published_year)
+    params.permit(:file, :title, :author, :description, :published_year, :search)
   end
 
 end

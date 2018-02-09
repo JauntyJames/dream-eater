@@ -28,7 +28,6 @@ class ComicDisplay extends Component {
   }
 
   addFavorite() {
-    debugger
     let formPayload = {
       shelf: {
         comic_id: this.state.comic.id,
