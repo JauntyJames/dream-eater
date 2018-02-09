@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Route, Redirect } from 'react-router';
 
-import Uploader from './Uploader'
-import ComicForm from '../components/ComicForm'
+import Uploader from './Uploader';
+import ComicForm from '../components/ComicForm';
+import MessageTile from '../components/MessageTile';
 
 class NewComicContainer extends Component {
   constructor(props) {
@@ -11,7 +13,8 @@ class NewComicContainer extends Component {
       title: "",
       author: "",
       description: "",
-      publishedYear: ""
+      publishedYear: "",
+      messages: []
     }
     this.acceptFile = this.acceptFile.bind(this)
     this.submitForm = this.submitForm.bind(this)
@@ -20,6 +23,7 @@ class NewComicContainer extends Component {
     this.handlePublishedYearChange = this.handlePublishedYearChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.validateFields = this.validateFields.bind(this)
   }
 
   acceptFile(accepted) {
@@ -43,13 +47,18 @@ class NewComicContainer extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    let formPayload = new FormData()
-    formPayload.append('title', this.state.title)
-    formPayload.append('file', this.state.file[0], this.state.file.name)
-    formPayload.append('author', this.state.author)
-    formPayload.append('description', this.state.description)
-    formPayload.append('published_year', this.state.publishedYear)
-    this.submitForm(formPayload)
+    let errors = this.validateFields()
+    if (errors.length > 0) {
+      this.setState({ messages: errors })
+    } else {
+      let formPayload = new FormData()
+      formPayload.append('title', this.state.title)
+      formPayload.append('file', this.state.file[0], this.state.file.name)
+      formPayload.append('author', this.state.author)
+      formPayload.append('description', this.state.description)
+      formPayload.append('published_year', this.state.publishedYear)
+      this.submitForm(formPayload)
+    }
   }
 
   handleTitleChange(event) {
@@ -74,12 +83,36 @@ class NewComicContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-
+      debugger
+      return(<Redirect to={`/comics/${body.id}`} />)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
+    this.setState({ messages: ["Comic uploading..."]})
+  }
+
+  validateFields() {
+    let errors = []
+    if (this.state.file.length === 0) {
+      errors.push('Error: What\'s the point in uploading a comic without a comic?')
+    }
+    if (this.state.title === '') {
+      errors.push('Error: Is this comic called something in particular?')
+    }
+    if (this.state.author === '') {
+      errors.push('Error: Everything was made by somebody, my dude.')
+    }
+    if (!Number.isInteger(+this.state.publishedYear) || +this.state.publishedYear === 0) {
+      errors.push('Error: I don\'t think think that\'s a real year')
+    }
+    return(errors)
   }
 
   render() {
+    let messageArray = this.state.messages.map((message) => {
+      return(
+        <MessageTile message={message} key={message} />
+      )
+    })
 
     return(
       <div>
@@ -94,8 +127,9 @@ class NewComicContainer extends Component {
             handleTitleChange={this.handleTitleChange}
             title={this.state.title}
           />
-          <Uploader acceptFile={this.acceptFile}/>
-          <input type="submit" onClick={this.handleSubmit} ></input>
+          <Uploader acceptFile={this.acceptFile}/><br/>
+          {messageArray}
+          <input className="button" type="submit" onClick={this.handleSubmit} ></input>
         </form>
       </div>
     )

@@ -15,8 +15,9 @@ class Api::V1::ComicsController < ApplicationController
   def create
     new_comic = Comic.new(comic_params)
     if new_comic.save
-      redirect_to api_v1_comics_path
+      render json: {id: new_comic.id}
     else
+      flash[:alert] = "Did you fill everything out correctly?"
       render json: { errors: new_comic.errors.full_messages }, status: :unprocessable_entity
     end
   end
