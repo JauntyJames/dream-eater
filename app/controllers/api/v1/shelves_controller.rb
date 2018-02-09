@@ -9,13 +9,13 @@ class Api::V1::ShelvesController < ApplicationController
       new_shelf = Shelf.new(shelf_params)
       new_shelf.user = current_user
       if new_shelf.save
-        render json: { shelf: new_shelf, message: @message }
+        render json: { shelf: new_shelf, message: shelf_message }
       else
         render json: { message: new_shelf.errors.full_messages }, status: :unprocessable_entity
       end
     else
       existing_shelf.first.update(shelf_params)
-      render json: { message: message }
+      render json: { message: shelf_message }
     end
   end
 
@@ -25,7 +25,7 @@ class Api::V1::ShelvesController < ApplicationController
     params.require(:shelf).permit(:comic_id, :bookmark, :favorite)
   end
 
-  def message
+  def shelf_message
     if shelf_params[:bookmark]
       return "Bookmark created."
     elsif shelf_params[:favorite]
