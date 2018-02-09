@@ -24,27 +24,22 @@ class Uploader extends Component {
           <Dropzone
             accept="application/pdf"
             multiple={false}
+            maxSize={8000000}
             onDrop={(accepted, rejected) => { this.passFile(accepted); this.setState({ accepted, rejected }); }}
           >
-            Drop in your comic PDF here!<br />
-            Or click to open file dialogue
+            {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
+              if (isDragActive) {
+                return "This file is authorized";
+              }
+              if (isDragReject) {
+                return "This file is not authorized";
+              }
+              return acceptedFiles.length || rejectedFiles.length
+                ? `Accepted ${acceptedFiles.length}, rejected ${rejectedFiles.length} files`
+                : `Drop in your comic PDF here - Limit 8MB`;
+            }}
           </Dropzone>
         </div>
-        <aside>
-          <h2>Accepted files</h2>
-          <ul>
-            {
-              this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-            }
-          </ul>
-          <h2>Rejected files</h2>
-          <ul>
-            {
-              this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-            }
-          </ul>
-        </aside>
-
       </div>
     )
   }
