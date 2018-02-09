@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :comics, only: [:index, :show, :create]
       resources :users, only: [:show]
-      resources :shelves, only: [:create]
+      resources :shelves, only: [:create, :update]
     end
   end
 
@@ -15,6 +15,6 @@ Rails.application.routes.draw do
     get 'is_signed_in', to: 'auth#is_signed_in?'
   end
 
-  get '*path', to: 'static_views#index'
+  # get '*path', to: 'static_views#index'
 
 end
