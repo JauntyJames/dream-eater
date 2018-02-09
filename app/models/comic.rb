@@ -7,4 +7,5 @@ class Comic < ApplicationRecord
 
   has_many :shelves
   has_many :users, through: :shelves
+  search_fields [:title, :author, :description, :published_year]
 end

@@ -4,9 +4,9 @@ class Api::V1::ComicsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    if params[:search].length > 0
-      binding.pry
-      render json: Comic.all
+    if params[:q].length > 0
+      results = Comic.search_comic(params[:q])
+      render json: results
     else
       render json: Comic.all
     end

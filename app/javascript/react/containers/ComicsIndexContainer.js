@@ -18,7 +18,7 @@ class ComicsIndexContainer extends Component {
   }
 
   fetchComics(searchTerm) {
-    fetch(`api/v1/comics?search=${searchTerm}`, {
+    fetch(`api/v1/comics?q=${searchTerm}`, {
       credentials: 'same-origin'})
       .then(response => {
         if (response.ok) {
