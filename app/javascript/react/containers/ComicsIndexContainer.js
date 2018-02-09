@@ -58,7 +58,7 @@ class ComicsIndexContainer extends Component {
       <div>
         <form>
           <input
-            className="row large-8"
+            className="search"
             type='text'
             value={this.state.search}
             onChange={this.handleChange}/>
