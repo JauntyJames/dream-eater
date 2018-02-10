@@ -3,6 +3,7 @@ import { Document, Page } from 'react-pdf/build/entry.webpack';
 import Fullscreen from "react-full-screen";
 
 import ButtonGroup from '../components/ButtonGroup'
+import MessageTile from '../components/MessageTile'
 
 
 class ComicDisplay extends Component {
@@ -100,7 +101,7 @@ class ComicDisplay extends Component {
     if (this.state.leftPage > 1){
       let newLeftPage = this.state.leftPage - 2
       let newRightPage = this.state.rightPage - 2
-      this.setState({ leftPage: newLeftPage, rightPage: newRightPage })
+      this.setState({ leftPage: newLeftPage, rightPage: newRightPage, messages: [] })
     }
   }
 
@@ -108,7 +109,7 @@ class ComicDisplay extends Component {
     if (this.state.leftPage < this.state.numPages) {
       let newLeftPage = this.state.leftPage + 2
       let newRightPage = this.state.rightPage + 2
-      this.setState({ leftPage: newLeftPage, rightPage: newRightPage })
+      this.setState({ leftPage: newLeftPage, rightPage: newRightPage, messages: [] })
     }
   }
 
@@ -118,6 +119,12 @@ class ComicDisplay extends Component {
       comicFile = this.state.comic.url
     }
     const { rightPage, leftPage, numPages } = this.state;
+
+    let messageTiles = this.state.messages.map((message) => {
+      return (
+        <MessageTile message={message} key={message}/>
+      )
+    })
 
     return (
       <div className="display-box large-12">
@@ -136,6 +143,7 @@ class ComicDisplay extends Component {
               bookmarkPage={this.bookmarkPage}
               addFavorite={this.addFavorite}
             />
+            {messageTiles}
             <Document
               className="comic-container row large-12"
               file={comicFile}
