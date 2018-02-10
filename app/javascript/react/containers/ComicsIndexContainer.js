@@ -61,7 +61,9 @@ class ComicsIndexContainer extends Component {
             className="search"
             type='text'
             value={this.state.search}
-            onChange={this.handleChange}/>
+            onChange={this.handleChange}
+            placeholder="Enter search terms"
+          />
         </form>
         {comicsArray}
       </div>
