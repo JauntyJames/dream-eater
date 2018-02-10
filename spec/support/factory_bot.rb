@@ -11,10 +11,11 @@ end
 
 FactoryBot.define do
   factory :comic do
-    title "Watchmen"
+    sequence(:title) {|n| "#{n}Watchmen"}
     author "Alan Moore"
     description "(-:"
     published_year 1987
+    creator_id 1
     file { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test-file.pdf'), 'application/pdf') }
   end
 end

@@ -8,7 +8,7 @@ const ComicForm = (props) => {
       <input
         type="text"
         name="title"
-        value={props.tilte}
+        value={props.title}
         onChange={props.handleTitleChange}
       ></input>
       <label id="author">Author</label>

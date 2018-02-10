@@ -5,8 +5,7 @@ class Api::V1::ComicsController < ApplicationController
 
   def index
     if params[:q].length > 0
-      q = params[:q].strip.downcase
-      results = comic_search(['title', 'author', 'description', 'published_year'], q)
+      results = comic_search(['title', 'author', 'description', 'published_year'], params[:q])
       render json: results
     else
       render json: Comic.all
@@ -29,7 +28,18 @@ class Api::V1::ComicsController < ApplicationController
     end
   end
 
+  # def edit
+  #   binding.pry
+  #   edit_comic = Comic.find(params[:id])
+  #   if current_user.id == edit_comic.id
+  #     render json: edit_comic
+  #   else
+  #     render json: { messages: "You can't edit this comic!" }, status: 401
+  #   end
+  # end
+
   def update
+    binding.pry
     updated_comic = Comic.find(params[:id])
     if updated_comic.update(comic_params)
       render json: { comic: updated_comic }
@@ -56,13 +66,13 @@ class Api::V1::ComicsController < ApplicationController
   def comic_search(search_fields, search_term)
     results = Comic.none
     search_fields.each do |search_field|
-      results = results.or(Comic.where("LOWER(#{search_field}) LIKE ?", "%#{search_term}%"))
+      results = results.or(Comic.where("LOWER(#{search_field}) LIKE ?", "%#{search_term.strip.downcase}%"))
     end
     results
   end
 
   def comic_params
-    params.permit(:file, :title, :author, :description, :published_year)
+    params.permit(:file, :title, :author, :description, :published_year, :q)
   end
 
 end

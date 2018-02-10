@@ -13,7 +13,7 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
       expect(response.status).to eq 200
       expect(response.content_type).to eq("application/json")
       expect(returned_json["comics"].length).to eq 3
-      expect(returned_json["comics"][0]["title"]).to eq "Watchmen"
+      expect(returned_json["comics"][0]["title"]).to eq comic1.title
       expect(returned_json["comics"][0]["author"]).to eq "Alan Moore"
       expect(returned_json["comics"][0]["thumbnail"]).to eq "/uploads/comic/file/#{returned_json["comics"][0]["id"]}/thumb_test-file.jpg"
     end
@@ -22,7 +22,7 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
       get :index, params: {q: "wat"}
       returned_json = JSON.parse(response.body)
       expect(response.status).to eq 200
-      expect(returned_json["comics"][0]["title"]).to eq "Watchmen"
+      expect(returned_json["comics"][0]["title"]).to eq comic1.title
 
       get :index, params: {q: "yugoslavia"}
       returned_json = JSON.parse(response.body)
@@ -36,7 +36,7 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
       returned_json = JSON.parse(response.body)
       expect(response.status).to eq 200
       expect(response.content_type).to eq("application/json")
-      expect(returned_json["comic"]["title"]).to eq("Watchmen")
+      expect(returned_json["comic"]["title"]).to eq comic1.title
       expect(returned_json["comic"]["description"]).to eq("(-:")
       expect(returned_json["comic"]["published_year"]).to eq "1987"
       expect(returned_json["comic"]["url"]).to eq "/uploads/comic/file/#{returned_json["comic"]["id"]}/test-file.pdf"
@@ -63,7 +63,7 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
         file: Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test-file.pdf'), 'application/pdf')
       }
       # expect(response.status).to eq 401
-      expect(Comic.all.last.title).to eq("Watchmen")
+      expect(Comic.all.last.title).to eq comic3.title
     end
 
     it "should not add a comic if the form was not filled out" do
