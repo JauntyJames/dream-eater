@@ -4,7 +4,16 @@ class Api::V1::ComicsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    render json: Comic.all
+    if params[:q].length > 0
+      q = params[:q].strip.downcase
+      results = comic_search('title', q)
+      results = results.or(comic_search('author', q))
+      results = results.or(comic_search('description', q))
+      results = results.or(comic_search('published_year', q))
+      render json: results
+    else
+      render json: Comic.all
+    end
   end
 
   def show
@@ -45,6 +54,10 @@ class Api::V1::ComicsController < ApplicationController
   end
 
   protected
+
+  def comic_search(search_field, search_term)
+    Comic.where("LOWER(#{search_field}) LIKE ?", "%#{search_term}%")
+  end
 
   def comic_params
     params.permit(:file, :title, :author, :description, :published_year)

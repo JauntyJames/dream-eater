@@ -6,14 +6,14 @@
 * [x] I must be able to click on a comic tile to get to a page showing more information
 
 ### As a comic nerd, I want to be able to see a page about a single comic so I can learn more about it
-* [ ] I see the title, author, publication date, genre, and description
-* [ ] I must see a link to load my desired comic book.
+* [x] I see the title, author, publication date, genre, and description
+* [x] I must see a link to load my desired comic book.
 
 ### As a comic nerd, I want to read a comic book.
 * [x] I must be able to load a pdf of my comic book
 * [x] I see buttons to change the page forward and back
 
-### As a comic nerd, I want to change my viewing options so that I can read the way I want to.
+### As a comic nerd, I want to change my viewing options so that I can read the way I want to.\
 * [x] I see a button to make my comic full-screen
 * [ ] I must see a button to toggle between single-page and two-page modes
 
@@ -34,16 +34,16 @@
 ### As an authenticated comic nerd, I want to be able to log in with my Goodreads account so I can share my books on social media.
 * [x] I see an option to log in with my Goodreads account on the sign-up page
 * [x] I see my information automatically loaded from my account
-* [ ] I see a link to share a book to Goodreads after completing the book
+* XXX I see a link to share a book to Goodreads after completing the book
 
 ### As an authenticated comic nerd, I want to be able to see a list of my favorite comics so I can read them again.
-* [ ] I see a link in the navbar to view my favorited comics
-* [ ] I see a link upon finishing a comic to add it to my favorites and to my Goodreads shelf
+* [x] I see a link in the navbar to view my favorited comics
+* [x] I see a link upon finishing a comic to add it to my favorites and to my Goodreads shelf
 
 ### As a comic nerd, I want to upload my own comics so that I can share them.
 * [x] I see a link in the navbar to upload a new comic
 * [x] I am able to drag a file into the page to uploaded it
-* [ ] I am informed if my file is not in a valid format
+* [x] I am informed if my file is not in a valid format
 * [ ] I am able to enter information as to the comic's title, author, description, genre, and publication year
 * [ ] I am informed if I have entered invalid information
 * [ ] I am informed that my comic has been added successfully

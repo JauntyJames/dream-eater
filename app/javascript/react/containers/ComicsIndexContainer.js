@@ -6,29 +6,40 @@ class ComicsIndexContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      comics: []
+      comics: [],
+      search: ""
     }
     this.componentDidMount = this.componentDidMount.bind(this)
+    this.fetchComics = this.fetchComics.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
   componentDidMount() {
-    fetch('api/v1/comics',
-        {credentials: 'same-origin'}
-      )
-    .then(response => {
-      if (response.ok) {
-        return response;
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`,
-            error = new Error(errorMessage);
-        throw(error);
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
+    this.fetchComics(this.state.search);
+  }
 
-      this.setState({ comics: body.comics })
-    })
-    .catch(error => console.error(`Error in fetch: ${error.message}`));
+  fetchComics(searchTerm) {
+    fetch(`api/v1/comics?q=${searchTerm}`, {
+      credentials: 'same-origin'})
+      .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage);
+          throw(error);
+        }
+      })
+      .then(response => response.json())
+      .then(body => {
+        this.setState({ comics: body.comics })
+      })
+      .catch(error => console.error(`Error in fetch: ${error.message}`));
+    }
+
+  handleChange(event) {
+    let value = event.target.value
+    this.fetchComics(value)
+    this.setState({ search: value })
   }
 
   render() {
@@ -45,6 +56,15 @@ class ComicsIndexContainer extends Component {
 
     return(
       <div>
+        <form>
+          <input
+            className="search"
+            type='text'
+            value={this.state.search}
+            onChange={this.handleChange}
+            placeholder="Enter search terms"
+          />
+        </form>
         {comicsArray}
       </div>
     )

@@ -15,6 +15,6 @@ Rails.application.routes.draw do
     get 'is_signed_in', to: 'auth#is_signed_in?'
   end
 
-  # get '*path', to: 'static_views#index'
+  get '*path', to: 'static_views#index'
 
 end

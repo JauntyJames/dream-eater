@@ -83,7 +83,6 @@ class NewComicContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      debugger
       return(<Redirect to={`/comics/${body.id}`} />)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));

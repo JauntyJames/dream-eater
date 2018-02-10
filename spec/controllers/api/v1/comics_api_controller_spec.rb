@@ -8,7 +8,7 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
 
   describe "GET#index" do
     it "should return a list of comics" do
-      get :index
+      get :index, params: {q: ''}
       returned_json = JSON.parse(response.body)
       expect(response.status).to eq 200
       expect(response.content_type).to eq("application/json")
@@ -16,6 +16,17 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
       expect(returned_json["comics"][0]["title"]).to eq "Watchmen"
       expect(returned_json["comics"][0]["author"]).to eq "Alan Moore"
       expect(returned_json["comics"][0]["thumbnail"]).to eq "/uploads/comic/file/#{returned_json["comics"][0]["id"]}/thumb_test-file.jpg"
+    end
+
+    it "should filter by search terms" do
+      get :index, params: {q: "wat"}
+      returned_json = JSON.parse(response.body)
+      expect(response.status).to eq 200
+      expect(returned_json["comics"][0]["title"]).to eq "Watchmen"
+
+      get :index, params: {q: "yugoslavia"}
+      returned_json = JSON.parse(response.body)
+      expect(returned_json["comics"].length).to eq 0
     end
   end
 
