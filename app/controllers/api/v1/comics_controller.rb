@@ -39,7 +39,6 @@ class Api::V1::ComicsController < ApplicationController
   # end
 
   def update
-    binding.pry
     updated_comic = Comic.find(params[:id])
     if updated_comic.update(comic_params)
       render json: { comic: updated_comic }
