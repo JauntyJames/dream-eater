@@ -20,10 +20,6 @@ class Api::V1::ShelvesController < ApplicationController
     end
   end
 
-  def update
-    binding.pry
-  end
-
   protected
 
   def shelf_params
