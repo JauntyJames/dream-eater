@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, browserHistory, Route, IndexRoute } from 'react-router';
+import { Router, browserHistory, Route, IndexRoute, Redirect } from 'react-router';
 
 import NavBar from './components/NavBar'
 import ComicDisplay from './containers/ComicDisplay'

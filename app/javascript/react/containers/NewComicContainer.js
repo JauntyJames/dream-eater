@@ -23,6 +23,7 @@ class NewComicContainer extends Component {
     this.handlePublishedYearChange = this.handlePublishedYearChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.redirect = this.redirect.bind(this)
     this.validateFields = this.validateFields.bind(this)
   }
 
@@ -66,6 +67,10 @@ class NewComicContainer extends Component {
     this.setState({ title: value })
   }
 
+  redirect(path) {
+    this.props.router.push(path);
+  }
+
   submitForm(formPayload) {
     fetch('/api/v1/comics', {
       credentials: "same-origin",
@@ -83,7 +88,7 @@ class NewComicContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      return(<Redirect to={`/comics/${body.id}`} />)
+      this.redirect(body.path)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
     this.setState({ messages: ["Comic uploading..."]})

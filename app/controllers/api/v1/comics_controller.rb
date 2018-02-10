@@ -21,37 +21,32 @@ class Api::V1::ComicsController < ApplicationController
     new_comic = Comic.new(comic_params)
     new_comic.creator_id = current_user.id
     if new_comic.save
-      render json: {id: new_comic.id}
+      render json: {path: "/comics/#{new_comic.id}"}
     else
       flash[:alert] = "Did you fill everything out correctly?"
       render json: { errors: new_comic.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # def edit
-  #   binding.pry
-  #   edit_comic = Comic.find(params[:id])
-  #   if current_user.id == edit_comic.id
-  #     render json: edit_comic
-  #   else
-  #     render json: { messages: "You can't edit this comic!" }, status: 401
-  #   end
-  # end
-
   def update
     updated_comic = Comic.find(params[:id])
-    if updated_comic.update(comic_params)
-      render json: { comic: updated_comic }
+    if updated_comic.creator_id == current_user.id
+      if updated_comic.update(comic_params)
+        render json: { path: "/comics/#{updated_comic.id}" }
+      else
+        render json: { errors: updated_comic.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      render json: { errors: updated_comic.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: "That's not your comic to edit!"}, status: 401
     end
   end
 
   def destroy
     destroyed_comic = Comic.find(params[:id])
-    if user_signed_in? && current_user.role == 'admin'
+    binding.pry
+    if current_user.id == destroyed_comic.creator_id
       if destroyed_comic.destroy
-        render json: { message: "Comic removed." }
+        render json: { path: '/comics' }
       else
         render json: { message: destroyed_comic.errors.full_messages }, status: :unprocessable_entity
       end

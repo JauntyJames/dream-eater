@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import ComicForm from '../components/ComicForm'
+import { Router } from 'react-router';
+
+import ComicForm from '../components/ComicForm';
 
 class ComicEditContainer extends Component {
   constructor(props) {
@@ -17,7 +19,9 @@ class ComicEditContainer extends Component {
     this.handleEdit = this.handleEdit.bind(this)
     this.handlePublishedYearChange = this.handlePublishedYearChange.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.redirect = this.redirect.bind(this)
     this.submitForm = this.submitForm.bind(this)
+    this.validateFields = this.validateFields.bind(this)
   }
 
   componentDidMount() {
@@ -62,13 +66,18 @@ class ComicEditContainer extends Component {
 
   handleEdit(event) {
     event.preventDefault();
-    let formPayload = {
-      title: this.state.title,
-      author: this.state.author,
-      description: this.state.description,
-      published_year: this.state.publishedYear
+    let errors = this.validateFields()
+    if (errors.length > 0) {
+      this.setState({ messages: errors })
+    } else {
+      let formPayload = {
+        title: this.state.title,
+        author: this.state.author,
+        description: this.state.description,
+        published_year: this.state.publishedYear
+      }
+      this.submitForm('PATCH', formPayload)
     }
-    this.submitForm('PATCH', formPayload)
   }
 
   handlePublishedYearChange(event) {
@@ -79,6 +88,10 @@ class ComicEditContainer extends Component {
   handleTitleChange(event) {
     let value = event.target.value
     this.setState({ title: value })
+  }
+
+  redirect(path) {
+    this.props.router.push(path);
   }
 
   submitForm(method, formPayload) {
@@ -102,13 +115,32 @@ class ComicEditContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-
+      this.redirect(body.path)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
+  validateFields() {
+    let errors = []
+    if (this.state.title === '') {
+      errors.push('Error: Is this comic called something in particular?')
+    }
+    if (this.state.author === '') {
+      errors.push('Error: Everything was made by somebody, my dude.')
+    }
+    if (!Number.isInteger(+this.state.publishedYear) || +this.state.publishedYear === 0) {
+      errors.push('Error: I don\'t think think that\'s a real year')
+    }
+    return(errors)
+  }
 
   render() {
+
+    let messageArray = this.state.messages.map((message) => {
+      return (
+        <MessageTile message={message} key={message} />
+      )
+    })
 
     return(
       <div>
@@ -123,9 +155,10 @@ class ComicEditContainer extends Component {
             handleTitleChange={this.handleTitleChange}
             title={this.state.title}
           />
+          {messageArray}
           <input className="button" type="submit" onClick={this.handleEdit} value="Edit Comic"></input>
           <input className="button" type="submit" onClick={this.handleDelete} value="Delete Comic"></input>
-      </form>
+        </form>
       </div>
     )
   }
