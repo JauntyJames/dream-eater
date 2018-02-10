@@ -7,12 +7,6 @@ GIT
       multi_xml (~> 0.5.5)
       omniauth-oauth (~> 1.1)
 
-GIT
-  remote: https://github.com/mehdi-farsi/activerecord-search.git
-  revision: dda1f24f183ae284a8d60f3a48fc93c7a876b19a
-  specs:
-    activerecord-search (0.2.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -447,7 +441,6 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
-  activerecord-search!
   capybara
   carrierwave
   coveralls

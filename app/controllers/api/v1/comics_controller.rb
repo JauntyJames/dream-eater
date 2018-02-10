@@ -5,7 +5,11 @@ class Api::V1::ComicsController < ApplicationController
 
   def index
     if params[:q].length > 0
-      results = Comic.search_comic(params[:q])
+      q = params[:q].strip.downcase
+      results = comic_search('title', q)
+      results = results.or(comic_search('author', q))
+      results = results.or(comic_search('description', q))
+      results = results.or(comic_search('published_year', q))
       render json: results
     else
       render json: Comic.all
@@ -51,8 +55,12 @@ class Api::V1::ComicsController < ApplicationController
 
   protected
 
+  def comic_search(search_field, search_term)
+    Comic.where("LOWER(#{search_field}) LIKE ?", "%#{search_term}%")
+  end
+
   def comic_params
-    params.permit(:file, :title, :author, :description, :published_year, :search)
+    params.permit(:file, :title, :author, :description, :published_year)
   end
 
 end
