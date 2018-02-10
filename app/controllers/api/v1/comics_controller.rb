@@ -5,11 +5,7 @@ class Api::V1::ComicsController < ApplicationController
 
   def index
     if params[:q].length > 0
-      q = params[:q].strip.downcase
-      results = comic_search('title', q)
-      results = results.or(comic_search('author', q))
-      results = results.or(comic_search('description', q))
-      results = results.or(comic_search('published_year', q))
+      results = comic_search(['title', 'author', 'description', 'published_year'], params[:q])
       render json: results
     else
       render json: Comic.all
@@ -23,8 +19,9 @@ class Api::V1::ComicsController < ApplicationController
 
   def create
     new_comic = Comic.new(comic_params)
+    new_comic.creator_id = current_user.id
     if new_comic.save
-      render json: {id: new_comic.id}
+      render json: {path: "/comics/#{new_comic.id}"}
     else
       flash[:alert] = "Did you fill everything out correctly?"
       render json: { errors: new_comic.errors.full_messages }, status: :unprocessable_entity
@@ -33,18 +30,23 @@ class Api::V1::ComicsController < ApplicationController
 
   def update
     updated_comic = Comic.find(params[:id])
-    if updated_comic.update(comic_params)
-      render json: { comic: updated_comic }
+    if updated_comic.creator_id == current_user.id
+      if updated_comic.update(comic_params)
+        render json: { path: "/comics/#{updated_comic.id}" }
+      else
+        render json: { errors: updated_comic.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      render json: { errors: updated_comic.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: "That's not your comic to edit!"}, status: 401
     end
   end
 
   def destroy
     destroyed_comic = Comic.find(params[:id])
-    if user_signed_in? && current_user.role == 'admin'
+    binding.pry
+    if current_user.id == destroyed_comic.creator_id
       if destroyed_comic.destroy
-        render json: { message: "Comic removed." }
+        render json: { path: '/comics' }
       else
         render json: { message: destroyed_comic.errors.full_messages }, status: :unprocessable_entity
       end
@@ -55,12 +57,16 @@ class Api::V1::ComicsController < ApplicationController
 
   protected
 
-  def comic_search(search_field, search_term)
-    Comic.where("LOWER(#{search_field}) LIKE ?", "%#{search_term}%")
+  def comic_search(search_fields, search_term)
+    results = Comic.none
+    search_fields.each do |search_field|
+      results = results.or(Comic.where("LOWER(#{search_field}) LIKE ?", "%#{search_term.strip.downcase}%"))
+    end
+    results
   end
 
   def comic_params
-    params.permit(:file, :title, :author, :description, :published_year)
+    params.permit(:file, :title, :author, :description, :published_year, :q)
   end
 
 end

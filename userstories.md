@@ -13,7 +13,7 @@
 * [x] I must be able to load a pdf of my comic book
 * [x] I see buttons to change the page forward and back
 
-### As a comic nerd, I want to change my viewing options so that I can read the way I want to.\
+### As a comic nerd, I want to change my viewing options so that I can read the way I want to.
 * [x] I see a button to make my comic full-screen
 * [ ] I must see a button to toggle between single-page and two-page modes
 
@@ -45,12 +45,12 @@
 * [x] I am able to drag a file into the page to uploaded it
 * [x] I am informed if my file is not in a valid format
 * [ ] I am able to enter information as to the comic's title, author, description, genre, and publication year
-* [ ] I am informed if I have entered invalid information
+* [x] I am informed if I have entered invalid information
 * [ ] I am informed that my comic has been added successfully
 
 ### As a comic nerd, I want to search for comics so that I can find a specific type.
-* [ ] I see a search bar at the top of the page
-* [ ] I see the list of comics dynamically change while I type
+* [x] I see a search bar at the top of the page
+* [x] I see the list of comics dynamically change while I type
 * [ ] I am able to search by title, author, or genre.
 
 ### As a comic nerd, I want to read comics on my phone.
