@@ -17,8 +17,6 @@ const ComicDetails = (props) => {
     thumbnail = props.comic.thumbnail
   }
 
-  debugger
-
   return(
     <div>
       <meta property="og:url"                content={`http://dream-eater.herokuapp/comics/${id}`} />
