@@ -1,14 +1,11 @@
 class Api::V1::CommentsController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: :index
   skip_before_action :verify_authenticity_token
 
   def index
     comments = Comment.where(comic_id: params[:comic_id])
     render json: comments
-  end
-
-  def show
   end
 
   def create
@@ -21,17 +18,29 @@ class Api::V1::CommentsController < ApplicationController
 
   def update
     updated_comment = Comment.find(params[:id])
-    if updated_comment.update(comment_params)
-      comments = Comment.where(comic_id: params[:comic_id])
-      render json: comments
+    if updated_comment.creator_id == current_user.id
+      if updated_comment.update(comment_params)
+        comments = Comment.where(comic_id: params[:comic_id])
+        render json: comments
+      else
+        render json: { messages: updated_comment.errors.full_messages }, status: 422
+      end
+    else
+      render json: { messages: "That's not your comment to edit!" }, status: 401
     end
   end
 
   def destroy
     destroyed_comment = Comment.find(params[:id])
-    if destroyed_comment.destroy
-      comments = Comment.where(comic_id: params[:comic_id])
-      render json: comments
+    if destroyed_comment.creator_id == current_user.id
+      if destroyed_comment.destroy
+        comments = Comment.where(comic_id: params[:comic_id])
+        render json: comments
+      else
+        render json: { messages: destroyed_comment.errors.full_messages }, status: 422
+      end
+    else
+      render json: { messages: "You're not allowed to do that!" }, status: 401
     end
   end
 
