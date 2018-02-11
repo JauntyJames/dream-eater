@@ -23,7 +23,7 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
     # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
 
     # "/images/fallback/" + [version_name, "default.png"].compact.join('_')
-    'cca.png'
+    'https://s3.amazonaws.com/dream-eater-production/cca.png'
   end
 
   # Process files as they are uploaded:

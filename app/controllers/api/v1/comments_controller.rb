@@ -12,10 +12,24 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def create
-    comment = Comment.new(comment_params)
-    comment.user = current_user
-    if comment.save
-      render json: comment
+    new_comment = Comment.new(comment_params)
+    new_comment.user = current_user
+    if new_comment.save
+      render json: new_comment
+    end
+  end
+
+  def update
+    updated_comment = Comment.find(params[:id])
+    if updated_comment.update(comment_params)
+      render json: { comments: updated_comment, messages: "Comment updated." }
+    end
+  end
+
+  def destroy
+    destroyed_comment = Comment.find(params[:id])
+    if destroyed_comment.destroy
+      render json: {comments: destroyed_comment, messages: "Comment removed."}
     end
   end
 

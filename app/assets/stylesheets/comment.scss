@@ -2,7 +2,7 @@
   border-color: black;
   border-width: 2px;
   border-style: solid;
-  margin: 2px;
+  margin: 2rem;
   padding: 5px;
   max-width: 800px;
 }
@@ -17,4 +17,13 @@ ul.menu {
 
 ul.menu li {
   display: inline;
+  font-size: 10pt;
+}
+
+div.media-object-section p {
+  margin-left: 1rem;
+}
+
+div.thumbnail img {
+  vertical-align: inherit;
 }

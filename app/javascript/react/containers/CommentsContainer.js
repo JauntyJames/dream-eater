@@ -8,10 +8,13 @@ class CommentsContainer extends Component {
     super(props);
     this.state = {
       comments: [],
-      body: ""
+      body: "",
+      edit: null
     }
+    this.handleEdit = this.handleEdit.bind(this)
     this.handleBodyChange = this.handleBodyChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   componentDidMount() {
@@ -39,6 +42,14 @@ class CommentsContainer extends Component {
     this.setState({ body: value })
   }
 
+  handleDelete(id) {
+
+  }
+
+  handleEdit(id, body) {
+    this.setState({ edit: id, body: body })
+  }
+
   handleSubmit(event) {
     event.preventDefault()
     let formPayload = {
@@ -48,9 +59,17 @@ class CommentsContainer extends Component {
       }
     }
 
-    fetch(`/api/v1/comics/${this.props.params.id}/comments`, {
+    let method = 'POST'
+    let commentId;
+
+    if (this.state.edit) {
+      method = 'PATCH'
+      commentId= `/${this.state.edit}`
+    }
+
+    fetch(`/api/v1/comics/${this.props.params.id}/comments${commentId}`, {
       credentials: 'same-origin',
-      method: 'POST',
+      method: method,
       headers: {
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest'
@@ -68,7 +87,7 @@ class CommentsContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      comments = this.state.comments.concat(body)
+      comments = this.state.comments.concat(body.comments)
       this.setState({ comments: comments })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -80,6 +99,7 @@ class CommentsContainer extends Component {
         <CommentTile
           comment={comment}
           key={comment.id}
+          handleEdit={this.handleEdit}
         />
       )
     })
@@ -91,6 +111,7 @@ class CommentsContainer extends Component {
           body={this.state.body}
           handleBodyChange={this.handleBodyChange}
           handleSubmit={this.handleSubmit}
+          edit={this.state.edit}
         />
       </div>
     )
