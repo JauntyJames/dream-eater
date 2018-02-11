@@ -17,11 +17,11 @@ const ComicDetails = (props) => {
 
   return(
     <div>
+      <div className="fb-like" data-href={`http://dream-eater.herokuapp/comics/${id}`} data-width="75" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
       <h1>{title}</h1>
       <h3>By {author}</h3>
       <h3>Published in {publishedYear}</h3>
       <p>{description}</p>
-      <div className="fb-like" data-href={`http://dream-eater.herokuapp/comics/${id}`} data-width="50" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
     </div>
   )
 }
