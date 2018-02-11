@@ -5,10 +5,11 @@ Rails.application.routes.draw do
   }
   namespace :api do
     namespace :v1 do
-      resources :comics, except: :new
+      resources :comics, except: :new do
+        resources :comments, only: [:index, :show, :create, :delete]
+      end
       resources :users, only: :show
       resources :shelves, only: [:create, :update]
-      resources :comments, only: [:index, :show, :create, :delete]
     end
   end
 

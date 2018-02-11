@@ -15,7 +15,7 @@ class CommentsContainer extends Component {
   }
 
   componentDidMount() {
-    fetch(`/api/v1/comments/${this.props.params.id}`, {
+    fetch(`/api/v1/comics/${this.props.params.id}/comments`, {
       credentials: 'same-origin'
     })
     .then(response => {
@@ -29,7 +29,7 @@ class CommentsContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      this.setState({ comments: body })
+      this.setState({ comments: body.comments })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -78,7 +78,8 @@ class CommentsContainer extends Component {
     let commentArray = this.state.comments.map((comment) => {
       return(
         <CommentTile
-          body={comment.body}
+          comment={comment}
+          key={comment.id}
         />
       )
     })
