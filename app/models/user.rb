@@ -14,4 +14,6 @@ class User < ApplicationRecord
   has_many :shelves
   has_many :comics, through: :shelves
 
+  has_many :comments
+  has_many :comics, through: :comments
 end

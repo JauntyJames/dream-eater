@@ -75,6 +75,7 @@ class ComicShowPage extends Component {
           comic={this.state.comic}
         />
         {loadedComic()}
+        {this.props.children}
       </div>
     )
   }
