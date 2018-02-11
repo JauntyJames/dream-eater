@@ -48,7 +48,7 @@ class CommentsContainer extends Component {
       }
     }
 
-    fetch('/api/v1/comments', {
+    fetch(`/api/v1/comics/${this.props.params.id}/comments`, {
       credentials: 'same-origin',
       method: 'POST',
       headers: {

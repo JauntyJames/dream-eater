@@ -1,0 +1,20 @@
+.media-object {
+  border-color: black;
+  border-width: 2px;
+  border-style: solid;
+  margin: 2px;
+  padding: 5px;
+  max-width: 800px;
+}
+
+.media-object-section {
+  display: inline-block;
+}
+
+ul.menu {
+  list-style: none;
+}
+
+ul.menu li {
+  display: inline;
+}
