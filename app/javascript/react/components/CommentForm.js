@@ -1,7 +1,6 @@
 import React from 'react';
 
 const CommentForm = (props) => {
-
   return(
     <div>
       <form>
@@ -16,7 +15,7 @@ const CommentForm = (props) => {
           type="submit"
           value="Submit Comment"
           className="button"
-          onSubmit={props.handleSubmit}
+          onClick={props.handleSubmit}
         />
       </form>
     </div>

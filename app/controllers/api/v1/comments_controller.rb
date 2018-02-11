@@ -4,13 +4,13 @@ class Api::V1::CommentsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def show
-    comments = Comment.where(comics_id: params[:id])
+    comments = Comment.where(comic_id: params[:id])
     render json: comments
   end
 
   def create
     comment = Comment.new(comment_params)
-    binding.pry
+    comment.user = current_user
     if comment.save
       render json: comment
     end
@@ -19,6 +19,6 @@ class Api::V1::CommentsController < ApplicationController
   protected
 
   def comment_params
-    params.require(:comment).permit(:body, :comic_id)
+    params.require(:comment).permit(:body, :comic_id, :rating)
   end
 end

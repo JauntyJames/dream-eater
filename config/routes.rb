@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       resources :comics, except: :new
       resources :users, only: :show
       resources :shelves, only: [:create, :update]
-      resources :comments, only: [:index, :show]
+      resources :comments, only: [:index, :show, :create, :delete]
     end
   end
 

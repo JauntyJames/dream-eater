@@ -11,6 +11,7 @@ class CommentsContainer extends Component {
       body: ""
     }
     this.handleBodyChange = this.handleBodyChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -42,11 +43,20 @@ class CommentsContainer extends Component {
     event.preventDefault()
     let formPayload = {
       comment: {
-        body: this.state.body
+        body: this.state.body,
+        comic_id: this.props.params.id
       }
     }
 
-    fetch('url')
+    fetch('/api/v1/comments', {
+      credentials: 'same-origin',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify(formPayload)
+    })
     .then(response => {
       if (response.ok) {
         return response;
@@ -58,7 +68,7 @@ class CommentsContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-
+      comments = this.state.comments.concat(body)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -67,7 +77,7 @@ class CommentsContainer extends Component {
     let commentArray = this.state.comments.map((comment) => {
       render(
         <CommentTile
-          body={comment.body}
+          body={comment}
         />
       )
     })
@@ -78,6 +88,7 @@ class CommentsContainer extends Component {
         <CommentForm
           body={this.state.body}
           handleBodyChange={this.handleBodyChange}
+          handleSubmit={this.handleSubmit}
         />
       </div>
     )
