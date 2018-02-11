@@ -22,14 +22,16 @@ class Api::V1::CommentsController < ApplicationController
   def update
     updated_comment = Comment.find(params[:id])
     if updated_comment.update(comment_params)
-      render json: { comments: updated_comment, messages: "Comment updated." }
+      comments = Comment.where(comic_id: params[:comic_id])
+      render json: comments
     end
   end
 
   def destroy
     destroyed_comment = Comment.find(params[:id])
     if destroyed_comment.destroy
-      render json: {comments: destroyed_comment, messages: "Comment removed."}
+      comments = Comment.where(comic_id: params[:comic_id])
+      render json: comments
     end
   end
 

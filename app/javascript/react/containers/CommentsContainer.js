@@ -60,7 +60,7 @@ class CommentsContainer extends Component {
     }
 
     let method = 'POST'
-    let commentId;
+    let commentId = '';
 
     if (this.state.edit) {
       method = 'PATCH'
@@ -87,8 +87,12 @@ class CommentsContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      comments = this.state.comments.concat(body.comments)
-      this.setState({ comments: comments })
+      if (body.comment){
+        let comments = this.state.comments.concat(body.comment)
+        this.setState({ comments: comments, edit: null })
+      } else if (body.comments) {
+        this.setState({ comments: body.comments, edit: null })
+      }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
