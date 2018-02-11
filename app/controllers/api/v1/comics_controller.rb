@@ -43,7 +43,6 @@ class Api::V1::ComicsController < ApplicationController
 
   def destroy
     destroyed_comic = Comic.find(params[:id])
-    binding.pry
     if current_user.id == destroyed_comic.creator_id
       if destroyed_comic.destroy
         render json: { path: '/comics' }

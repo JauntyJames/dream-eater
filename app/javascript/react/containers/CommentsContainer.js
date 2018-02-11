@@ -8,14 +8,17 @@ class CommentsContainer extends Component {
     super(props);
     this.state = {
       comments: [],
-      body: ""
+      body: "",
+      edit: null
     }
+    this.handleEdit = this.handleEdit.bind(this)
     this.handleBodyChange = this.handleBodyChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   componentDidMount() {
-    fetch(`/api/v1/comments/${this.props.params.id}`, {
+    fetch(`/api/v1/comics/${this.props.params.id}/comments`, {
       credentials: 'same-origin'
     })
     .then(response => {
@@ -29,7 +32,7 @@ class CommentsContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      this.setState({ comments: body })
+      this.setState({ comments: body.comments })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -37,6 +40,35 @@ class CommentsContainer extends Component {
   handleBodyChange(event) {
     let value = event.target.value
     this.setState({ body: value })
+  }
+
+  handleDelete(id) {
+    fetch(`/api/v1/comics/${this.props.params.id}/comments/${id}`, {
+      credentials: 'same-origin',
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+            error = new Error(errorMessage);
+        throw(error);
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      this.setState({ comments: body.comments })
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`));
+  }
+
+  handleEdit(id, body) {
+    this.setState({ edit: id, body: body })
   }
 
   handleSubmit(event) {
@@ -48,9 +80,17 @@ class CommentsContainer extends Component {
       }
     }
 
-    fetch('/api/v1/comments', {
+    let method = 'POST'
+    let commentId = '';
+
+    if (this.state.edit) {
+      method = 'PATCH'
+      commentId= `/${this.state.edit}`
+    }
+
+    fetch(`/api/v1/comics/${this.props.params.id}/comments${commentId}`, {
       credentials: 'same-origin',
-      method: 'POST',
+      method: method,
       headers: {
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest'
@@ -68,8 +108,12 @@ class CommentsContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      comments = this.state.comments.concat(body)
-      this.setState({ comments: comments })
+      if (body.comment){
+        let comments = this.state.comments.concat(body.comment)
+        this.setState({ comments: comments, edit: null })
+      } else if (body.comments) {
+        this.setState({ comments: body.comments, edit: null })
+      }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -78,7 +122,10 @@ class CommentsContainer extends Component {
     let commentArray = this.state.comments.map((comment) => {
       return(
         <CommentTile
-          body={comment.body}
+          comment={comment}
+          key={comment.id}
+          handleEdit={this.handleEdit}
+          handleDelete={this.handleDelete}
         />
       )
     })
@@ -90,6 +137,7 @@ class CommentsContainer extends Component {
           body={this.state.body}
           handleBodyChange={this.handleBodyChange}
           handleSubmit={this.handleSubmit}
+          edit={this.state.edit}
         />
       </div>
     )

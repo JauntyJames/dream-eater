@@ -1,6 +1,10 @@
 import React from 'react';
 
 const CommentForm = (props) => {
+  let buttonText = "Submit Comment"
+  if (props.edit){
+    buttonText = "Update Comment"
+  }
   return(
     <div>
       <form>
@@ -13,7 +17,7 @@ const CommentForm = (props) => {
         />
         <input
           type="submit"
-          value="Submit Comment"
+          value={buttonText}
           className="button"
           onClick={props.handleSubmit}
         />
