@@ -23,6 +23,9 @@
         <ul class="right">
         <%- if current_user -%>
           <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></li>
+          <li>
+            <%= image_tag("#{current_user.profile_photo.url}", height: '45', width: '45') %>
+          </li>
         <%- else -%>
           <li><%= link_to 'Sign Up', new_user_registration_path %></li>
           <li><%= link_to 'Sign In', new_user_session_path %></li>
