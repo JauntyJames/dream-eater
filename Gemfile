@@ -56,6 +56,7 @@ gem 'valid_attribute', group: [:development, :test]
 gem 'shoulda-matchers', group: [:development, :test], require: false
 gem 'devise'
 gem 'omniauth-goodreads', git: 'https://github.com/JauntyJames/omniauth-goodreads.git', branch: 'bugfix'
+gem 'omniauth-facebook'
 gem 'foundation-rails', '~> 5.0'
 gem 'webpacker', '~> 3.2'
 gem 'active_model_serializers'
