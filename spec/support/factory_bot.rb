@@ -28,3 +28,11 @@ FactoryBot.define do
     bookmark 5
   end
 end
+
+FactoryBot.define do
+  factory :comment do
+    user_id 1
+    comic_id 1
+    body "What a comic!"
+  end
+end

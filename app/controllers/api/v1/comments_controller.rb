@@ -13,12 +13,14 @@ class Api::V1::CommentsController < ApplicationController
     new_comment.user = current_user
     if new_comment.save
       render json: new_comment
+    else
+      render json: { messages: new_comment.errors.full_messages }, status: 422
     end
   end
 
   def update
     updated_comment = Comment.find(params[:id])
-    if updated_comment.creator_id == current_user.id
+    if updated_comment.user_id == current_user.id
       if updated_comment.update(comment_params)
         comments = Comment.where(comic_id: params[:comic_id])
         render json: comments
@@ -32,7 +34,7 @@ class Api::V1::CommentsController < ApplicationController
 
   def destroy
     destroyed_comment = Comment.find(params[:id])
-    if destroyed_comment.creator_id == current_user.id
+    if destroyed_comment.user_id == current_user.id
       if destroyed_comment.destroy
         comments = Comment.where(comic_id: params[:comic_id])
         render json: comments
