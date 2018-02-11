@@ -8,6 +8,7 @@ import ComicShowPage from './containers/ComicShowPage'
 import NewComicContainer from './containers/NewComicContainer'
 import UserBookshelfContainer from './containers/UserBookshelfContainer'
 import ComicEditContainer from './containers/ComicEditContainer'
+import CommentsContainer from './containers/CommentsContainer'
 
 const App = (props) => {
 
@@ -19,8 +20,9 @@ const App = (props) => {
         <Route path="/comics" component={ComicsIndexContainer} />
         <Route path="/comics/new" component={NewComicContainer} />
         <Route path="/comics/edit/:id" component={ComicEditContainer} />
-        <Route path="/comics/:id" component={ComicShowPage} />
-        <Route path="/comics/:id" component={ComicDisplay} />
+        <Route path="/comics/:id" component={ComicShowPage} >
+          <IndexRoute component={CommentsContainer} />
+        </Route>
         <Route path="/user/:id" component={UserBookshelfContainer} />
       </Route>
 

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root to: 'static_views#index'
-  devise_for :users, controllers: { 
+  devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks"
   }
   namespace :api do
@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :comics, except: :new
       resources :users, only: :show
       resources :shelves, only: [:create, :update]
+      resources :comments, only: [:index, :show, :create, :delete]
     end
   end
 
