@@ -29,7 +29,7 @@ class CommentsContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      this.setState({ comments: body.comments })
+      this.setState({ comments: body })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -69,15 +69,16 @@ class CommentsContainer extends Component {
     .then(response => response.json())
     .then(body => {
       comments = this.state.comments.concat(body)
+      this.setState({ comments: comments })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   render() {
     let commentArray = this.state.comments.map((comment) => {
-      render(
+      return(
         <CommentTile
-          body={comment}
+          body={comment.body}
         />
       )
     })
