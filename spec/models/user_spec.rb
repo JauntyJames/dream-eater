@@ -1,14 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  xdescribe 'validations' do
-    it { should have_valid(:user_name).when('NewUserName') }
 
-    it { should_not have_valid(:user_name).when("") }
+  describe "#admin?" do
+    it "is not an admin if the role is not admin" do
+      user = FactoryBot.create(:user, role: "member")
+      expect(user.admin?).to eq(false)
+    end
 
-    it 'should fail for duplicate user name' do
+    it "is an admin if the role is admin" do
       user = FactoryBot.create(:user, role: "admin")
-      should_not have_valid(:user_name).when(user.user_name)
+      expect(user.admin?).to eq(true)
     end
   end
 end
