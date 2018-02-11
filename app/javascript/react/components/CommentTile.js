@@ -5,13 +5,13 @@ const CommentTile = (props) => {
   let date = new Date(props.comment.created_at)
   let edited
   let edit
-  let deleteComment
+  let deleteable
   if (props.comment.created_at !== props.comment.updated_at){
     edited = "edited"
   }
   if (props.comment.editable) {
     edit = "edit comment / "
-    deleteComment = "delete comment"
+    deleteable = "delete comment"
   }
   const MonthNames = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -24,6 +24,10 @@ const CommentTile = (props) => {
     let body = props.comment.body
     let id = props.comment.id
     props.handleEdit(id, body)
+  }
+
+  let deleteComment = () => {
+    props.handleDelete(props.comment.id)
   }
 
 
@@ -43,7 +47,7 @@ const CommentTile = (props) => {
         <p>{props.comment.body}</p>
         <ul className="menu">
           <li onClick={editComment}>{edit}</li>
-          <li>{deleteComment}</li>
+          <li onClick={deleteComment}>{deleteable}</li>
         </ul>
       </div>
     </div>

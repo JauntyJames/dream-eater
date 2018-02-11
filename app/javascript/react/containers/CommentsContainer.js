@@ -43,7 +43,28 @@ class CommentsContainer extends Component {
   }
 
   handleDelete(id) {
-
+    fetch(`/api/v1/comics/${this.props.params.id}/comments/${id}`, {
+      credentials: 'same-origin',
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+            error = new Error(errorMessage);
+        throw(error);
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      this.setState({ comments: body.comments })
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   handleEdit(id, body) {
@@ -104,6 +125,7 @@ class CommentsContainer extends Component {
           comment={comment}
           key={comment.id}
           handleEdit={this.handleEdit}
+          handleDelete={this.handleDelete}
         />
       )
     })

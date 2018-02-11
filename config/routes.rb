@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :comics, except: :new do
-        resources :comments, only: [:index, :create, :update, :delete]
+        resources :comments, only: [:index, :create, :update, :destroy]
       end
       resources :users, only: :show
       resources :shelves, only: [:create, :update]
