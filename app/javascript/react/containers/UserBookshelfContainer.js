@@ -7,7 +7,7 @@ class UserBookshelfContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
+      user: null,
       favorites: []
     }
   }
@@ -49,7 +49,7 @@ class UserBookshelfContainer extends Component {
     return(
       <div>
         <UserDetails
-          email={this.state.user.email}
+          user={this.state.user}
         />
         <h3>My favorite comics:</h3>
         {myFavorites}

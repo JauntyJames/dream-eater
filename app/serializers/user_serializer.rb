@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :favorites
+  attributes :id, :email, :favorites, :profile_photo, :created_at
 
   def favorites
     shelves = object.shelves.where(favorite: true)
