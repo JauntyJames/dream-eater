@@ -2,6 +2,10 @@
   display: inline-block;
 }
 
+.full-screenable-node {
+  text-align: center;
+}
+
 .comic {
   display: inline-block;
 }
@@ -45,6 +49,11 @@ a button {
 
 .callout a:hover {
   color: white;
+}
+
+.fb-like {
+  float: right;
+  display: inline-block;
 }
 
 

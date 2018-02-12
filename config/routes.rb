@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   end
 
   scope :auth do
+    resources :auth, only: :destroy
     get 'is_signed_in', to: 'auth#is_signed_in?'
   end
 

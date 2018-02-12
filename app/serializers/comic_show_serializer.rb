@@ -1,8 +1,13 @@
 class ComicShowSerializer < ActiveModel::Serializer
-  attributes :id, :title, :author, :description, :url, :published_year, :user_bookmark, :editable
+  attributes :id, :title, :author, :description, :url, :published_year,
+             :user_bookmark, :editable, :thumbnail
 
   def url
     object.file.url
+  end
+
+  def thumbnail
+    object.file.thumb.url
   end
 
   def user_bookmark

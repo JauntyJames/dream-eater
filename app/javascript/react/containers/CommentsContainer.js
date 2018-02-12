@@ -110,9 +110,9 @@ class CommentsContainer extends Component {
     .then(body => {
       if (body.comment){
         let comments = this.state.comments.concat(body.comment)
-        this.setState({ comments: comments, edit: null })
+        this.setState({ comments: comments, edit: null, body: "" })
       } else if (body.comments) {
-        this.setState({ comments: body.comments, edit: null })
+        this.setState({ comments: body.comments, edit: null, body: "" })
       }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
