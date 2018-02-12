@@ -30,6 +30,7 @@ class ComicDisplay extends Component {
     this.submitShelf = this.submitShelf.bind(this)
     this.turnPageBack = this.turnPageBack.bind(this)
     this.turnPageForward = this.turnPageForward.bind(this)
+    this.handleZoom = this.handleZoom.bind(this)
   }
 
   addFavorite() {
@@ -70,12 +71,13 @@ class ComicDisplay extends Component {
       goFull={this.goFull}
       bookmarkPage={this.bookmarkPage}
       addFavorite={this.addFavorite}
+      zoom={this.handleZoom}
     />
   )
   }
 
   goFull() {
-      this.setState({ isFull: !this.state.isFull })
+      this.setState({ isFull: !this.state.isFull, scale: 1.0 })
   }
 
   goToBegining() {
@@ -92,17 +94,23 @@ class ComicDisplay extends Component {
     this.setState({ numPages, rightPage: rightPage, leftPage: leftPage });
   }
 
+  handleZoom() {
+    this.setState({ scale: 1.0 })
+  }
+
   scroll(wheelEvent) {
-    if (wheelEvent.deltaY === 1){
-      let newZoom = this.state.scale + 0.1
-      this.setState({ scale: newZoom})
-    } else if (wheelEvent.deltaY === -1 ){
-      let newZoom = this.state.scale - 0.1
-      this.setState({ scale: newZoom})
+    if (this.state.isFull) {
+      if (wheelEvent.deltaY > 20){
+        let newZoom = this.state.scale + 0.1
+        this.setState({ scale: newZoom})
+      } else if (wheelEvent.deltaY < -20 && this.state.scale > 0.5 ){
+        let newZoom = this.state.scale - 0.1
+        this.setState({ scale: newZoom})
+      }
     }
-    // else if (wheelEvent.deltaX === 1){
+    // else if (wheelEvent.deltaX > 40){
     //   this.turnPageForward();
-    // } else if (wheelEvent.deltaX === -1) {
+    // } else if (wheelEvent.deltaX < -40) {
     //   this.turnPageBack();
     // }
   }
