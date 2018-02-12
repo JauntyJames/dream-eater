@@ -11,7 +11,7 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.provider = auth.provider
       user.uid = auth.uid
-      # user.remote_profile_photo_url = auth.info.image
+      user.remote_profile_photo_url = auth.info.image.gsub('http://', 'https://')
       user.password = Devise.friendly_token[0,20]
     end
   end
