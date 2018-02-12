@@ -7,13 +7,14 @@ const CommentForm = (props) => {
   }
   return(
     <div>
-      <form>
+      <form id="large-8">
         <label id="body"></label>
         <input
           type="text"
           name="body"
           value={props.body}
           onChange={props.handleBodyChange}
+          id="comment-body"
         />
         <input
           type="submit"

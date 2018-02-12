@@ -40,7 +40,7 @@ class NavBar extends Component {
     return(
       <div className="row column">
         <div id="navbar">
-          <h1>Dream Eater</h1>
+          <h1 id="title">Dream Eater</h1>
           <h3>Comicbook Library</h3>
           <Link to='/'><button>Index</button></Link>
           <button onClick={browserHistory.goBack}>Back</button>
