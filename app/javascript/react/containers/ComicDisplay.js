@@ -16,7 +16,8 @@ class ComicDisplay extends Component {
       leftPage: 0, //refactor to conditionally render the page instead of erroring out
       comic: this.props.comic,
       messages: [],
-      bookmark: this.props.bookmark
+      bookmark: this.props.bookmark,
+      scale: 1.0
     }
     this.addFavorite = this.addFavorite.bind(this)
     this.arrowKey = this.arrowKey.bind(this)
@@ -25,6 +26,7 @@ class ComicDisplay extends Component {
     this.goFull = this.goFull.bind(this)
     this.goToBegining = this.goToBegining.bind(this)
     this.onDocumentLoad = this.onDocumentLoad.bind(this)
+    this.scroll = this.scroll.bind(this)
     this.submitShelf = this.submitShelf.bind(this)
     this.turnPageBack = this.turnPageBack.bind(this)
     this.turnPageForward = this.turnPageForward.bind(this)
@@ -73,11 +75,7 @@ class ComicDisplay extends Component {
   }
 
   goFull() {
-    if (this.state.isFull){
-      this.setState({ isFull: false })
-    } else {
-      this.setState({ isFull: true });
-    }
+      this.setState({ isFull: !this.state.isFull })
   }
 
   goToBegining() {
@@ -92,6 +90,21 @@ class ComicDisplay extends Component {
       leftPage = this.state.bookmark - 1
     }
     this.setState({ numPages, rightPage: rightPage, leftPage: leftPage });
+  }
+
+  scroll(wheelEvent) {
+    if (wheelEvent.deltaY === 1){
+      let newZoom = this.state.scale + 0.1
+      this.setState({ scale: newZoom})
+    } else if (wheelEvent.deltaY === -1 ){
+      let newZoom = this.state.scale - 0.1
+      this.setState({ scale: newZoom})
+    }
+    // else if (wheelEvent.deltaX === 1){
+    //   this.turnPageForward();
+    // } else if (wheelEvent.deltaX === -1) {
+    //   this.turnPageBack();
+    // }
   }
 
   submitShelf(formPayload) {
@@ -130,7 +143,7 @@ class ComicDisplay extends Component {
   }
 
   turnPageForward() {
-    if (this.state.leftPage < this.state.numPages) {
+    if (this.state.rightPage < this.state.numPages) {
       let newLeftPage = this.state.leftPage + 2
       let newRightPage = this.state.rightPage + 2
       this.setState({ leftPage: newLeftPage, rightPage: newRightPage, messages: [] })
@@ -154,7 +167,7 @@ class ComicDisplay extends Component {
           enabled={this.state.isFull}
           onChange={isFull => this.setState({isFull})}
         >
-          <div className="full-screenable-node" onKeyDown={this.arrowKey}>
+          <div className="full-screenable-node" onKeyDown={this.arrowKey} onWheel={this.scroll}>
             {this.buttons('top')}
             {messageTiles}
             <Document
@@ -163,8 +176,8 @@ class ComicDisplay extends Component {
               onLoadSuccess={this.onDocumentLoad}
               ref={(input) => { this.focusDocument = input; }}
             >
-              <Page className="large-6 comic" pageNumber={leftPage} width={500} />
-              <Page className="large-6 comic" pageNumber={rightPage} width={500} />
+              <Page className="comic" pageNumber={leftPage} scale={this.state.scale} onClick={this.turnPageBack}/>
+              <Page className="comic" pageNumber={rightPage} scale={this.state.scale} onClick={this.turnPageForward} />
             </Document>
             <p>Page {rightPage} of {numPages}</p>
             {this.buttons('bottom')}
