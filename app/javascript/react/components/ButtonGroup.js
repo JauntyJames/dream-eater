@@ -4,12 +4,12 @@ const ButtonGroup = (props) => {
 
   return(
     <div className="comic-nav">
-      <button onClick={props.goToBegining}>&lt;&lt; &lt;&lt;</button>
-      <button onClick={props.turnPageBack}>&lt;&lt;</button>
-      <button onClick={props.turnPageForward}>&gt;&gt;</button>
-      <button onClick={props.goFull}>Fullscreen</button>
-      <button onClick={props.bookmarkPage}>Bookmark</button>
-      <button onClick={props.addFavorite}>Add to Favorites</button>
+      <button onClick={props.goToBegining}><i className="fas fa-angle-double-left"></i></button>
+      <button onClick={props.goFull}><i className="fas fa-expand"></i></button>
+      <button onClick={props.bookmarkPage}><i className="far fa-bookmark"></i></button>
+      <button onClick={props.addFavorite}><i className="far fa-heart"></i></button>
+      <button onClick={props.turnPageBack}><i className="fas fa-angle-left"></i></button>
+      <button onClick={props.turnPageForward}><i className="fas fa-angle-right"></i></button>
     </div>
   )
 }

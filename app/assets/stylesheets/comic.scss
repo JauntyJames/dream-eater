@@ -38,7 +38,7 @@
 
 h3 {
   font-family: 'Slabo 27px', serif;
-
+  color: rgb(255, 246, 201)
 }
 
 p {
@@ -53,6 +53,10 @@ div.comic-nav button {
   padding: auto;
 }
 
+div.fullscreen p {
+  margin-bottom: 0px;
+}
+
 .media-object {
   background-color: rgb(255, 246, 201);
   color: rgb(51,51,51);
@@ -65,12 +69,20 @@ div.comic-nav button {
 #comment-body {
   display: inline-block;
   margin: auto;
-  height: 100px;
   width: 40%;
   font-size: 20;
   background-color: rgb(255, 246, 201)
 }
 
+i {
+  color: rgb(51,51,51);
+}
+
 input.button {
-  display: inline-block;
+  float: right;
+  width: auto;
+}
+
+#comic-details {
+  color: rgb(255, 246, 201)
 }

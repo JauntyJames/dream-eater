@@ -13,10 +13,10 @@
  *= require foundation_and_overrides
  *= require_tree .
  *= require_self
+ *= require font-awesome
 
  */
 
 body {
   background-color: rgb(90, 102, 122);
-  /* font-family:  */
 }

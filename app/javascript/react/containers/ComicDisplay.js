@@ -17,7 +17,7 @@ class ComicDisplay extends Component {
       comic: this.props.comic,
       messages: [],
       bookmark: this.props.bookmark,
-      scale: 1.0
+      scale: 500
     }
     this.addFavorite = this.addFavorite.bind(this)
     this.arrowKey = this.arrowKey.bind(this)
@@ -77,7 +77,7 @@ class ComicDisplay extends Component {
   }
 
   goFull() {
-    this.setState({ isFull: !this.state.isFull, scale: 1.0 })
+    this.setState({ isFull: !this.state.isFull, scale: 500 })
   }
 
   goToBegining() {
@@ -100,10 +100,10 @@ class ComicDisplay extends Component {
   scroll(wheelEvent) {
     if (this.state.isFull) {
       if (wheelEvent.deltaY > 20){
-        let newZoom = this.state.scale + 0.1
+        let newZoom = this.state.scale + 10
         this.setState({ scale: newZoom})
-      } else if (wheelEvent.deltaY < -20 && this.state.scale > 0.5 ){
-        let newZoom = this.state.scale - 0.1
+      } else if (wheelEvent.deltaY < -20 && this.state.scale > 200 ){
+        let newZoom = this.state.scale - 10
         this.setState({ scale: newZoom})
       }
     }
@@ -172,16 +172,16 @@ class ComicDisplay extends Component {
     let pages = []
     if(this.state.leftPage > 0 && this.state.rightPage <= this.state.numPages){
       pages = [
-        (<Page className="comic" pageNumber={leftPage} scale={this.state.scale} key="left" onClick={this.turnPageBack}/>),
-        (<Page className="comic" pageNumber={rightPage} scale={this.state.scale} key="right" onClick={this.turnPageForward} />)
+        (<Page className="comic" pageNumber={leftPage} width={this.state.scale} key="left" onClick={this.turnPageBack}/>),
+        (<Page className="comic" pageNumber={rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
       ]
     } else if (this.state.leftPage === 0) {
       pages = [
-        (<Page className="comic" pageNumber={rightPage} scale={this.state.scale} key="right" onClick={this.turnPageForward} />)
+        (<Page className="comic" pageNumber={rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
       ]
     } else if (this.state.rightPage > this.state.numPages) {
       pages = [
-        (<Page className="comic" pageNumber={leftPage} scale={this.state.scale} key="left" onClick={this.turnPageBack}/>),
+        (<Page className="comic" pageNumber={leftPage} width={this.state.scale} key="left" onClick={this.turnPageBack}/>),
       ]
     }
     return (

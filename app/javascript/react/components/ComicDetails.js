@@ -18,7 +18,7 @@ const ComicDetails = (props) => {
   }
 
   return(
-    <div>
+    <div id="comic-details">
       <meta property="og:url"                content={`http://dream-eater.herokuapp/comics/${id}`} />
       <meta property="og:type"               content="media" />
       <meta property="og:title"              content={title} />
