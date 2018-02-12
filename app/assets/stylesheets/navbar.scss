@@ -1,0 +1,26 @@
+#navbar {
+  background-color: rgb(51,51,51);
+  text-align: center;
+  margin: 1rem;
+  color: rgb(255, 246, 201);
+}
+
+#navbar button {
+  background-color: rgb(255, 246, 201);
+  border-radius: 0.2rem;
+  margin: 2rem;
+  color: rgb(51,51,51);
+}
+
+#navbar button:hover {
+  background-color: rgb(219, 212, 179);
+}
+
+#navbar h1 {
+  color: rgb(255, 246, 201);
+  font-size: 40pt;
+}
+
+#navbar h3 {
+  color: rgb(255, 246, 201);
+}

@@ -55,10 +55,10 @@ class ComicsIndexContainer extends Component {
     })
 
     return(
-      <div>
+      <div id="index-container">
         <form>
           <input
-            className="search"
+            id="search"
             type='text'
             value={this.state.search}
             onChange={this.handleChange}
