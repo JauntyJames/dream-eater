@@ -10,6 +10,7 @@
     "react-dropzone": "^4.2.7",
     "react-full-screen": "^0.2.2",
     "react-fuzzy": "^0.5.1",
+    "react-hammerjs": "^1.0.1",
     "react-pdf": "^2.5.2",
     "react-router": "~3.2.0"
   },
