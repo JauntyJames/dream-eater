@@ -10,16 +10,19 @@ button {
   border-radius: 0.2rem;
   margin: 2rem;
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 button:hover {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 button:focus-within {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 .button {
@@ -27,24 +30,29 @@ button:focus-within {
   border-radius: 0.2rem;
   margin: 2rem;
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 .button:hover {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 .button:active {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 a button {
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 a:hover button {
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 h1 {

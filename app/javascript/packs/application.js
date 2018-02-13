@@ -17,3 +17,13 @@ ReactDOM.render(
   <App />,
   document.getElementById('app')
 )
+
+window.onload=function() {
+	setTimeout(func1, 4000);
+};
+
+function func1() {
+  if (document.getElementById) {
+  	document.getElementById("flash-message").className="hide";
+  }
+}

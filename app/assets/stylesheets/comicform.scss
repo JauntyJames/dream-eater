@@ -1,0 +1,28 @@
+#new-comic-form input {
+  background-color: rgb(255, 246, 201);
+}
+
+#new-comic-form label {
+  color: rgb(51,51,51);
+
+}
+
+.dropzone {
+  background-color: rgb(255, 246, 201);
+  width: 50%;
+  height: 10rem;
+}
+
+.dropzone-active{
+  border-color: black;
+  border-width: 3px;
+}
+
+.textarea {
+  background-color: rgb(255, 246, 201);
+  color: rgb(51,51,51);
+}
+
+.remove {
+  text-align: right;
+}

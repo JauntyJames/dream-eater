@@ -19,24 +19,26 @@ class Uploader extends Component {
 
     return(
       <div>
-        <div className="dropzone">
-
+        <div >
           <Dropzone
             accept="application/pdf"
             multiple={false}
             maxSize={8000000}
+            className="dropzone"
+            activeClassName="dropzone-active"
+            rejectClassName="dropzone-reject"
             onDrop={(accepted, rejected) => { this.passFile(accepted); this.setState({ accepted, rejected }); }}
           >
             {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
               if (isDragActive) {
-                return "This file is authorized";
+                return "Here comes a comic book!";
               }
               if (isDragReject) {
-                return "This file is not authorized";
+                return "Oh God no not that one!";
               }
               return acceptedFiles.length || rejectedFiles.length
                 ? `Accepted ${acceptedFiles.length}, rejected ${rejectedFiles.length} files`
-                : `Drop in your comic PDF here - Limit 8MB`;
+                : <p> <i className="fas fa-upload"></i> Drop in your comic PDF here - Limit 8MB</p> ;
             }}
           </Dropzone>
         </div>

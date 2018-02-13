@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 
 
 const ComicTile = (props) => {
+
   return(
     <div className="callout primary large-3 shadow-drop-br">
       <Link to={`/comics/${props.id}`}>

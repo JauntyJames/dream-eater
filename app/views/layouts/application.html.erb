@@ -43,14 +43,16 @@
       </ul>
     </section>
   </nav>
+  <div id="flash-message" >
 
-  <%- flash.each do |key, value| -%>
-    <div class="flash flash-<%= key %>">
-      <%= value %>
-    </div>
-  <%- end -%>
+    <%- flash.each do |key, value| -%>
+      <div class="flash flash-<%= key %>" >
+        <%= value %>
+      </div>
+    <%- end -%>
+  </div>
+
   <%= yield %>
-
 
   <%= javascript_pack_tag 'application' %>
   <%= yield :extra_footer %>
