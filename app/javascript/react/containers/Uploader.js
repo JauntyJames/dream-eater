@@ -5,8 +5,7 @@ class Uploader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accepted: [],
-      rejected: []
+      accepted: props.acceptfile
     }
     this.passFile = this.passFile.bind(this)
   }
@@ -16,7 +15,7 @@ class Uploader extends Component {
   }
 
   render() {
-
+    
     return(
       <div>
         <div className="dropzone">
@@ -25,7 +24,7 @@ class Uploader extends Component {
             accept="application/pdf"
             multiple={false}
             maxSize={8000000}
-            onDrop={(accepted, rejected) => { this.passFile(accepted); this.setState({ accepted, rejected }); }}
+            onDrop={(accepted, rejected) => { this.setState({ accepted, rejected }); }}
           >
             {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
               if (isDragActive) {

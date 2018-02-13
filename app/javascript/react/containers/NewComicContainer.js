@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
+import Dropzone from 'react-dropzone'
 
 import Uploader from './Uploader';
 import ComicForm from '../components/ComicForm';
 import MessageTile from '../components/MessageTile';
+import ComicsIndexContainer from './ComicsIndexContainer'
 
 class NewComicContainer extends Component {
   constructor(props) {
@@ -14,7 +16,8 @@ class NewComicContainer extends Component {
       author: "",
       description: "",
       publishedYear: "",
-      messages: []
+      messages: [],
+      dropzoneActive: false
     }
     this.acceptFile = this.acceptFile.bind(this)
     this.submitForm = this.submitForm.bind(this)
@@ -23,6 +26,9 @@ class NewComicContainer extends Component {
     this.handlePublishedYearChange = this.handlePublishedYearChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.onDragEnter = this.onDragEnter.bind(this)
+    this.onDragLeave = this.onDragLeave.bind(this)
+    this.onDrop = this.onDrop.bind(this)
     this.redirect = this.redirect.bind(this)
     this.validateFields = this.validateFields.bind(this)
   }
@@ -65,6 +71,20 @@ class NewComicContainer extends Component {
   handleTitleChange(event) {
     let value = event.target.value
     this.setState({ title: value })
+  }
+
+  onDragEnter() {
+    console.log('enter');
+    this.setState({ dropzoneActive: true })
+  }
+
+  onDragLeave() {
+    console.log('leave');
+    this.setState({ dropzoneActive: false })
+  }
+
+  onDrop(file) {
+    this.setState({ file, dropzoneActive: false })
   }
 
   redirect(path) {
@@ -112,15 +132,49 @@ class NewComicContainer extends Component {
   }
 
   render() {
+    const { accept, file, dropzoneActive } = this.state;
+
+    const overlayStyle = {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      padding: '2.5em 0',
+      background: 'rgba(0,0,0,0.5)',
+      textAlign: 'center',
+      color: '#fff'
+    };
+
     let messageArray = this.state.messages.map((message) => {
       return(
         <MessageTile message={message} key={message} />
       )
     })
 
-    return(
-      <div>
-        <form>
+    let renderComponent
+
+    if (file.length === 0) {
+      renderComponent = [
+        <Dropzone
+          key="index"
+          accept="application/pdf"
+          disableClick={true}
+          multiple={false}
+          maxSize={8000000}
+          style={{position: "relative"}}
+          onDrop={this.onDrop}
+          onDragEnter={this.onDragEnter}
+          onDragOver={this.onDragLeave}
+        >
+          { dropzoneActive && <div style={overlayStyle}>Drop your comic PDF here</div> }
+          <ComicsIndexContainer />
+        </Dropzone>
+      ]
+
+    } else {
+      renderComponent = [
+        <form key="new">
           <ComicForm
             handleAuthorChange={this.handleAuthorChange}
             author={this.state.author}
@@ -131,10 +185,16 @@ class NewComicContainer extends Component {
             handleTitleChange={this.handleTitleChange}
             title={this.state.title}
           />
-          <Uploader acceptFile={this.acceptFile}/><br/>
+          <Uploader acceptFile={this.state.file}/><br/>
           {messageArray}
           <input className="button" type="submit" onClick={this.handleSubmit} ></input>
         </form>
+      ]
+    }
+
+    return(
+      <div>
+        {renderComponent}
       </div>
     )
   }
