@@ -39,11 +39,15 @@ class NavBar extends Component {
     }
     return(
       <div className="row column">
-        <Link to='/'><button>Index</button></Link>
-        <button onClick={browserHistory.goBack}>Back</button>
-        {myBookshelf}
-        {newComic}
-        { this.props.children }
+        <div id="navbar">
+          <h1 id="title">Dream Eater</h1>
+          <h3>Comicbook Library</h3>
+          <Link to='/'><button>Index</button></Link>
+          <button onClick={browserHistory.goBack}>Back</button>
+          {myBookshelf}
+          {newComic}
+        </div>
+        {this.props.children }
       </div>
     )
   }

@@ -7,14 +7,16 @@ const CommentForm = (props) => {
   }
   return(
     <div>
-      <form>
+      <form id="large-8">
         <label id="body"></label>
-        <input
+        <textarea
           type="text"
           name="body"
           value={props.body}
           onChange={props.handleBodyChange}
-        />
+          id="comment-body"
+          rows="6"
+        ></textarea>
         <input
           type="submit"
           value={buttonText}

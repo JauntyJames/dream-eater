@@ -3,13 +3,13 @@ import React from 'react';
 const ButtonGroup = (props) => {
 
   return(
-    <div>
-      <button onClick={props.goToBegining}>&lt;&lt; Begining</button>
-      <button onClick={props.turnPageBack}>&lt; Back</button>
-      <button onClick={props.turnPageForward}>Forward &gt;</button>
-      <button onClick={props.goFull}>Fullscreen</button>
-      <button onClick={props.bookmarkPage}>Bookmark</button>
-      <button onClick={props.addFavorite}>Add to Favorites</button>
+    <div className="comic-nav">
+      <button className="button round" onClick={props.goToBegining}><i className="fas fa-angle-double-left"></i></button>
+      <button className="button round" onClick={props.goFull}><i className="fas fa-expand"></i></button>
+      <button className="button round" onClick={props.bookmarkPage}><i className="far fa-bookmark"></i></button>
+      <button className="button round" onClick={props.addFavorite}><i className="far fa-heart"></i></button>
+      <button className="button round" onClick={props.turnPageBack}><i className="fas fa-angle-left"></i></button>
+      <button className="button round" onClick={props.turnPageForward}><i className="fas fa-angle-right"></i></button>
     </div>
   )
 }

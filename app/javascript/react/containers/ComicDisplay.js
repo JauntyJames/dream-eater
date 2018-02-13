@@ -13,11 +13,11 @@ class ComicDisplay extends Component {
       isFull: false,
       numPages: null,
       rightPage: 1,
-      leftPage: 0, //refactor to conditionally render the page instead of erroring out
+      leftPage: 0,
       comic: this.props.comic,
       messages: [],
       bookmark: this.props.bookmark,
-      scale: 1.0
+      scale: 500
     }
     this.addFavorite = this.addFavorite.bind(this)
     this.arrowKey = this.arrowKey.bind(this)
@@ -77,7 +77,7 @@ class ComicDisplay extends Component {
   }
 
   goFull() {
-      this.setState({ isFull: !this.state.isFull, scale: 1.0 })
+    this.setState({ isFull: !this.state.isFull, scale: 500 })
   }
 
   goToBegining() {
@@ -85,13 +85,12 @@ class ComicDisplay extends Component {
   }
 
   onDocumentLoad = ({ numPages }) => {
-    let rightPage = 1
-    let leftPage = 0
     if (this.state.bookmark && this.state.bookmark !== 1) {
-      rightPage = this.state.bookmark
-      leftPage = this.state.bookmark - 1
+      let rightPage = this.state.bookmark
+      let leftPage = this.state.bookmark - 1
+      this.setState({ numPages, rightPage: rightPage, leftPage: leftPage });
     }
-    this.setState({ numPages, rightPage: rightPage, leftPage: leftPage });
+    this.setState({ numPages })
   }
 
   handleZoom() {
@@ -101,10 +100,10 @@ class ComicDisplay extends Component {
   scroll(wheelEvent) {
     if (this.state.isFull) {
       if (wheelEvent.deltaY > 20){
-        let newZoom = this.state.scale + 0.1
+        let newZoom = this.state.scale + 10
         this.setState({ scale: newZoom})
-      } else if (wheelEvent.deltaY < -20 && this.state.scale > 0.5 ){
-        let newZoom = this.state.scale - 0.1
+      } else if (wheelEvent.deltaY < -20 && this.state.scale > 200 ){
+        let newZoom = this.state.scale - 10
         this.setState({ scale: newZoom})
       }
     }
@@ -169,6 +168,22 @@ class ComicDisplay extends Component {
         <MessageTile message={message} key={message}/>
       )
     })
+
+    let pages = []
+    if(this.state.leftPage > 0 && this.state.rightPage <= this.state.numPages){
+      pages = [
+        (<Page className="comic" pageNumber={leftPage} width={this.state.scale} key="left" onClick={this.turnPageBack}/>),
+        (<Page className="comic" pageNumber={rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
+      ]
+    } else if (this.state.leftPage === 0) {
+      pages = [
+        (<Page className="comic" pageNumber={rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
+      ]
+    } else if (this.state.rightPage > this.state.numPages) {
+      pages = [
+        (<Page className="comic" pageNumber={leftPage} width={this.state.scale} key="left" onClick={this.turnPageBack}/>),
+      ]
+    }
     return (
       <div className="display-box large-12">
         <Fullscreen
@@ -184,8 +199,7 @@ class ComicDisplay extends Component {
               onLoadSuccess={this.onDocumentLoad}
               ref={(input) => { this.focusDocument = input; }}
             >
-              <Page className="comic" pageNumber={leftPage} scale={this.state.scale} onClick={this.turnPageBack}/>
-              <Page className="comic" pageNumber={rightPage} scale={this.state.scale} onClick={this.turnPageForward} />
+              {pages}
             </Document>
             <p>Page {rightPage} of {numPages}</p>
             {this.buttons('bottom')}

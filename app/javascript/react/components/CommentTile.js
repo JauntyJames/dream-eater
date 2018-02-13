@@ -32,7 +32,7 @@ const CommentTile = (props) => {
 
 
   return(
-    <div className="media-object">
+    <div className="media-object large-8">
       <div className="media-object-section">
         <div className="thumbnail">
           <img src={user.profile_photo.url} width="75" />

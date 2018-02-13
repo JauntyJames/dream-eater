@@ -42,7 +42,7 @@ class ComicFileUploader < CarrierWave::Uploader::Base
 
   version :thumb do
     process :cover
-    process :resize_to_fit => [120, 200]
+    process :resize_to_fit => [400, 400]
     process :convert => :jpg
 
     def full_filename (for_file = model.source.file)
