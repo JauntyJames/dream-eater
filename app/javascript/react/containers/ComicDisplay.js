@@ -18,7 +18,8 @@ class ComicDisplay extends Component {
       comic: this.props.comic,
       messages: [],
       bookmark: this.props.bookmark,
-      scale: 500
+      scale: 500,
+      navVisible: true
     }
     this.addFavorite = this.addFavorite.bind(this)
     this.arrowKey = this.arrowKey.bind(this)
@@ -64,9 +65,17 @@ class ComicDisplay extends Component {
   }
 
   buttons(key) {
+    let buttonClass = ''
+    if (this.state.isFull) {
+      buttonClass = 'hideable'
+    } else {
+      buttonClass = ''
+    }
+
     return (
       <ButtonGroup
         key={key}
+        navVisible={this.state.navVisible}
         goToBegining={this.goToBegining}
         turnPageBack={this.turnPageBack}
         turnPageForward={this.turnPageForward}
@@ -79,7 +88,15 @@ class ComicDisplay extends Component {
   }
 
   goFull() {
-    this.setState({ isFull: !this.state.isFull, scale: 500 })
+    this.setState({ isFull: !this.state.isFull, scale: 500, navVisible: !this.state.navVisible })
+  }
+
+  goToBegining() {
+    this.setState({ rightPage: 1, leftPage: 0 })
+  }
+
+  handleMouse(event) {
+    console.log(event);
   }
 
   handlePan() {
@@ -88,10 +105,6 @@ class ComicDisplay extends Component {
 
   handleZoom() {
     this.setState({ scale: 1.0 })
-  }
-
-  goToBegining() {
-    this.setState({ rightPage: 1, leftPage: 0 })
   }
 
   onDocumentLoad = ({ numPages }) => {
@@ -179,7 +192,7 @@ class ComicDisplay extends Component {
     if(this.state.leftPage > 0 && this.state.rightPage <= this.state.numPages){
       pages = [
         (<Page className="comic" pageNumber={leftPage} width={this.state.scale} key="left" onClick={this.turnPageBack}/>),
-        (<Page className="comic" pageNumber={rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
+        (<Page className="comic" pageNumber={ rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
       ]
     } else if (this.state.leftPage === 0) {
       pages = [
@@ -195,6 +208,7 @@ class ComicDisplay extends Component {
         <Fullscreen
           enabled={this.state.isFull}
           onChange={isFull => this.setState({isFull})}
+          onMouseMove={this.handleMouse}
         >
           <div className="full-screenable-node" onKeyDown={this.arrowKey} onWheel={this.scroll}>
             {this.buttons('top')}
