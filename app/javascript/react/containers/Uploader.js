@@ -5,8 +5,7 @@ class Uploader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accepted: [],
-      rejected: []
+      accepted: this.props.file
     }
     this.passFile = this.passFile.bind(this)
   }
@@ -25,7 +24,7 @@ class Uploader extends Component {
             accept="application/pdf"
             multiple={false}
             maxSize={8000000}
-            onDrop={(accepted, rejected) => { this.passFile(accepted); this.setState({ accepted, rejected }); }}
+            onDrop={(accepted, rejected) => { this.setState({ accepted, rejected }); }}
           >
             {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
               if (isDragActive) {
@@ -40,6 +39,14 @@ class Uploader extends Component {
             }}
           </Dropzone>
         </div>
+        <aside>
+          <h5>Dropped file:</h5>
+          <ul>
+            {
+              this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+            }
+          </ul>
+        </aside>
       </div>
     )
   }
