@@ -17,7 +17,8 @@ class NewComicContainer extends Component {
       description: "",
       publishedYear: "",
       messages: [],
-      dropzoneActive: false
+      dropzoneActive: false,
+      signedIn: false
     }
     this.acceptFile = this.acceptFile.bind(this)
     this.closeNewComic = this.closeNewComic.bind(this)
@@ -40,6 +41,24 @@ class NewComicContainer extends Component {
 
   closeNewComic() {
     this.setState({ file: [] })
+  }
+
+  componentWillMount() {
+    fetch('/auth/is_signed_in', {credentials: 'same-origin'})
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+            error = new Error(errorMessage);
+        throw(error);
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      this.setState({ signedIn: body.signed_in })
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   handleAuthorChange(event) {
@@ -157,10 +176,10 @@ class NewComicContainer extends Component {
 
     let renderComponent
 
-    if (file.length === 0) {
+    if (file.length === 0 && this.state.signedIn) {
       renderComponent = [
         <Dropzone
-          key="index"
+          key="dropindex"
           accept="application/pdf"
           disableClick={true}
           multiple={false}
@@ -175,7 +194,7 @@ class NewComicContainer extends Component {
         </Dropzone>
       ]
 
-    } else {
+    } else if (this.state.signedIn) {
       renderComponent = [
         <form key="new">
           <button onClick={this.closeNewComic}>Back to Index</button>
@@ -193,6 +212,10 @@ class NewComicContainer extends Component {
           {messageArray}
           <input className="button" type="submit" onClick={this.handleSubmit} ></input>
         </form>
+      ]
+    } else {
+      renderComponent = [
+        <ComicsIndexContainer key="index" />
       ]
     }
 
