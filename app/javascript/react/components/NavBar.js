@@ -29,10 +29,8 @@ class NavBar extends Component {
   }
 
   render() {
-    let newComic;
     let myBookshelf;
     if (this.state.signedIn){
-      newComic = <Link to='/comics/new'><button>Add Comic</button></Link>
       myBookshelf = <Link to={`/user/${this.state.user.id}`}><button>My Bookshelf</button></Link>
     } else {
       myBookshelf = <Link href='/users/sign_in'><button>Sign In</button></Link>
@@ -45,7 +43,6 @@ class NavBar extends Component {
           <Link to='/'><button>Index</button></Link>
           <button onClick={browserHistory.goBack}>Back</button>
           {myBookshelf}
-          {newComic}
         </div>
         {this.props.children }
       </div>
