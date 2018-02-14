@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf/build/entry.webpack';
 import Fullscreen from 'react-full-screen';
 import Hammer from 'react-hammerjs';
+import { debounce } from 'throttle-debounce';
 
 import ButtonGroup from '../components/ButtonGroup'
 import MessageTile from '../components/MessageTile'
@@ -26,7 +27,7 @@ class ComicDisplay extends Component {
     this.bookmarkPage = this.bookmarkPage.bind(this)
     this.buttons = this.buttons.bind(this)
     this.goFull = this.goFull.bind(this)
-    this.handlePan = this.handlePan.bind(this)
+    this.handleSwipe = this.handleSwipe.bind(this)
     this.handleZoom = this.handleZoom.bind(this)
     this.goToBegining = this.goToBegining.bind(this)
     this.onDocumentLoad = this.onDocumentLoad.bind(this)
@@ -99,11 +100,16 @@ class ComicDisplay extends Component {
     console.log(event);
   }
 
-  handlePan() {
-
+  handleSwipe(event) {
+    event.preventDefault();
+    if (event.deltaX < 0){
+      this.turnPageForward();
+    } else if (event.deltaX > 0) {
+      this.turnPageBack();
+    }
   }
 
-  handleZoom() {
+  handleZoom(event) {
     this.setState({ scale: 1.0 })
   }
 
@@ -117,6 +123,8 @@ class ComicDisplay extends Component {
   }
 
   scroll(wheelEvent) {
+    let swipeRight = debounce(500, this.turnPageForward);
+    let swipeLeft =  debounce(500, this.turnPageBack)
     if (this.state.isFull) {
       if (wheelEvent.deltaY > 20){
         let newZoom = this.state.scale + 10
@@ -125,12 +133,12 @@ class ComicDisplay extends Component {
         let newZoom = this.state.scale - 10
         this.setState({ scale: newZoom})
       }
+    } else if (wheelEvent.deltaX > 40) {
+      swipeRight()
+    } else if (wheelEvent.deltaX < -40) {
+      swipeLeft()
     }
-    // else if (wheelEvent.deltaX > 40){
-    //   this.turnPageForward();
-    // } else if (wheelEvent.deltaX < -40) {
-    //   this.turnPageBack();
-    // }
+
   }
 
   submitShelf(formPayload) {
@@ -213,15 +221,17 @@ class ComicDisplay extends Component {
           <div className="full-screenable-node" onKeyDown={this.arrowKey} onWheel={this.scroll}>
             {this.buttons('top')}
             {messageTiles}
-            <Hammer onPan={this.handlePan}>
-              <Document
-                className="comic-container row large-12"
-                file={comicFile}
-                onLoadSuccess={this.onDocumentLoad}
-                ref={(input) => { this.focusDocument = input; }}
-              >
-                {pages}
-              </Document>
+              <Hammer onSwipe={this.handleSwipe} onPinch={this.handleZoom}>
+                <div>
+                  <Document
+                    className="comic-container row large-12"
+                    file={comicFile}
+                    onLoadSuccess={this.onDocumentLoad}
+                    ref={(input) => { this.focusDocument = input; }}
+                  >
+                    {pages}
+                  </Document>
+                </div>
             </Hammer>
             <p>Page {rightPage} of {numPages}</p>
             {this.buttons('bottom')}

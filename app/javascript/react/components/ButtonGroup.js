@@ -9,7 +9,7 @@ const ButtonGroup = (props) => {
   }
 
   return(
-    <div className={`comic-nav`} style={visibility}>
+    <div className={`comic-nav`}>
       <button className="button round" onClick={props.goToBegining}><i className="fas fa-angle-double-left"></i></button>
       <button className="button round" onClick={props.goFull}><i className="fas fa-expand"></i></button>
       <button className="button round" onClick={props.bookmarkPage}><i className="far fa-bookmark"></i></button>
