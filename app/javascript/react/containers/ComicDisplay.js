@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf/build/entry.webpack';
 import Fullscreen from 'react-full-screen';
 import Hammer from 'react-hammerjs';
-import { debounce } from 'throttle-debounce';
 
 import ButtonGroup from '../components/ButtonGroup'
 import MessageTile from '../components/MessageTile'
@@ -123,8 +122,6 @@ class ComicDisplay extends Component {
   }
 
   scroll(wheelEvent) {
-    let swipeRight = debounce(500, this.turnPageForward);
-    let swipeLeft =  debounce(500, this.turnPageBack)
     if (this.state.isFull) {
       if (wheelEvent.deltaY > 20){
         let newZoom = this.state.scale + 10
@@ -133,12 +130,7 @@ class ComicDisplay extends Component {
         let newZoom = this.state.scale - 10
         this.setState({ scale: newZoom})
       }
-    } else if (wheelEvent.deltaX > 40) {
-      swipeRight()
-    } else if (wheelEvent.deltaX < -40) {
-      swipeLeft()
     }
-
   }
 
   submitShelf(formPayload) {
