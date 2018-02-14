@@ -20,7 +20,7 @@ class NewComicContainer extends Component {
       dropzoneActive: false
     }
     this.acceptFile = this.acceptFile.bind(this)
-    this.submitForm = this.submitForm.bind(this)
+    this.closeNewComic = this.closeNewComic.bind(this)
     this.handleAuthorChange = this.handleAuthorChange.bind(this)
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
     this.handlePublishedYearChange = this.handlePublishedYearChange.bind(this)
@@ -30,11 +30,16 @@ class NewComicContainer extends Component {
     this.onDragLeave = this.onDragLeave.bind(this)
     this.onDrop = this.onDrop.bind(this)
     this.redirect = this.redirect.bind(this)
+    this.submitForm = this.submitForm.bind(this)
     this.validateFields = this.validateFields.bind(this)
   }
 
   acceptFile(accepted) {
     this.setState({ file: accepted })
+  }
+
+  closeNewComic() {
+    this.setState({ file: [] })
   }
 
   handleAuthorChange(event) {
@@ -173,6 +178,7 @@ class NewComicContainer extends Component {
     } else {
       renderComponent = [
         <form key="new">
+          <button onClick={this.closeNewComic}>Back to Index</button>
           <ComicForm
             handleAuthorChange={this.handleAuthorChange}
             author={this.state.author}
