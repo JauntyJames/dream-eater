@@ -1,6 +1,6 @@
 #navbar {
   background-color: rgb(51,51,51);
-  margin: 1rem;
+  margin: 1rem, 1rem, 0rem, 1rem;
   color: rgb(255, 246, 201);
   padding: 0;
 }
@@ -9,20 +9,22 @@
   font-size: 6vw;
 }
 
-#navbar div.block {
+#navbar div.thing {
   display: inline-block;
 }
 
 .headers {
   list-style: none;
+  margin: 1rem;
 }
 
 .headers li {
   display: inline;
 }
 
-.headers.nav-buttons {
+.thing.nav-buttons {
   text-align: right;
+  top: 0;
 }
 
 button {
@@ -90,4 +92,9 @@ h1 {
 
 #sign-in {
   text-align: right;
+}
+
+#children {
+  background-color: rgb(90, 102, 122);
+  margin-top: 0;
 }
