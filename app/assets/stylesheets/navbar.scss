@@ -1,6 +1,5 @@
 #navbar {
   background-color: rgb(51,51,51);
-  text-align: center;
   margin: 1rem;
   color: rgb(255, 246, 201);
   padding: 0;
@@ -8,6 +7,22 @@
 
 #title {
   font-size: 6vw;
+}
+
+#navbar div.block {
+  display: inline-block;
+}
+
+.headers {
+  list-style: none;
+}
+
+.headers li {
+  display: inline;
+}
+
+.headers.nav-buttons {
+  text-align: right;
 }
 
 button {
@@ -67,4 +82,12 @@ h1 {
 
 #navbar h3 {
   color: rgb(255, 246, 201);
+}
+
+.top-bar {
+  height: 10rem;
+}
+
+#sign-in {
+  text-align: right;
 }
