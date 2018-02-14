@@ -36,8 +36,8 @@ class NavBar extends Component {
       myBookshelf = <Link href='/users/sign_in'><button>Sign In</button></Link>
     }
     return(
-      <div className="row column">
-        <div id="navbar">
+      <div className="row column" id="navbar">
+        <div >
           <h1 id="title">Dream Eater</h1>
           <h3>Comicbook Library</h3>
           <Link to='/'><button>Index</button></Link>

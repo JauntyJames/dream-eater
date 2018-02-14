@@ -65,6 +65,7 @@ class ComicDisplay extends Component {
     return (
     <ButtonGroup
       key={key}
+      id={key + '-button'}
       goToBegining={this.goToBegining}
       turnPageBack={this.turnPageBack}
       turnPageForward={this.turnPageForward}
@@ -97,21 +98,22 @@ class ComicDisplay extends Component {
     this.setState({ scale: 1.0 })
   }
 
+  hideButtons() {
+    return (
+      <div></div>
+    )
+  }
+
   scroll(wheelEvent) {
     if (this.state.isFull) {
-      if (wheelEvent.deltaY > 20){
-        let newZoom = this.state.scale + 10
+      if (wheelEvent.deltaY > 30){
+        let newZoom = this.state.scale + 20
         this.setState({ scale: newZoom})
-      } else if (wheelEvent.deltaY < -20 && this.state.scale > 200 ){
-        let newZoom = this.state.scale - 10
+      } else if (wheelEvent.deltaY < -30 && this.state.scale > 200 ){
+        let newZoom = this.state.scale - 20
         this.setState({ scale: newZoom})
       }
     }
-    // else if (wheelEvent.deltaX > 40){
-    //   this.turnPageForward();
-    // } else if (wheelEvent.deltaX < -40) {
-    //   this.turnPageBack();
-    // }
   }
 
   submitShelf(formPayload) {
@@ -168,6 +170,8 @@ class ComicDisplay extends Component {
         <MessageTile message={message} key={message}/>
       )
     })
+
+    let buttons = []
 
     let pages = []
     if(this.state.leftPage > 0 && this.state.rightPage <= this.state.numPages){

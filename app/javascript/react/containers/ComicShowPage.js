@@ -73,7 +73,7 @@ class ComicShowPage extends Component {
     }
 
     return(
-      <div>
+      <div id="show">
         <ComicDetails
           comic={this.state.comic}
         />
