@@ -74,12 +74,10 @@ class NewComicContainer extends Component {
   }
 
   onDragEnter() {
-    console.log('enter');
     this.setState({ dropzoneActive: true })
   }
 
   onDragLeave() {
-    console.log('leave');
     this.setState({ dropzoneActive: false })
   }
 
@@ -185,7 +183,7 @@ class NewComicContainer extends Component {
             handleTitleChange={this.handleTitleChange}
             title={this.state.title}
           />
-          <Uploader acceptFile={this.state.file}/><br/>
+          <Uploader file={this.state.file} acceptFile={this.state.acceptFile}/><br/>
           {messageArray}
           <input className="button" type="submit" onClick={this.handleSubmit} ></input>
         </form>

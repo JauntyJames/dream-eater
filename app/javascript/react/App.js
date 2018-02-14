@@ -17,7 +17,7 @@ const App = (props) => {
 
       <Route path='/' component={NavBar} >
         <IndexRoute component={NewComicContainer} />
-        <Route path="/comics" component={ComicsIndexContainer} />
+        <Route path="/comics" component={NewComicContainer} />
         <Route path="/comics/new" component={NewComicContainer} />
         <Route path="/comics/edit/:id" component={ComicEditContainer} />
         <Route path="/comics/:id" component={ComicShowPage} >

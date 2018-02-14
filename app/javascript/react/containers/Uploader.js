@@ -5,7 +5,7 @@ class Uploader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accepted: props.acceptfile
+      accepted: this.props.file
     }
     this.passFile = this.passFile.bind(this)
   }
@@ -15,7 +15,7 @@ class Uploader extends Component {
   }
 
   render() {
-    
+
     return(
       <div>
         <div className="dropzone">
@@ -39,6 +39,14 @@ class Uploader extends Component {
             }}
           </Dropzone>
         </div>
+        <aside>
+          <h5>Dropped file:</h5>
+          <ul>
+            {
+              this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+            }
+          </ul>
+        </aside>
       </div>
     )
   }
