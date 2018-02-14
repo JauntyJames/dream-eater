@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { debounce  } from 'throttle-debounce';
 
 import ComicTile from '../components/ComicTile'
 
@@ -11,6 +12,7 @@ class ComicsIndexContainer extends Component {
     }
     this.componentDidMount = this.componentDidMount.bind(this)
     this.fetchComics = this.fetchComics.bind(this)
+    this.fetchComics = debounce(250, this.fetchComics)
     this.handleChange = this.handleChange.bind(this)
   }
   componentDidMount() {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf/build/entry.webpack';
-import Fullscreen from "react-full-screen";
+import Fullscreen from 'react-full-screen';
+import Hammer from 'react-hammerjs';
 
 import ButtonGroup from '../components/ButtonGroup'
 import MessageTile from '../components/MessageTile'
@@ -17,20 +18,22 @@ class ComicDisplay extends Component {
       comic: this.props.comic,
       messages: [],
       bookmark: this.props.bookmark,
-      scale: 500
+      scale: 500,
+      navVisible: true
     }
     this.addFavorite = this.addFavorite.bind(this)
     this.arrowKey = this.arrowKey.bind(this)
     this.bookmarkPage = this.bookmarkPage.bind(this)
     this.buttons = this.buttons.bind(this)
     this.goFull = this.goFull.bind(this)
+    this.handleSwipe = this.handleSwipe.bind(this)
+    this.handleZoom = this.handleZoom.bind(this)
     this.goToBegining = this.goToBegining.bind(this)
     this.onDocumentLoad = this.onDocumentLoad.bind(this)
     this.scroll = this.scroll.bind(this)
     this.submitShelf = this.submitShelf.bind(this)
     this.turnPageBack = this.turnPageBack.bind(this)
     this.turnPageForward = this.turnPageForward.bind(this)
-    this.handleZoom = this.handleZoom.bind(this)
   }
 
   addFavorite() {
@@ -62,26 +65,51 @@ class ComicDisplay extends Component {
   }
 
   buttons(key) {
+    let buttonClass = ''
+    if (this.state.isFull) {
+      buttonClass = 'hideable'
+    } else {
+      buttonClass = ''
+    }
+
     return (
-    <ButtonGroup
-      key={key}
-      goToBegining={this.goToBegining}
-      turnPageBack={this.turnPageBack}
-      turnPageForward={this.turnPageForward}
-      goFull={this.goFull}
-      bookmarkPage={this.bookmarkPage}
-      addFavorite={this.addFavorite}
-      zoom={this.handleZoom}
-    />
-  )
+      <ButtonGroup
+        key={key}
+        navVisible={this.state.navVisible}
+        goToBegining={this.goToBegining}
+        turnPageBack={this.turnPageBack}
+        turnPageForward={this.turnPageForward}
+        goFull={this.goFull}
+        bookmarkPage={this.bookmarkPage}
+        addFavorite={this.addFavorite}
+        zoom={this.handleZoom}
+      />
+    )
   }
 
   goFull() {
-    this.setState({ isFull: !this.state.isFull, scale: 500 })
+    this.setState({ isFull: !this.state.isFull, scale: 500, navVisible: !this.state.navVisible })
   }
 
   goToBegining() {
     this.setState({ rightPage: 1, leftPage: 0 })
+  }
+
+  handleMouse(event) {
+    console.log(event);
+  }
+
+  handleSwipe(event) {
+    event.preventDefault();
+    if (event.deltaX < 0){
+      this.turnPageForward();
+    } else if (event.deltaX > 0) {
+      this.turnPageBack();
+    }
+  }
+
+  handleZoom(event) {
+    this.setState({ scale: 1.0 })
   }
 
   onDocumentLoad = ({ numPages }) => {
@@ -91,10 +119,6 @@ class ComicDisplay extends Component {
       this.setState({ numPages, rightPage: rightPage, leftPage: leftPage });
     }
     this.setState({ numPages })
-  }
-
-  handleZoom() {
-    this.setState({ scale: 1.0 })
   }
 
   scroll(wheelEvent) {
@@ -107,11 +131,6 @@ class ComicDisplay extends Component {
         this.setState({ scale: newZoom})
       }
     }
-    // else if (wheelEvent.deltaX > 40){
-    //   this.turnPageForward();
-    // } else if (wheelEvent.deltaX < -40) {
-    //   this.turnPageBack();
-    // }
   }
 
   submitShelf(formPayload) {
@@ -173,7 +192,7 @@ class ComicDisplay extends Component {
     if(this.state.leftPage > 0 && this.state.rightPage <= this.state.numPages){
       pages = [
         (<Page className="comic" pageNumber={leftPage} width={this.state.scale} key="left" onClick={this.turnPageBack}/>),
-        (<Page className="comic" pageNumber={rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
+        (<Page className="comic" pageNumber={ rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
       ]
     } else if (this.state.leftPage === 0) {
       pages = [
@@ -189,18 +208,23 @@ class ComicDisplay extends Component {
         <Fullscreen
           enabled={this.state.isFull}
           onChange={isFull => this.setState({isFull})}
+          onMouseMove={this.handleMouse}
         >
           <div className="full-screenable-node" onKeyDown={this.arrowKey} onWheel={this.scroll}>
             {this.buttons('top')}
             {messageTiles}
-            <Document
-              className="comic-container row large-12"
-              file={comicFile}
-              onLoadSuccess={this.onDocumentLoad}
-              ref={(input) => { this.focusDocument = input; }}
-            >
-              {pages}
-            </Document>
+              <Hammer onSwipe={this.handleSwipe} onPinch={this.handleZoom}>
+                <div>
+                  <Document
+                    className="comic-container row large-12"
+                    file={comicFile}
+                    onLoadSuccess={this.onDocumentLoad}
+                    ref={(input) => { this.focusDocument = input; }}
+                  >
+                    {pages}
+                  </Document>
+                </div>
+            </Hammer>
             <p>Page {rightPage} of {numPages}</p>
             {this.buttons('bottom')}
           </div>
