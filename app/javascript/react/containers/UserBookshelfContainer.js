@@ -36,22 +36,17 @@ class UserBookshelfContainer extends Component {
   render() {
     let myFavorites = this.state.favorites.map((comic) => {
       return(
-        <div key={comic.id}>
-          <div className="remove">
-            <i className="fas fa-minus-circle"></i>
-          </div>
-          <ComicTile
-            id={comic.id}
-            thumb={comic.file.thumb.url}
-            title={comic.title}
-          />
-        </div>
+        <ComicTile
+          key={comic.id}
+          id={comic.id}
+          thumb={comic.file.thumb.url}
+          title={comic.title}
+        />
       )
     })
 
-
     return(
-      <div>
+      <div id="bookshelf" className="row">
         <UserDetails
           user={this.state.user}
         />

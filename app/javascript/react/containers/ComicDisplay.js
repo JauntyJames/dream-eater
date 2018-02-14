@@ -88,7 +88,7 @@ class ComicDisplay extends Component {
   }
 
   goFull() {
-    this.setState({ isFull: !this.state.isFull, scale: 500, navVisible: !this.state.navVisible })
+    this.setState({ scale: 500, isFull: !this.state.isFull})
   }
 
   goToBegining() {
