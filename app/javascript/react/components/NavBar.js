@@ -36,17 +36,43 @@ class NavBar extends Component {
       myBookshelf = <Link href='/users/sign_in'><button>Sign In</button></Link>
     }
     return(
-      <div className="row column">
+      <div>
         <div id="navbar">
-          <h1 id="title">Dream Eater</h1>
-          <h3>Comicbook Library</h3>
-          <Link to='/'><button>Index</button></Link>
-          <button onClick={browserHistory.goBack}>Back</button>
-          {myBookshelf}
+          <div className="large-6 small-12 thing">
+            <ul className="headers">
+              <li>
+                <h1 id="title">DreamEater</h1>
+              </li>
+              <li>
+                <h3>Comicbook Library</h3>
+              </li>
+            </ul>
+          </div>
+
+          <div className="large-6 small-12 thing nav-buttons">
+            <ul className="headers ">
+              <li><Link to='/'><button>Index</button></Link></li>
+              <li><button onClick={browserHistory.goBack} className="button">Back</button></li>
+              <li>{myBookshelf}</li>
+            </ul>
+          </div>
         </div>
-        {this.props.children }
+        <div id="children">
+          {this.props.children}
+        </div>
       </div>
     )
   }
 }
 export default NavBar;
+
+// {/* <div className="row column" id="navbar">
+//   <div >
+//     <h1 id="title">Dream Eater</h1>
+//     <h3>Comicbook Library</h3>
+//     <Link to='/'><button>Index</button></Link>
+//     <button onClick={browserHistory.goBack}>Back</button>
+//     {myBookshelf}
+//   </div>
+//   {this.props.children }
+// </div> */}

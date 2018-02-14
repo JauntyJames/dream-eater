@@ -73,22 +73,22 @@ class ComicDisplay extends Component {
     }
 
     return (
-      <ButtonGroup
-        key={key}
-        navVisible={this.state.navVisible}
-        goToBegining={this.goToBegining}
-        turnPageBack={this.turnPageBack}
-        turnPageForward={this.turnPageForward}
-        goFull={this.goFull}
-        bookmarkPage={this.bookmarkPage}
-        addFavorite={this.addFavorite}
-        zoom={this.handleZoom}
-      />
-    )
+    <ButtonGroup
+      key={key}
+      id={key + '-button'}
+      goToBegining={this.goToBegining}
+      turnPageBack={this.turnPageBack}
+      turnPageForward={this.turnPageForward}
+      goFull={this.goFull}
+      bookmarkPage={this.bookmarkPage}
+      addFavorite={this.addFavorite}
+      zoom={this.handleZoom}
+    />
+  )
   }
 
   goFull() {
-    this.setState({ isFull: !this.state.isFull, scale: 500, navVisible: !this.state.navVisible })
+    this.setState({ scale: 500, isFull: !this.state.isFull})
   }
 
   goToBegining() {
@@ -123,11 +123,11 @@ class ComicDisplay extends Component {
 
   scroll(wheelEvent) {
     if (this.state.isFull) {
-      if (wheelEvent.deltaY > 20){
-        let newZoom = this.state.scale + 10
+      if (wheelEvent.deltaY > 30){
+        let newZoom = this.state.scale + 20
         this.setState({ scale: newZoom})
-      } else if (wheelEvent.deltaY < -20 && this.state.scale > 200 ){
-        let newZoom = this.state.scale - 10
+      } else if (wheelEvent.deltaY < -30 && this.state.scale > 200 ){
+        let newZoom = this.state.scale - 20
         this.setState({ scale: newZoom})
       }
     }
@@ -187,6 +187,8 @@ class ComicDisplay extends Component {
         <MessageTile message={message} key={message}/>
       )
     })
+
+    let buttons = []
 
     let pages = []
     if(this.state.leftPage > 0 && this.state.rightPage <= this.state.numPages){

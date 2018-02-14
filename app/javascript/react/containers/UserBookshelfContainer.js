@@ -45,9 +45,8 @@ class UserBookshelfContainer extends Component {
       )
     })
 
-
     return(
-      <div>
+      <div id="bookshelf" className="row">
         <UserDetails
           user={this.state.user}
         />

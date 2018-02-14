@@ -58,7 +58,7 @@ class ComicsIndexContainer extends Component {
 
     return(
       <div id="index-container">
-        <form>
+        <div id="searchbar">
           <input
             id="search"
             type='text'
@@ -66,9 +66,9 @@ class ComicsIndexContainer extends Component {
             onChange={this.handleChange}
             placeholder="Enter search terms"
           />
-        </form>
+        </div>
         {comicsArray}
-      </div>
+      </div> 
     )
   }
 }

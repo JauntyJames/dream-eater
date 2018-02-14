@@ -3,7 +3,7 @@ import React from 'react';
 const ComicForm = (props) => {
 
   return(
-    <div>
+    <div id="new-comic-form">
       <label id="title">Title</label>
       <input
         type="text"
@@ -18,19 +18,19 @@ const ComicForm = (props) => {
         value={props.author}
         onChange={props.handleAuthorChange}
       ></input>
-      <label id="description">Summary</label>
-      <input
-        type="text"
-        name="description"
-        value={props.description}
-        onChange={props.handleDescriptionChange}
-      ></input>
       <label id="publishedYear">Year of Publication</label>
       <input type="text"
         name="publishedYear"
         value={props.publishedYear}
         onChange={props.handlePublishedYearChange}
-      ></input>
+        ></input>
+      <label id="description">Summary</label>
+      <textarea
+        type="text"
+        name="description"
+        value={props.description}
+        onChange={props.handleDescriptionChange}
+      ></textarea>
     </div>
   )
 }

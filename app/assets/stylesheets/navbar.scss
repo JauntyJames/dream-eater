@@ -1,8 +1,30 @@
 #navbar {
   background-color: rgb(51,51,51);
-  text-align: center;
-  margin: 1rem;
+  margin: 1rem, 1rem, 0rem, 1rem;
   color: rgb(255, 246, 201);
+  padding: 0;
+}
+
+#title {
+  font-size: 6vw;
+}
+
+#navbar div.thing {
+  display: inline-block;
+}
+
+.headers {
+  list-style: none;
+  margin: 1rem;
+}
+
+.headers li {
+  display: inline;
+}
+
+.thing.nav-buttons {
+  text-align: right;
+  top: 0;
 }
 
 button {
@@ -10,16 +32,19 @@ button {
   border-radius: 0.2rem;
   margin: 2rem;
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 button:hover {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 button:focus-within {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 .button {
@@ -27,24 +52,29 @@ button:focus-within {
   border-radius: 0.2rem;
   margin: 2rem;
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 .button:hover {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 .button:active {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 a button {
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 a:hover button {
   color: rgb(51,51,51);
+  font-family: 'Slabo 27px', serif;
 }
 
 h1 {
@@ -54,4 +84,17 @@ h1 {
 
 #navbar h3 {
   color: rgb(255, 246, 201);
+}
+
+.top-bar {
+  height: 10rem;
+}
+
+#sign-in {
+  text-align: right;
+}
+
+#children {
+  background-color: rgb(90, 102, 122);
+  margin-top: 0;
 }

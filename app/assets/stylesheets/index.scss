@@ -6,10 +6,9 @@
 }
 
 #search {
-  margin: auto;
-  width: 80%;
-  font-size: 20;
-  background-color: rgb(255, 246, 201)
+  margin-left: 2rem;
+  width: 30%;
+  background-color: rgb(255, 246, 201);
 }
 
 .callout {
@@ -41,6 +40,12 @@ a button {
 .fb-like {
   float: right;
   display: inline-block;
+}
+
+#searchbar {
+  background-color: rgb(51, 51, 51);
+  padding-bottom: 1rem;
+  position: sticky;
 }
 
 

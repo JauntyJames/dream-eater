@@ -46,38 +46,36 @@ class ComicShowPage extends Component {
   }
 
   render() {
-    let loadedComic = () => {
-      if (this.state.loaded) {
-        return (
-          <div>
-            <ComicDisplay comic={this.state.comic} bookmark={this.state.bookmark} />
-            <button onClick={this.handleLoad}>Close Reader</button>
-          </div>
-        )
-      } else {
-        return (
-          <span>
-            <button onClick={this.handleLoad}>Read Me!</button>
-            {editMe()}
-          </span>
-        )
-      }
+    let editMe
+    if (this.state.editable){
+      editMe = (
+        <Link to={`/comics/edit/${this.state.comic.id}`}><button>Edit Comic Info</button></Link>
+      )
     }
 
-    let editMe = () => {
-      if (this.state.editable){
-        return (
-          <Link to={`/comics/edit/${this.state.comic.id}`}><button>Edit Comic Info</button></Link>
-        )
-      }
+    let loadedComic
+    if (this.state.loaded) {
+      loadedComic = (
+        <div key="close">
+          <ComicDisplay comic={this.state.comic} bookmark={this.state.bookmark} />
+          <button onClick={this.handleLoad}>Close Reader</button>
+        </div>
+      )
+    } else {
+      loadedComic = (
+        <span key="open">
+          <button id="readme" onClick={this.handleLoad}>Read Me!</button>
+          {editMe}
+        </span>
+      ) 
     }
 
     return(
-      <div>
+      <div id="show">
         <ComicDetails
           comic={this.state.comic}
         />
-        {loadedComic()}
+        {loadedComic}
         {this.props.children}
       </div>
     )

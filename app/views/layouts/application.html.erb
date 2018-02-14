@@ -21,35 +21,26 @@
     js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=532184770498970&autoLogAppEvents=1';
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));</script>
-
-  <nav class="top-bar">
-    <ul class="title-area">
-      <li class="name">
-        <h1><a href="/">DreamEater</a></h1>
-      </li>
-    </ul>
-
-    <section class="top-bar-section">
-        <ul class="right">
-        <%- if current_user -%>
-          <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></li>
-          <li>
-            <%= image_tag("#{current_user.profile_photo.url}", height: '45', width: '45') %>
-          </li>
-        <%- else -%>
-          <li><%= link_to 'Sign Up', new_user_registration_path %></li>
-          <li><%= link_to 'Sign In', new_user_session_path %></li>
-        <%- end -%>
-      </ul>
-    </section>
-  </nav>
-
-  <%- flash.each do |key, value| -%>
-    <div class="flash flash-<%= key %>">
-      <%= value %>
-    </div>
-  <%- end -%>
+  <div id="sign-in">
+    <%- if current_user -%>
+      <span><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></span>
+      <span>
+        <%= image_tag("#{current_user.profile_photo.url}", height: '45', width: '45') %>
+      </span>
+    <%- else -%>
+      <span><%= link_to 'Sign Up', new_user_registration_path %></span>
+      <span><%= link_to 'Sign In', new_user_session_path %></span>
+    <%- end -%>
+  </div>
   <%= yield %>
+  <div id="flash-message" >
+
+    <%- flash.each do |key, value| -%>
+      <div class="flash flash-<%= key %>" >
+        <%= value %>
+      </div>
+    <%- end -%>
+  </div>
 
 
   <%= javascript_pack_tag 'application' %>
