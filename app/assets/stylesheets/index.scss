@@ -13,7 +13,7 @@
 
 #search {
   margin-left: 2rem;
-  width: 30%;
+  width: 20rem;
   background-color: rgb(255, 246, 201);
 }
 
@@ -52,7 +52,21 @@ a button {
   background-color: rgb(51, 51, 51);
   padding-bottom: 1rem;
   position: sticky;
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
 }
+@media all and (max-width: 800px) {
+  #searchbar{
+    flex-direction: column-reverse;
+  }
+}
+
+
 
 
 /* ----------------------------------------------

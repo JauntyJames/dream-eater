@@ -55,7 +55,7 @@ class ComicsIndexContainer extends Component {
         />
       )
     })
-
+  
     return(
       <div id="index-container">
         <div id="searchbar">
@@ -66,6 +66,7 @@ class ComicsIndexContainer extends Component {
             onChange={this.handleChange}
             placeholder="Enter search terms"
           />
+          <button onClick={this.props.toggleForm}>Upload New Comic</button>
         </div>
         <div className="comics-array">
           {comicsArray}

@@ -35,20 +35,22 @@ class NavBar extends Component {
     } else {
       myBookshelf = <Link href='/users/sign_in'><button>Sign In</button></Link>
     }
-    return(
+    return(    
       <div>
         <div id="navbar">
           <div className="large-6 small-12 thing">
             <ul className="headers">
               <li>
-                <p id="title">DreamEater</p>
-                <p>Comicbook Library</p>
+                <h1 id="title">DreamEater</h1>
+              </li>
+              <li>
+                <h3 id="subtitle">Comicbook Library</h3>
               </li>
             </ul>
           </div>
 
           <div className="large-6 small-12 thing nav-buttons">
-            <ul className="headers ">
+            <ul className="headers nav-buttons">
               <li><Link to='/'><button>Index</button></Link></li>
               <li><button onClick={browserHistory.goBack} className="button">Back</button></li>
               <li>{myBookshelf}</li>
