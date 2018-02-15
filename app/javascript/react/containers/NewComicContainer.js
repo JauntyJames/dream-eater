@@ -117,7 +117,9 @@ class NewComicContainer extends Component {
       body: formPayload
     })
     .then(response => {
-      if (response.ok) {
+      if (response.status === 422) {
+        this.setState({ messages: ["Something went wrong with the upload!"]})
+      } else if (response.ok) {
         return response;
       } else {
         let errorMessage = `${response.status} (${response.statusText})`,
@@ -188,7 +190,7 @@ class NewComicContainer extends Component {
           style={{position: "relative"}}
           onDrop={this.onDrop}
           onDragEnter={this.onDragEnter}
-          onDragOver={this.onDragLeave}
+          onDragLeave={this.onDragLeave}
         >
           { dropzoneActive && <div style={overlayStyle}>Drop your comic PDF here</div> }
           <ComicsIndexContainer  toggleForm={this.toggleForm}/>
