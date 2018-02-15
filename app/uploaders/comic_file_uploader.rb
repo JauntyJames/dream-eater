@@ -2,8 +2,8 @@ require 'carrierwave/processing/rmagick'
 
 class ComicFileUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
-  include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  # include CarrierWave::RMagick
+  include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
   if Rails.env.test?
@@ -35,19 +35,20 @@ class ComicFileUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   def cover
-    manipulate! do |frame, index|
-      frame if index.zero? # take only the first page of the file
+    index = 0
+    manipulate! do |frame|
+      return frame
     end
   end
 
   version :thumb do
     process :cover
-    process :resize_to_fit => [400, 400]
-    process :convert => :jpg
-
+    process resize_to_fit: [400, 400]
+    process convert: 'png'
     def full_filename (for_file = model.source.file)
-      super.chomp(File.extname(super)) + '.jpg'
+      super.chomp(File.extname(super)) + '.png'
     end
+    binding.pry
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
