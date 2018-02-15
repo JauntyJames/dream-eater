@@ -41,10 +41,8 @@ class NavBar extends Component {
           <div className="large-6 small-12 thing">
             <ul className="headers">
               <li>
-                <h1 id="title">DreamEater</h1>
-              </li>
-              <li>
-                <h3>Comicbook Library</h3>
+                <p id="title">DreamEater</p>
+                <p>Comicbook Library</p>
               </li>
             </ul>
           </div>

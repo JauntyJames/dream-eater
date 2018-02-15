@@ -196,7 +196,7 @@ class NewComicContainer extends Component {
 
     } else if (this.state.signedIn) {
       renderComponent = [
-        <form key="new">
+        <form key="new" className="row">
           <button onClick={this.closeNewComic}>Back to Index</button>
           <ComicForm
             handleAuthorChange={this.handleAuthorChange}

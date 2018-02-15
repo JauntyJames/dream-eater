@@ -143,7 +143,7 @@ class ComicEditContainer extends Component {
     })
 
     return(
-      <div>
+      <div className="row">
         <form>
           <ComicForm
             handleAuthorChange={this.handleAuthorChange}

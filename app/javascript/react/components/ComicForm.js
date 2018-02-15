@@ -4,7 +4,7 @@ const ComicForm = (props) => {
 
   return(
     <div id="new-comic-form">
-      <label id="title">Title</label>
+      <label>Title</label>
       <input
         type="text"
         name="title"

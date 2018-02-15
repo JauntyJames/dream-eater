@@ -67,8 +67,10 @@ class ComicsIndexContainer extends Component {
             placeholder="Enter search terms"
           />
         </div>
-        {comicsArray}
-      </div> 
+        <div className="comics-array">
+          {comicsArray}
+        </div>
+      </div>
     )
   }
 }

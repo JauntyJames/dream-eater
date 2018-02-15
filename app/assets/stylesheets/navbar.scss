@@ -16,13 +16,14 @@
 .headers {
   list-style: none;
   margin: 1rem;
+  display: inline;
 }
 
 .headers li {
   display: inline;
 }
 
-.thing.nav-buttons {
+.headers.nav-buttons {
   text-align: right;
   top: 0;
 }
@@ -61,7 +62,7 @@ button:focus-within {
   font-family: 'Slabo 27px', serif;
 }
 
-.button:active {
+.button:focus-within {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
   font-family: 'Slabo 27px', serif;
