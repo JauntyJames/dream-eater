@@ -62,12 +62,30 @@ a button {
   }
 }
 @media all and (max-width: 800px) {
-  #searchbar{
+  #searchbar {
     flex-direction: column-reverse;
   }
 }
 
 
+.tiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(90, 102, 122);
+  color: rgb(255, 246, 201);
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  position: absolute;
+  right: 18%;
+  top: -5px;
+  z-index: 1;
+}
+
+.tip:hover .tiptext {
+  visibility: visible;
+}
 
 
 /* ----------------------------------------------

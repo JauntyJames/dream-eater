@@ -66,7 +66,10 @@ class ComicsIndexContainer extends Component {
             onChange={this.handleChange}
             placeholder="Enter search terms"
           />
-          <button onClick={this.props.toggleForm}>Upload New Comic</button>
+          <div className="tip">
+            <button onClick={this.props.toggleForm}>Upload New Comic</button>
+            <span className="tiptext">Click here or drop a pdf anywhere on this page!</span>
+          </div>
         </div>
         <div className="comics-array">
           {comicsArray}
