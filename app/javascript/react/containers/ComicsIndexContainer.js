@@ -55,7 +55,7 @@ class ComicsIndexContainer extends Component {
         />
       )
     })
-  
+    
     return(
       <div id="index-container">
         <div id="searchbar">
