@@ -109,6 +109,7 @@ class ComicDisplay extends Component {
   }
 
   handleZoom(event) {
+    console.log(event);
     this.setState({ scale: 1.0 })
   }
 
@@ -215,17 +216,21 @@ class ComicDisplay extends Component {
           <div className="full-screenable-node" onKeyDown={this.arrowKey} onWheel={this.scroll}>
             {this.buttons('top')}
             {messageTiles}
-              <Hammer onSwipe={this.handleSwipe} onPinch={this.handleZoom}>
-                <div>
-                  <Document
-                    className="comic-container row large-12"
-                    file={comicFile}
-                    onLoadSuccess={this.onDocumentLoad}
-                    ref={(input) => { this.focusDocument = input; }}
-                  >
-                    {pages}
-                  </Document>
-                </div>
+            <Hammer
+              onSwipe={this.handleSwipe}
+              onPinch={this.handleZoom}
+              options={{recognizers: { pinch: { enabled: true }}}}
+            >
+              <div>
+                <Document
+                  className="comic-container row large-12"
+                  file={comicFile}
+                  onLoadSuccess={this.onDocumentLoad}
+                  ref={(input) => { this.focusDocument = input; }}
+                >
+                  {pages}
+                </Document>
+              </div>
             </Hammer>
             <p>Page {rightPage} of {numPages}</p>
             {this.buttons('bottom')}
