@@ -18,7 +18,9 @@ class ComicDisplay extends Component {
       comic: this.props.comic,
       messages: [],
       bookmark: this.props.bookmark,
-      scale: 500,
+      scale: 10,
+      deltaX: 0,
+      deltaY: 0,
     }
     this.addFavorite = this.addFavorite.bind(this)
     this.arrowKey = this.arrowKey.bind(this)
@@ -26,7 +28,7 @@ class ComicDisplay extends Component {
     this.buttons = this.buttons.bind(this)
     this.goFull = this.goFull.bind(this)
     this.handleSwipe = this.handleSwipe.bind(this)
-    this.handleZoom = this.handleZoom.bind(this)
+    this.handlePan = this.handlePan.bind(this)
     this.goToBegining = this.goToBegining.bind(this)
     this.onDocumentLoad = this.onDocumentLoad.bind(this)
     this.scroll = this.scroll.bind(this)
@@ -87,11 +89,22 @@ class ComicDisplay extends Component {
   }
 
   goFull() {
-    this.setState({ scale: 500, isFull: !this.state.isFull})
+    this.setState({ scale: 1, isFull: !this.state.isFull})
   }
 
   goToBegining() {
     this.setState({ rightPage: 1, leftPage: 0 })
+  }
+
+  handlePan(event) {
+    if (this.state.isFull) {
+      let currentScale = event.scale * this.state.scale
+      let currentDeltaX = this.state.deltaX + (event.deltaX / currentScale)
+      let currentDeltaY = this.state.deltaY + (event.deltaY / currentScale)
+
+      this.setState({ scale: currentScale, deltaX: currentDeltaX, deltaY: currentDeltaY })
+      console.log(this.state);
+    }
   }
 
   handleSwipe(event) {
@@ -101,11 +114,6 @@ class ComicDisplay extends Component {
     } else if (event.deltaX > 0) {
       this.turnPageBack();
     }
-  }
-
-  handleZoom(event) {
-    console.log(event);
-    this.setState({ scale: 1.0 })
   }
 
   onDocumentLoad = ({ numPages }) => {
@@ -187,17 +195,40 @@ class ComicDisplay extends Component {
     let pages = []
     if(this.state.leftPage > 0 && this.state.rightPage <= this.state.numPages){
       pages = [
-        (<Page className="comic" pageNumber={leftPage} width={this.state.scale} key="left" onClick={this.turnPageBack}/>),
-        (<Page className="comic" pageNumber={ rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
+        (<Page
+          className="comic"
+          pageNumber={leftPage}
+          key="left"
+          scale={20}
+          onClick={this.turnPageBack}/>),
+        (<Page
+          className="comic"
+          pageNumber={rightPage}
+          key="right"
+          onClick={this.turnPageForward} />)
       ]
     } else if (this.state.leftPage === 0) {
       pages = [
-        (<Page className="comic" pageNumber={rightPage} width={this.state.scale} key="right" onClick={this.turnPageForward} />)
+        (<Page
+          className="comic"
+          pageNumber={rightPage}
+          key="right"
+          width={1000}
+          onClick={this.turnPageForward} />)
       ]
     } else if (this.state.rightPage > this.state.numPages) {
       pages = [
-        (<Page className="comic" pageNumber={leftPage} width={this.state.scale} key="left" onClick={this.turnPageBack}/>),
+        (<Page
+          className="comic"
+          pageNumber={leftPage}
+          key="left"
+          style={divStyle}
+          onClick={this.turnPageBack}/>),
       ]
+    }
+
+    let divStyle = {
+      transform: `scale(${this.state.scale}) translate(${this.state.deltaX}, ${this.state.deltaY})`
     }
     return (
       <div className="display-box large-12">
@@ -209,11 +240,12 @@ class ComicDisplay extends Component {
             {this.buttons('top')}
             {messageTiles}
             <Hammer
-              onSwipe={this.handleSwipe}
-              onPinch={this.handleZoom}
-              options={{recognizers: { pinch: { enabled: true }}}}
+              // onSwipe={this.handleSwipe}
+              // onPinch={this.handlePan}
+              // onPan={this.handlePan}
+              options={{recognizers: { pinch: { enable: true }}}}
             >
-              <div>
+              <div >
                 <Document
                   className="comic-container row large-12"
                   file={comicFile}
