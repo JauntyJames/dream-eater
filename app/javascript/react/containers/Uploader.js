@@ -38,7 +38,7 @@ class Uploader extends Component {
               return acceptedFiles.length || rejectedFiles.length
                 ? `Accepted ${acceptedFiles.length}, rejected ${rejectedFiles.length} files`
                 : <p> <i className="fas fa-upload"></i> Drop in your comic PDF here - Limit 8MB</p> ;
-            }}
+            }} 
           </Dropzone>
         </div>
         <aside>

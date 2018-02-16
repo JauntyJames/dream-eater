@@ -18,10 +18,10 @@ class NewComicContainer extends Component {
       publishedYear: "",
       messages: [],
       dropzoneActive: false,
-      signedIn: false
+      signedIn: false,
+      form: false
     }
     this.acceptFile = this.acceptFile.bind(this)
-    this.closeNewComic = this.closeNewComic.bind(this)
     this.handleAuthorChange = this.handleAuthorChange.bind(this)
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
     this.handlePublishedYearChange = this.handlePublishedYearChange.bind(this)
@@ -32,15 +32,12 @@ class NewComicContainer extends Component {
     this.onDrop = this.onDrop.bind(this)
     this.redirect = this.redirect.bind(this)
     this.submitForm = this.submitForm.bind(this)
+    this.toggleForm = this.toggleForm.bind(this)
     this.validateFields = this.validateFields.bind(this)
   }
 
   acceptFile(accepted) {
     this.setState({ file: accepted })
-  }
-
-  closeNewComic() {
-    this.setState({ file: [] })
   }
 
   componentWillMount() {
@@ -106,7 +103,7 @@ class NewComicContainer extends Component {
   }
 
   onDrop(file) {
-    this.setState({ file, dropzoneActive: false })
+    this.setState({ file, dropzoneActive: false, form: true })
   }
 
   redirect(path) {
@@ -136,6 +133,10 @@ class NewComicContainer extends Component {
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
     this.setState({ messages: ["Comic uploading..."]})
+  }
+
+  toggleForm() {
+    this.setState({ form: !this.state.form })
   }
 
   validateFields() {
@@ -178,7 +179,7 @@ class NewComicContainer extends Component {
 
     let renderComponent
 
-    if (file.length === 0 && this.state.signedIn) {
+    if (!this.state.form && this.state.signedIn) {
       renderComponent = [
         <Dropzone
           key="dropindex"
@@ -192,14 +193,14 @@ class NewComicContainer extends Component {
           onDragLeave={this.onDragLeave}
         >
           { dropzoneActive && <div style={overlayStyle}>Drop your comic PDF here</div> }
-          <ComicsIndexContainer />
+          <ComicsIndexContainer  toggleForm={this.toggleForm}/>
         </Dropzone>
       ]
 
-    } else if (this.state.signedIn) {
+    } else if (this.state.signedIn && this.state.form) {
       renderComponent = [
-        <form key="new">
-          <button onClick={this.closeNewComic}>Back to Index</button>
+        <form key="new" className="row">
+          <button onClick={this.toggleForm}>Back to Index</button>
           <ComicForm
             handleAuthorChange={this.handleAuthorChange}
             author={this.state.author}
@@ -217,7 +218,7 @@ class NewComicContainer extends Component {
       ]
     } else {
       renderComponent = [
-        <ComicsIndexContainer key="index" />
+        <ComicsIndexContainer key="index" toggleForm={this.toggleForm}/>
       ]
     }
 

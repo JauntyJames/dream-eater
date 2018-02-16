@@ -56,26 +56,28 @@ class ComicShowPage extends Component {
     let loadedComic
     if (this.state.loaded) {
       loadedComic = (
-        <div key="close">
+        <div key="close" id="load-edit">
           <ComicDisplay comic={this.state.comic} bookmark={this.state.bookmark} />
           <button onClick={this.handleLoad}>Close Reader</button>
         </div>
       )
     } else {
       loadedComic = (
-        <span key="open">
-          <button id="readme" onClick={this.handleLoad}>Read Me!</button>
+        <div key="open" id="load-edit">
+          <a onClick={this.handleLoad} className="button large expanded" >Read Me!</a>
           {editMe}
-        </span>
-      ) 
+        </div>
+      )
     }
 
     return(
-      <div id="show">
+      <div id="show" className="row">
         <ComicDetails
           comic={this.state.comic}
         />
+        <br /> <hr />
         {loadedComic}
+        <br /> <hr />
         {this.props.children}
       </div>
     )

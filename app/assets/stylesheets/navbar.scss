@@ -3,28 +3,46 @@
   margin: 1rem, 1rem, 0rem, 1rem;
   color: rgb(255, 246, 201);
   padding: 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media all and (max-width: 800px) {
+  #navbar {
+    flex-direction: column;
+  }
+
+  .headers{
+    flex-direction: column;
+  }
 }
 
 #title {
-  font-size: 6vw;
+  font-size: 6rem;
 }
 
-#navbar div.thing {
-  display: inline-block;
+#subtitle {
+  margin-top: 5.2rem;
+  margin-left: 2rem;
 }
 
 .headers {
   list-style: none;
   margin: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .headers li {
   display: inline;
 }
 
-.thing.nav-buttons {
-  text-align: right;
-  top: 0;
+.headers.nav-buttons {
+  margin-top: 3.5rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
 button {
@@ -45,6 +63,7 @@ button:focus-within {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
   font-family: 'Slabo 27px', serif;
+  outline: none;
 }
 
 .button {
