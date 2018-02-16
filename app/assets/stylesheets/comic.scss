@@ -33,10 +33,11 @@
 }
 
 .fullscreen-enabled #top-button {
-  position: sticky;
-  left: 50%;
-  top: 0;
-  z-index: 2;
+  // position: sticky;
+  // left: 50%;
+  // top: 0;
+  // z-index: 2;
+  visibility: hidden;
 }
 
 .fullscreen-enabled #bottom-button {
@@ -44,15 +45,28 @@
   left: 50%;
   bottom: 0;
   z-index: 2;
+  visibility: hidden;
 }
 
-.fullscreen-enabled .comic-nav:hover {
+.fullscreen-enabled .hideable {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+}
+
+.hideable:hover #bottom-button {
   visibility: visible;
 }
 
 .comic-nav button {
   white-space: nowrap;
   color: rgb(51, 51, 51);
+}
+
+@media all and (max-width: 800px) {
+  .fullscreen-enabled .comic-nav {
+    visibility: hidden;
+  }
 }
 
 
