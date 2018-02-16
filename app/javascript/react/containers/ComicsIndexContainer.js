@@ -45,6 +45,15 @@ class ComicsIndexContainer extends Component {
   }
 
   render() {
+    let uploadButton
+    if (this.props.toggleForm) {
+      uploadButton = (
+        <div className="tip">
+          <button onClick={this.props.toggleForm}>Upload New Comic</button>
+          <span className="tiptext">Click here or drop a pdf anywhere on this page!</span>
+        </div>
+      )
+    }
     let comicsArray = this.state.comics.map((comic) => {
       return(
         <ComicTile
@@ -55,7 +64,7 @@ class ComicsIndexContainer extends Component {
         />
       )
     })
-    
+
     return(
       <div id="index-container">
         <div id="searchbar">
@@ -66,10 +75,7 @@ class ComicsIndexContainer extends Component {
             onChange={this.handleChange}
             placeholder="Enter search terms"
           />
-          <div className="tip">
-            <button onClick={this.props.toggleForm}>Upload New Comic</button>
-            <span className="tiptext">Click here or drop a pdf anywhere on this page!</span>
-          </div>
+          {uploadButton}
         </div>
         <div className="comics-array">
           {comicsArray}
