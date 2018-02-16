@@ -218,7 +218,7 @@ class NewComicContainer extends Component {
       ]
     } else {
       renderComponent = [
-        <ComicsIndexContainer key="index" toggleForm={this.toggleForm}/>
+        <ComicsIndexContainer key="index"/>
       ]
     }
 
