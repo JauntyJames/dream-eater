@@ -127,3 +127,21 @@ input.button {
 #load-edit{
   text-align: center;
 }
+
+#thumb {
+  display: inline-block;
+  flex-shrink: 0;
+  img {
+    width: 100%;
+    margin-right: 1rem;
+  }
+}
+
+#deets {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.dont-wrap {
+  display: flex;
+}
