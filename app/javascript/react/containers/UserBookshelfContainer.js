@@ -35,7 +35,6 @@ class UserBookshelfContainer extends Component {
 
   render() {
     let myFavorites = this.state.favorites.map((comic) => {
-      debugger
       return(
         <ComicTile
           key={comic.id}
