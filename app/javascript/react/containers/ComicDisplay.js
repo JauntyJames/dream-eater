@@ -19,7 +19,6 @@ class ComicDisplay extends Component {
       messages: [],
       bookmark: this.props.bookmark,
       scale: 500,
-      navVisible: true
     }
     this.addFavorite = this.addFavorite.bind(this)
     this.arrowKey = this.arrowKey.bind(this)
@@ -73,18 +72,18 @@ class ComicDisplay extends Component {
     }
 
     return (
-    <ButtonGroup
-      key={key}
-      id={key + '-button'}
-      goToBegining={this.goToBegining}
-      turnPageBack={this.turnPageBack}
-      turnPageForward={this.turnPageForward}
-      goFull={this.goFull}
-      bookmarkPage={this.bookmarkPage}
-      addFavorite={this.addFavorite}
-      zoom={this.handleZoom}
-    />
-  )
+      <ButtonGroup
+        key={key}
+        id={key + '-button'}
+        goToBegining={this.goToBegining}
+        turnPageBack={this.turnPageBack}
+        turnPageForward={this.turnPageForward}
+        goFull={this.goFull}
+        bookmarkPage={this.bookmarkPage}
+        addFavorite={this.addFavorite}
+        zoom={this.handleZoom}
+      />
+    )
   }
 
   goFull() {
@@ -93,10 +92,6 @@ class ComicDisplay extends Component {
 
   goToBegining() {
     this.setState({ rightPage: 1, leftPage: 0 })
-  }
-
-  handleMouse(event) {
-    console.log(event);
   }
 
   handleSwipe(event) {
@@ -189,8 +184,6 @@ class ComicDisplay extends Component {
       )
     })
 
-    let buttons = []
-
     let pages = []
     if(this.state.leftPage > 0 && this.state.rightPage <= this.state.numPages){
       pages = [
@@ -211,9 +204,8 @@ class ComicDisplay extends Component {
         <Fullscreen
           enabled={this.state.isFull}
           onChange={isFull => this.setState({isFull})}
-          onMouseMove={this.handleMouse}
         >
-          <div className="full-screenable-node" onKeyDown={this.arrowKey} onWheel={this.scroll}>
+          <div className="full-screenable-node" onKeyDown={this.arrowKey} tabIndex="0" onWheel={this.scroll}>
             {this.buttons('top')}
             {messageTiles}
             <Hammer
@@ -227,6 +219,7 @@ class ComicDisplay extends Component {
                   file={comicFile}
                   onLoadSuccess={this.onDocumentLoad}
                   ref={(input) => { this.focusDocument = input; }}
+                  loading="Loading Comic File"
                 >
                   {pages}
                 </Document>
