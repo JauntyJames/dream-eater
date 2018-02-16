@@ -43,8 +43,10 @@ class Api::V1::ComicsController < ApplicationController
 
   def destroy
     destroyed_comic = Comic.find(params[:id])
+    destroyed_shelves = destroyed_comic.shelves
     if current_user.id == destroyed_comic.creator_id
       if destroyed_comic.destroy
+        destroyed_shelves.each { |shelf| shelf.destroy }
         render json: { path: '/comics' }
       else
         render json: { message: destroyed_comic.errors.full_messages }, status: :unprocessable_entity
