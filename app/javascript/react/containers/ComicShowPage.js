@@ -71,7 +71,7 @@ class ComicShowPage extends Component {
     }
 
     return(
-      <div id="show">
+      <div id="show" className="row">
         <ComicDetails
           comic={this.state.comic}
         />

@@ -23,7 +23,7 @@
 }
 
 #subtitle {
-  margin-top: 4.5rem;
+  margin-top: 5.2rem;
   margin-left: 2rem;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .headers.nav-buttons {
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   display: flex;
   justify-content: flex-end;
 }
@@ -63,6 +63,7 @@ button:focus-within {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
   font-family: 'Slabo 27px', serif;
+  outline: none;
 }
 
 .button {
@@ -79,7 +80,7 @@ button:focus-within {
   font-family: 'Slabo 27px', serif;
 }
 
-.button:focus-within {
+.button:active {
   background-color: rgb(219, 212, 179);
   color: rgb(51,51,51);
   font-family: 'Slabo 27px', serif;

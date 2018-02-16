@@ -73,9 +73,7 @@ p {
 .button.round:focus-within {
   background-color: rgb(219, 212, 179);
   color: rgb(51, 51, 51);
-  box-shadow: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
+  outline: none;
 }
 
 div.fullscreen p {
@@ -92,9 +90,9 @@ div.fullscreen p {
 }
 
 #comment-body {
+  margin: 2rem;
   display: inline-block;
-  margin: auto;
-  width: 70%;
+  width: 40rem;
   font-size: 20;
   background-color: rgb(255, 246, 201)
 }
