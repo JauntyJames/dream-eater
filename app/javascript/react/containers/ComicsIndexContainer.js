@@ -10,12 +10,11 @@ class ComicsIndexContainer extends Component {
       comics: [],
       search: ""
     }
-    this.componentDidMount = this.componentDidMount.bind(this)
-    this.fetchComics = this.fetchComics.bind(this)
-    this.fetchComics = debounce(250, this.fetchComics)
-    this.handleChange = this.handleChange.bind(this)
   }
   componentDidMount() {
+    this.componentDidMount = this.componentDidMount.bind(this)
+    this.fetchComics = debounce(250, this.fetchComics).bind(this)
+    this.handleChange = this.handleChange.bind(this)
     this.fetchComics(this.state.search);
   }
 

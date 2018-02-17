@@ -4,24 +4,21 @@ class ComicFileUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
-  include Cloudinary::Carrierwave
+  include Cloudinary::CarrierWave
 
   # Choose what kind of storage to use for this uploader:
   if Rails.env.test?
     storage :file
-  else
-    storage :fog
   end
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
-  def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-  end
+  # def store_dir
+  #   "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+  # end
 
 
   version :standard do
-    process tags: ['comic_file']
   end
 
 #   version :rotated do
@@ -33,10 +30,10 @@ class ComicFileUploader < CarrierWave::Uploader::Base
 # end
 
   version :thumb do
-    process tags: ['comic_thumb']
     cloudinary_transformation transformation: [
-      { page: 1, convert: 'jpg', resize_to_fit: [300, 300] }
+      { page: 1, width: 300, height: 300, crop: :fit }
     ]
+    process convert: 'jpg'
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

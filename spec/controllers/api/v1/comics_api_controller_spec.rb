@@ -15,7 +15,6 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
       expect(returned_json["comics"].length).to eq 3
       expect(returned_json["comics"][0]["title"]).to eq comic1.title
       expect(returned_json["comics"][0]["author"]).to eq "Alan Moore"
-      expect(returned_json["comics"][0]["thumbnail"]).to eq "/uploads/comic/file/#{returned_json["comics"][0]["id"]}/thumb_test-file.jpg"
     end
 
     it "should filter by search terms" do
@@ -39,7 +38,6 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
       expect(returned_json["comic"]["title"]).to eq comic1.title
       expect(returned_json["comic"]["description"]).to eq("(-:")
       expect(returned_json["comic"]["published_year"]).to eq "1987"
-      expect(returned_json["comic"]["url"]).to eq "/uploads/comic/file/#{returned_json["comic"]["id"]}/test-file.pdf"
     end
   end
 
@@ -62,7 +60,6 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
         published_year: 2017,
         file: Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test-file.pdf'), 'application/pdf')
       }
-      # expect(response.status).to eq 401
       expect(Comic.all.last.title).to eq comic3.title
     end
 
