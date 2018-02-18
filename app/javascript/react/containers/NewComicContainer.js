@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import Dropzone from 'react-dropzone'
+import { Image, Transformation, CloudinaryContext } from 'cloudinary-react'
 
 import Uploader from './Uploader';
 import ComicForm from '../components/ComicForm';
