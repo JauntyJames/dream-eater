@@ -4,10 +4,15 @@ import ComicTile from '../../app/javascript/react/components/ComicTile'
 import fetch from 'isomorphic-fetch'
 
 describe('ComicsIndexContainer', () => {
-  let wrapper;
+  let wrapper, onClick;
+
+
   beforeEach(() => {
+    onClick = jasmine.createSpy('onClick spy');
     wrapper = mount(
-      <ComicsIndexContainer />
+      <ComicsIndexContainer
+        toggleForm={onClick}
+      />
     )
   })
   it('should render comic components with the given state', () => {
@@ -22,12 +27,28 @@ describe('ComicsIndexContainer', () => {
     expect(wrapper.find(ComicTile).at(1).props().title).toEqual('Saga')
   })
 
-  xit('Should fetch comic data and save it to state', () => {
+  it('Should render a seach bar', () => {
+    expect(wrapper.find('input').at(0).props()).toEqual({
+      id: "search",
+      type: 'text',
+      value: '',
+      placeholder: 'Enter search terms',
+      onChange: jasmine.any(Function)
+    })
+  })
+
+  it('should render an upload button if logged in', () => {
+    console.log(wrapper.debug())
+    expect(wrapper.find('button').at(0).text()).toEqual("Upload New Comic");
+  });
+
+  it('Should fetch comic data and save it to state', () => {
     let data = {
       comics: [
         {name: 'The Unbeatable Squirrel Girl', description: 'A description'},
         {name: 'Saga', description: 'A description'}
-      ]
+      ],
+      search: ''
     }
 
     let responseBody = JSON.stringify(data);
@@ -41,10 +62,11 @@ describe('ComicsIndexContainer', () => {
     spyOn(global, 'fetch').and.returnValue(responsePromise);
     expect(global.fetch).toHaveBeenCalled
     wrapper.instance().forceUpdate();
-    expect(wrapper.state()).toEqual(data)
+//    expect(wrapper.state()).toEqual(data)
+
     expect(wrapper.spy)
-    spyOn(ComicsIndexContainer, 'componentDidMount')
-    expect(ComicsIndexContainer.componentDidMount).toHaveBeenCalled
+    spyOn(ComicsIndexContainer.prototype, 'componentDidMount').and.callThrough()
+    expect(ComicsIndexContainer.prototype.componentDidMount).toHaveBeenCalled
   })
 
 })

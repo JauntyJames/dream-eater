@@ -13,7 +13,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe "GET#show" do
     it "allows a user to access their profile" do
-      sign_in :user, user1
+      sign_in(user1, scope: :user)
       get :show, params: { id: user1.id }
       returned_json = JSON.parse(response.body)
 
@@ -24,7 +24,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it "does not users to access someone else's profile" do
-      sign_in :user, user2
+      sign_in(user2, scope: :user)
       get :show, params: { id: user1.id }
 
       expect(response.status).to eq 401

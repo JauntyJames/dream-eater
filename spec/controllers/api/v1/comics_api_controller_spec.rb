@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::ComicsController, type: :controller do
-  let!(:user) {FactoryBot.create(:user)}
-  let!(:comic1) {FactoryBot.create(:comic)}
+  let!(:user1) {FactoryBot.create(:user)}
+  let!(:user2) {FactoryBot.create(:user)}
+  let!(:comic1) {FactoryBot.create(:comic, creator_id: user1.id)}
   let!(:comic2) {FactoryBot.create(:comic)}
   let!(:comic3) {FactoryBot.create(:comic)}
 
@@ -43,14 +44,14 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
 
   describe "POST#create" do
     it "should add a comic to the database" do
-      sign_in :user, user
+      sign_in(user1, scope: :user)
       post :create, params: {
         title: "Henchgirl",
         author: "Kristen Gudsnuk",
         published_year: 2017,
         file: Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test-file.pdf'), 'application/pdf')
       }
-      expect(Comic.all.last.title).to eq("Henchgirl")
+      expect(Comic.last.title).to eq("Henchgirl")
     end
 
     it "should not add a comic if the user is not authenticated" do
@@ -60,11 +61,11 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
         published_year: 2017,
         file: Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test-file.pdf'), 'application/pdf')
       }
-      expect(Comic.all.last.title).to eq comic3.title
+      expect(Comic.last.title).to eq comic3.title
     end
 
     it "should not add a comic if the form was not filled out" do
-      sign_in :user, user
+      sign_in(user1, scope: :user)
       post :create, params: {
         title: "Henchgirl",
         author: "Kristen Gudsnuk",
@@ -73,5 +74,67 @@ RSpec.describe Api::V1::ComicsController, type: :controller do
       returned_json = JSON.parse(response.body)
       expect(returned_json["errors"][0]).to eq("File can't be blank")
     end
+  end
+
+  describe "PATCH#update" do
+    it "should update a comic" do
+      sign_in(user1, scope: :user)
+      patch :update, params: {
+        id: comic1.id,
+        title: "Henchgirl",
+        published_year: 2016
+      } 
+      expect(response.status).to eq 200
+      expect(Comic.first.title).to eq("Henchgirl")
+    end
+
+    it "should not update a comic if the user is not authenticated" do
+      patch :update, params: {
+        id: comic1.id,
+        title: "Henchgirl",
+        published_year: 2016
+      }
+      expect(Comic.first.title).to eq(comic1.title)
+      expect(response.status).to eq 302
+    end
+
+    it "should not update someone else's comic" do
+      sign_in(user2, scope: :user)
+      patch :update, params: {
+        id: comic1.id,
+        title: "Henchgirl",
+        published_year: 2016
+      } 
+      expect(Comic.first.title).to eq(comic1.title)
+      expect(response.status).to eq 401
+    end
+  end
+  describe "DELETE#destroy" do
+    xit "should remove a comic" do
+      sign_in(user1, scope: :user)
+      delete :destroy, params: { 
+        id: comic1.id
+      }
+      expect(response.status).to eq 200
+      expect(Comic.first.id).to eq comic2.id
+    end
+    it "should not remove a comic if the user is not signed in" do
+      delete :destroy, params: {
+        id: comic1.id
+      }
+      expect(response.status).to eq 302
+      expect(Comic.first.id).to eq comic1.id
+    end
+    
+    it "should not remove someone else's comic" do
+      sign_in(user2, scope: :user)
+      delete :destroy, params: {
+        id: comic1.id
+      }
+
+      expect(response.status).to eq 401
+      expect(Comic.first.id).to eq comic1.id
+    end
+
   end
 end
